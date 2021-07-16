@@ -1,7 +1,7 @@
 
-# JTradeTracker
+# JCapTrack
 
-## A Java ACB and Portfolio Manager
+## A Java ACB and Capital Gains Calculator
 
 ### Project Proposal
 
@@ -17,7 +17,7 @@ Individual investment brokerages often track this information, but they do not s
   - Buy/Sell
   - Name of equity
   - Transaction amount
-  - USD/CAD 
+  - USD/CAD
   - Number of shares
   - Commission
   - Comments  
@@ -41,8 +41,14 @@ Individual investment brokerages often track this information, but they do not s
 
 This project is of interest to me because every year when I file my taxes I have to sift through piles of statements.  I would prefer to have an automatically generated report at the end of the year.  Canadian Brokerages do not provide good information on capital gains because of the tax structure in Canada.  The structure of the project is well suited for OOP like Java. 
 
+## User Stories
 
-- 
+- As a user, I want to be able to add multiple transactions to my personal portfolio.
+- As a user, I want my USD trades to be converted to CAD by recording the exchange rate at the time of the transaction.  
+- As a user, I want to have my capital gains automatically tracked and recorded when disposing of a security.  (This means comparing the average purchase price to the sell price in CAD).
+- As a user, I want to be able to search for transactions by security name.
+
+
 
 
 
