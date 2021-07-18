@@ -20,7 +20,6 @@ Individual investment brokerages often track this information, but they do not s
   - USD/CAD
   - Number of shares
   - Commission
-  - Comments  
      
     
 - Account information
@@ -43,8 +42,8 @@ This project is of interest to me because every year when I file my taxes I have
 
 ## User Stories
 
-- As a user, I want to be able to add multiple transactions to my personal portfolio.
-- As a user, I want my USD trades to be converted to CAD by recording the exchange rate at the time of the transaction.  
+- As a user, I want to be able to add multiple securities to my portfolio.
+- As a user, I want to be able to add transactions for past dates, not only today.  
 - As a user, I want to have my capital gains automatically tracked and recorded when disposing of a security.  (This means comparing the average purchase price to the sell price in CAD).
 - As a user, I want to be able to search for transactions by security name.
 
