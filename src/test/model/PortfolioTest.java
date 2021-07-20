@@ -35,13 +35,13 @@ class PortfolioTest {
     }
 
     @Test
-    void testPortfolio(){
+    void TestPortfolioConstruct(){
         assertEquals("Simon", testPort.getName());
         assertEquals(0, testPort.getHoldings().size());
     }
 
     @Test
-    void addNewSecurity() {
+    void TestAddNewSecurity() {
         testPort.addNewSecurity(bns);
         assertEquals(1, testPort.getHoldings().size());
         assertTrue(testPort.getHoldings().contains(bns));
@@ -52,16 +52,19 @@ class PortfolioTest {
     }
 
     @Test
-    void removeSecurity() {
+    void TestRemoveSecurity() {
         testPort.addNewSecurity(brk);
         testPort.addNewSecurity(bns);
         testPort.removeSecurity(bns);
         assertEquals(1, testPort.getHoldings().size());
         assertTrue(testPort.getHoldings().contains(brk));
+        assertFalse(testPort.getHoldings().contains(bns));
+
     }
 
     @Test
-    void addTransaction() {
+    void TestAddTransaction() {
+        setTransactions();
         testPort.addNewSecurity(bns);
         testPort.addNewSecurity(brk);
         testPort.addTransaction(buyBNS);

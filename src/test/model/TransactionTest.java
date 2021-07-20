@@ -34,7 +34,7 @@ class TransactionTest {
     }
 
     @Test
-    void testConstructor() {
+    void TestTransactionConstruct() {
         assertEquals(bns, buyBNS.getSecurity());
         assertEquals(date1, buyBNS.getDate());
         assertFalse(buyBNS.getBuyOrSell());
@@ -47,7 +47,7 @@ class TransactionTest {
 
     @Test
         // Test values generated using free online acb calculator
-    void testUpdateTransactionSellCAD() {
+    void TestUpdateTransactionSellCAD() {
         sellBNS.updateTransaction(10, 1089.18 + 4.99);  //Cost plus commission of buying
         assertEquals(-131.88, sellBNS.getGains(), .005);
         assertEquals(5, sellBNS.getNewTotalShares()); // Bought 10 and sold 5
@@ -61,7 +61,7 @@ class TransactionTest {
 
     @Test
         // Test values generated using free online acb calculator
-    void testUpdateTransactionBuyCAD() {
+    void TestUpdateTransactionBuyCAD() {
         // Test the base case where there is no previous shares
         buyBNS.updateTransaction(0, 0);  //Cost plus commission of buying
         assertEquals(0, buyBNS.getGains(), .005); // No gains on a buy trade
@@ -77,7 +77,7 @@ class TransactionTest {
 
     @Test
         // Test values generated using free online acb calculator
-    void updateTransactionSellUSD() {
+    void TestUpdateTransactionSellUSD() {
         sellBRKusd.updateTransaction(100, 10550.55);
         assertEquals(27.03, sellBRKusd.getGains(), .005); // No gains on a buy trade
         assertEquals( 95, sellBRKusd.getNewTotalShares()); // 10 shares, buy 10 more
@@ -86,7 +86,7 @@ class TransactionTest {
 
     @Test
          //Test values generated using free online acb calculator
-    void updateTransactionBuyUSD(){
+    void TestUpdateTransactionBuyUSD(){
         buyBRKusd.updateTransaction(0, 0);
         assertEquals(0, buyBRKusd.getGains(), .005); // No gains on a buy trade
         assertEquals( 90, buyBRKusd.getNewTotalShares()); // 10 shares, buy 10 more
@@ -94,7 +94,7 @@ class TransactionTest {
     }
 
     @Test
-    void testToString() {
+    void TestToString() {
         buyBNS.updateTransaction(18, 1089.18);  // Invoke all fields filled in
         String str = buyBNS.toString();
         System.out.println(buyBNS);

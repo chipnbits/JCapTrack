@@ -11,7 +11,7 @@ public class Security {
     private String name;       // Name of company
     private int shares;        // Current number of shares held
     private double acb;        // Current adjusted cost base for the shares
-    private ArrayList<Transaction> history = new ArrayList<>();  // A list ordered by date of the trading history
+    private ArrayList<Transaction> history = new ArrayList<>();  // A trading history for the security ordered by date
 
     public Security(String ticker) {
         this.ticker = ticker;
@@ -26,9 +26,8 @@ public class Security {
 
     // REQUIRES: A transaction matching the security
     // MODIFIES: this, transAdd
-    // EFFECTS: Adds a new transaction and updates the information of the security traded
-    //          Updates all of the capital gains and acb details of any transactions that
-    //          took place after the added transaction.  (past dated transactions allowed)
+    // EFFECTS: Adds a new transaction to this and completes the transaction details for transAdd
+    //          Updates the trading history and the the holding details of this
     public void addTransaction(Transaction transAdd) {
         // Start at the beginning of the history
         int index = 0;
@@ -78,9 +77,10 @@ public class Security {
         this.name = name;
     }
 
+    // EFFECTS: returns a string with the basic details of this, name, shares, acb, and number of transactions
     @Override
     public String toString() {
-        return String.format("Name: " + ticker + " Shares: " + shares + " ACB: "
+        return ("Name: " + ticker + " Shares: " + shares + " ACB: "
                 + DOLLAR_FORMAT.format(acb) + " Transactions: " + history.size());
     }
 }

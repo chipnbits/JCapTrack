@@ -24,11 +24,11 @@ class SecurityTest {
         date3.set(2021, Calendar.MARCH, 20);
     }
 
-    @Test
-    void compareDatesBehavior(){
-        System.out.println(date1.compareTo(date2));
-        System.out.println(date2.compareTo(date1));
-    }
+//    @Test
+//    void compareDatesBehavior(){
+//        System.out.println(date1.compareTo(date2));
+//        System.out.println(date2.compareTo(date1));
+//    }
 
     void makeTransactionsBNS() {
         buyBNS1 = new Transaction(bns, date1, false, 1089.18,
@@ -40,7 +40,7 @@ class SecurityTest {
     }
 
     @Test
-    void testSecurity() {
+    void TestSecurityConstruct() {
         Security brk = new Security("BRK");
         assertEquals("BNS", bns.getTicker());
         assertEquals("BRK", brk.getTicker());
@@ -53,7 +53,7 @@ class SecurityTest {
 
     @Test
         // Correct values calculated using https://www.adjustedcostbase.ca/index.cgi
-    void addTransactionToEmptySecurity() {
+    void TestAddTransactionToEmptySecurity() {
         makeTransactionsBNS();
         bns.addTransaction(buyBNS1);
         //Transaction Updates
@@ -68,7 +68,7 @@ class SecurityTest {
 
     @Test
         // Test transactions added in chronological order
-    void addTransactionInOrder() {
+    void TestAddTransactionInOrder() {
         makeTransactionsBNS();
         bns.addTransaction(buyBNS1);
         bns.addTransaction(buyBNS2);
@@ -89,7 +89,7 @@ class SecurityTest {
 
     @Test
         // Test transactions added in reversed order
-    void addTransactionOutOfOrder() {
+    void TestAddTransactionOutOfOrder() {
         makeTransactionsBNS();
         bns.addTransaction(buyBNS2);
         bns.addTransaction(buyBNS1);
@@ -109,7 +109,7 @@ class SecurityTest {
 
     @Test
         // Test that inserting a past transaction correctly updates future transactions without altering past ones
-    void addTransactionInMiddle() {
+    void TestAddTransactionInMiddle() {
         makeTransactionsBNS();
         bns.addTransaction(buyBNS1);    // Early date
         bns.addTransaction(buyBNS2);    // Late date
@@ -133,7 +133,7 @@ class SecurityTest {
     }
 
     @Test
-    void testToString() {
+    void TestToString() {
         // Buy and partially dispose of BNS
         buyBNS1 = new Transaction(bns, date1, false, 100,
                 false, 0, 10, 0);
@@ -146,5 +146,6 @@ class SecurityTest {
         assertTrue(str.contains("5"));
         assertTrue(str.contains("$50.00"));
         assertTrue(str.contains("2"));
+        System.out.println(bns);
     }
 }

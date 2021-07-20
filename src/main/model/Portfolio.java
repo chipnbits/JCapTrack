@@ -13,26 +13,26 @@ public class Portfolio {
 
     // REQUIRES: The security is not a duplicate name
     // MODIFIES: this
-    // EFFECTS:  Adds a new security to the portfolio with the name matching input
+    // EFFECTS:  Adds a new security to this with the name matching input
     public void addNewSecurity(Security s) {
         holdings.add(s);
     }
 
     // REQUIRES: An existing security from holdings
     // MODIFIES: this
-    // EFFECTS: removes the security and all of its associated transactions
+    // EFFECTS: this has the security removed and all of its associated transactions
     public void removeSecurity(Security s) {
         holdings.remove(s);
     }
 
     // REQUIRES: A valid transaction to a matching security from the holdings
     // MODIFIES: this
-    // EFFECTS: Adds a new transaction to the correct security associated with it
+    // EFFECTS: this has a new transaction added to it
     public void addTransaction(Transaction transAdd) {
         transAdd.getSecurity().addTransaction(transAdd);
     }
 
-    // EFFECTS: Returns a list of all of the holdings in the portfolio
+    // EFFECTS: Returns a list of all of the securities held in this
     public ArrayList<Security> getHoldings() {
         return holdings;
     }
