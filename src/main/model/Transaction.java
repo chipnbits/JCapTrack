@@ -8,11 +8,13 @@ import static ui.JCapTrack.DOLLAR_FORMAT;
 // Represents a recorded transaction for a security including all of the relevant information at the time it occurs
 public class Transaction {
 
-    private Security security;    // Name of Security
+    private String ticker;        // Name of Security
     private Calendar date;        // Date of transaction
-    private boolean isSell;       // Transaction type corresponds to index from TYPE_OF_TRANSACTION
+    private boolean isSell;       //TODO make this an enumeration of BUY and SELL
+
     private double value;         // Trade value in CAD or USD
-    private boolean isUSD;        // False for CAD, True for USD
+    private boolean isUSD;        //TODO make this an enumeration of CAD or USD
+
     private double fxRate;        // The USD to CAD exchange rate on the date of transaction
     private int shares;           // The number of shares exchanged
     private double commission;    // The commission charged by brokerage
@@ -26,11 +28,11 @@ public class Transaction {
     //           - shares > 0
     //           - commission >= 0
     // EFFECTS: Makes a new transaction
-    public Transaction(Security security, Calendar date, boolean type, double val,
+    public Transaction(String ticker, Calendar date, boolean type, double val,
                        boolean fx, double rate, int shares, double commission) {
         this.date = date;
         isSell = type;
-        this.security = security;
+        this.ticker = ticker;
         value = val;
         isUSD = fx;
         fxRate = rate;
@@ -67,8 +69,8 @@ public class Transaction {
         return isSell;
     }
 
-    public Security getSecurity() {
-        return security;
+    public String getSecurity() {
+        return ticker;
     }
 
     public double getValue() {
@@ -119,7 +121,7 @@ public class Transaction {
             type = "Sell";
         }
         return String.format("Date: %1$tY-%1$tB-%1$td\n"
-                + type + " " + shares + " shares of " + security.getTicker() + "\n"
+                + type + " " + shares + " shares of " + ticker + "\n"
                 + "Value: " + DOLLAR_FORMAT.format(value) + " " + currency + "\n"
                 + "Commission: " + DOLLAR_FORMAT.format(commission) + " " + currency
                 + "\nGains: " +  DOLLAR_FORMAT.format(gains)

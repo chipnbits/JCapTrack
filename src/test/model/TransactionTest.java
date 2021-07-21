@@ -15,8 +15,8 @@ class TransactionTest {
     Transaction buyBNS;
     Transaction sellBRKusd;
     Transaction buyBRKusd;
-    Security bns = new Security("BNS");
-    Security brk = new Security("BRK");
+    String bns = "BNS";
+    String brk = "BRK";
 
     @BeforeEach
     void makeTransactions() {
@@ -34,7 +34,7 @@ class TransactionTest {
     }
 
     @Test
-    void TestTransactionConstruct() {
+    void testTransactionConstruct() {
         assertEquals(bns, buyBNS.getSecurity());
         assertEquals(date1, buyBNS.getDate());
         assertFalse(buyBNS.getBuyOrSell());
@@ -47,7 +47,7 @@ class TransactionTest {
 
     @Test
         // Test values generated using free online acb calculator
-    void TestUpdateTransactionSellCAD() {
+    void testUpdateTransactionSellCAD() {
         sellBNS.updateTransaction(10, 1089.18 + 4.99);  //Cost plus commission of buying
         assertEquals(-131.88, sellBNS.getGains(), .005);
         assertEquals(5, sellBNS.getNewTotalShares()); // Bought 10 and sold 5
@@ -61,7 +61,7 @@ class TransactionTest {
 
     @Test
         // Test values generated using free online acb calculator
-    void TestUpdateTransactionBuyCAD() {
+    void testUpdateTransactionBuyCAD() {
         // Test the base case where there is no previous shares
         buyBNS.updateTransaction(0, 0);  //Cost plus commission of buying
         assertEquals(0, buyBNS.getGains(), .005); // No gains on a buy trade
@@ -77,7 +77,7 @@ class TransactionTest {
 
     @Test
         // Test values generated using free online acb calculator
-    void TestUpdateTransactionSellUSD() {
+    void testUpdateTransactionSellUSD() {
         sellBRKusd.updateTransaction(100, 10550.55);
         assertEquals(27.03, sellBRKusd.getGains(), .005); // No gains on a buy trade
         assertEquals( 95, sellBRKusd.getNewTotalShares()); // 10 shares, buy 10 more
@@ -86,7 +86,7 @@ class TransactionTest {
 
     @Test
          //Test values generated using free online acb calculator
-    void TestUpdateTransactionBuyUSD(){
+    void testUpdateTransactionBuyUSD(){
         buyBRKusd.updateTransaction(0, 0);
         assertEquals(0, buyBRKusd.getGains(), .005); // No gains on a buy trade
         assertEquals( 90, buyBRKusd.getNewTotalShares()); // 10 shares, buy 10 more
@@ -94,7 +94,7 @@ class TransactionTest {
     }
 
     @Test
-    void TestToString() {
+    void testToString() {
         buyBNS.updateTransaction(18, 1089.18);  // Invoke all fields filled in
         String str = buyBNS.toString();
         System.out.println(buyBNS);

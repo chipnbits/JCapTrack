@@ -9,69 +9,97 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PortfolioTest {
     Portfolio testPort;
-    Security bns;
-    Security brk;
-    Calendar date1 = Calendar.getInstance();
-    Calendar date2 = Calendar.getInstance();
-    Calendar date3 = Calendar.getInstance();
+    Calendar date1;
+    Calendar date2;
+    Calendar date3;
     Transaction buyBNS;
     Transaction buyBRKusd;
 
     @BeforeEach
-    void setup(){
-        bns = new Security("BNS", "Bank of Nova Scotia");
-        brk = new Security("BRK", "Berkshire Hathaway");
-        testPort = new Portfolio( "Simon" );
-    }
-
-    void setTransactions(){
+    void setup() {
+        testPort = new Portfolio("Simon");
+        date1 = Calendar.getInstance();
+        date2 = Calendar.getInstance();
+        date3 = Calendar.getInstance();
         date1.set(2020, Calendar.NOVEMBER, 20);
         date2.set(2019, Calendar.JUNE, 5);
         date3.set(2021, Calendar.MARCH, 20);
-        buyBNS = new Transaction(bns, date1, false, 1089.18,
+    }
+
+    void setTransactions() {
+        buyBNS = new Transaction("BNS", date1, false, 1089.18,
                 false, 0, 10, 4.99);
-        buyBRKusd = new Transaction(brk, date3, false, 6543.21,
+        buyBRKusd = new Transaction("BRK", date3, false, 6543.21,
                 true, 1.3356, 90, 5.99);
     }
 
     @Test
-    void TestPortfolioConstruct(){
+    void testPortfolioConstruct() {
         assertEquals("Simon", testPort.getName());
-        assertEquals(0, testPort.getHoldings().size());
+        assertEquals(0, testPort.getNumHoldings());
     }
 
     @Test
-    void TestAddNewSecurity() {
-        testPort.addNewSecurity(bns);
-        assertEquals(1, testPort.getHoldings().size());
-        assertTrue(testPort.getHoldings().contains(bns));
+    void testAddNewSecurity() {
+        assertTrue(testPort.addNewSecurity("BNS"));
+        assertEquals(1, testPort.getNumHoldings());
+        assertTrue(testPort.hasTicker("BNS"));
+        assertFalse(testPort.hasTicker("BRK"));
 
-        testPort.addNewSecurity(brk);
-        assertEquals(2, testPort.getHoldings().size());
-        assertTrue(testPort.getHoldings().contains(brk) && testPort.getHoldings().contains(bns));
+        assertTrue(testPort.addNewSecurity("BRK"));
+        assertEquals(2, testPort.getNumHoldings());
+        assertTrue(testPort.hasTicker("BNS") && testPort.hasTicker("BRK"));
+
+        // Check that duplicates are caught
+        assertFalse(testPort.addNewSecurity("BRK"));
     }
 
     @Test
-    void TestRemoveSecurity() {
-        testPort.addNewSecurity(brk);
-        testPort.addNewSecurity(bns);
-        testPort.removeSecurity(bns);
-        assertEquals(1, testPort.getHoldings().size());
-        assertTrue(testPort.getHoldings().contains(brk));
-        assertFalse(testPort.getHoldings().contains(bns));
-
+    void testRemoveSecurityExisting() {
+        testPort.addNewSecurity("BRK");
+        testPort.addNewSecurity("BNS");
+        assertTrue(testPort.removeSecurity("BNS"));
+        assertEquals(1, testPort.getNumHoldings());
+        assertTrue(testPort.hasTicker("BRK"));
+        assertFalse(testPort.hasTicker("BNS"));
     }
 
     @Test
-    void TestAddTransaction() {
+    void testRemoveSecurityNonExisting() {
+        assertEquals(0, testPort.getNumHoldings());
+        assertFalse(testPort.removeSecurity("BNS"));
+        assertEquals(0, testPort.getNumHoldings());
+    }
+
+    @Test
+    void testAddTransactionExisting() {
         setTransactions();
-        testPort.addNewSecurity(bns);
-        testPort.addNewSecurity(brk);
-        testPort.addTransaction(buyBNS);
-        assertEquals(1, bns.getNumTransactions());
-        assertEquals(0, brk.getNumTransactions());
-        testPort.addTransaction(buyBRKusd);
-        assertEquals(1, bns.getNumTransactions());
-        assertEquals(1, brk.getNumTransactions());
+        testPort.addNewSecurity("BNS");
+        assertTrue(testPort.addTransaction(buyBNS));
+    }
+
+    @Test
+    void testAddTransactionNonExisting() {
+        setTransactions();
+        testPort.addNewSecurity("BNS");
+        assertFalse(testPort.addTransaction(buyBRKusd));
+    }
+
+    @Test
+    void testGetTickers(){
+        testPort.addNewSecurity("BRK");
+        testPort.addNewSecurity("BNS");
+        assertTrue(testPort.getTickers().contains("BNS"));
+        assertTrue(testPort.getTickers().contains("BRK"));
+        assertEquals(2,testPort.getTickers().size());
+    }
+
+    @Test
+    void hasTicker(){
+        testPort.addNewSecurity("BRK");
+        testPort.addNewSecurity("BNS");
+        assertTrue(testPort.hasTicker("BNS"));
+        assertTrue(testPort.hasTicker("BRK"));
+        assertFalse(testPort.hasTicker("AAA"));
     }
 }

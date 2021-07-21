@@ -1,37 +1,33 @@
 package ui;
 
 import model.Portfolio;
-import model.Security;
 import model.Transaction;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 // An application to track capital gains and acb values for stock trades
-public class JCapTrack {
+public class JCapTrack extends MenuScreen {
     // Number formatting for currency
     public static final NumberFormat DOLLAR_FORMAT = NumberFormat.getCurrencyInstance(Locale.CANADA);
-    private ArrayList<Portfolio> userProfiles = new ArrayList<>();
-    private ArrayList<String> names;  // Account names
-    private Scanner input = new Scanner(System.in);
+    private List<Portfolio> userProfiles = new ArrayList<>();
+    private List<String> names;  // Account names
 
     //From here I have borrowed some code from the TellerApp project for keyboard entry and console items
 
-    // EFFECTS: runs JCapTrack
+    // EFFECTS: runs JCapTrack by initializing a dummy portfolio and starting the Portfolio selection menu
     public JCapTrack() {
+        menuName = "JCapTrack Portfolio Selection Screen";
         init();
-        runJCapTrack();
+        mainMenu();
     }
 
     // MODIFIES: this
     // EFFECTS: initializes a sample portfolio
     private void init() {
         Portfolio sample = new Portfolio("mm");
-        Security bns = new Security("BNS");
-        Security brk = new Security("BRK");
+        String bns = "BNS";
+        String brk = "BRK";
         Calendar date1 = Calendar.getInstance();
         Calendar date2 = Calendar.getInstance();
         Calendar date3 = Calendar.getInstance();
@@ -51,23 +47,35 @@ public class JCapTrack {
         names = getAccountNames();
     }
 
-    // MODIFIES: this
-    // EFFECTS: process which portfolio to open
-    private void runJCapTrack() {
-        boolean getInput = true;
-        String cmd = null;
-        printWelcomeMenu();
-        while (getInput) {
-            cmd = input.nextLine();
-            if (cmd.equals("quit")) {
-                getInput = false;
-            } else {
-                selectPortfolio(cmd);
-            }
+    @Override
+    // EFFECTS: Displays all of the valid options from the main menu
+    public void printMainMenu() {
+        super.printMainMenu();
+        System.out.println("Hello and welcome!");
+        System.out.println("please select 'new' for new portfolio or enter the name of an existing portfolio");
+        for (int i = 0; i < names.size(); i++) {
+            System.out.println(names.get(i));
         }
     }
 
-    private ArrayList<String> getAccountNames() {
+    // MODIFIES: this
+    // EFFECTS: process which portfolio to open, or creates a new portfolio and adds it to this if needed
+    //          returns true if a valid option was selected, false otherwise
+    protected boolean selectOption(String cmd) {
+        boolean success = true;
+
+        if (cmd.equals("new")) {
+            makeNewPortfolio();
+        } else if (names.contains(cmd)) {
+            new PortfolioMenu(userProfiles.get(names.indexOf(cmd)));
+        } else {
+            success = false;
+        }
+        return success;
+    }
+
+    // EFFECTS: returns a list of all of the portfolio names stored in JCapTrack
+    private List<String> getAccountNames() {
         names = new ArrayList<>();
         for (int i = 0; i < userProfiles.size(); i++) {
             names.add(userProfiles.get(i).getName());
@@ -75,38 +83,19 @@ public class JCapTrack {
         return names;
     }
 
-    private void printWelcomeMenu() {
-        System.out.println("Hello and welcome!");
-        System.out.println("please select 'new' for new portfolio or enter the name of an existing portfolio");
-        System.out.println("You can select 'quit' to exit the program");
-        for (int i = 0; i < names.size(); i++) {
-            System.out.println(names.get(i));
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: creates a new portfolio or selects one as needed
-    private void selectPortfolio(String cmd) {
-        Portfolio open;
-        if (cmd.equals("new")) {
-            makeNewPortfolio();
-            //Print updated menu
-            printWelcomeMenu();
-        } else if (names.contains(cmd)) {
-            new PortfolioMenu(userProfiles.get(names.indexOf(cmd)));
-        } else {
-            System.out.println("Invalid selection");
-        }
-    }
-
     // MODIFIES: this
     // EFFECTS: Adds a new portfolio to the program
     private void makeNewPortfolio() {
         String cmd;
         boolean noMatch = true;
+
+        // Scratch the previous input line
+        input.nextLine();
+
         while (noMatch) {
             System.out.println("Enter the name for the new portfolio");
             cmd = input.nextLine();
+            // Alpha numeric account names
             if (cmd.matches("^[a-zA-Z0-9_]+$")) {
                 System.out.println("Creating new portfolio");
                 userProfiles.add(new Portfolio(cmd));
@@ -119,8 +108,6 @@ public class JCapTrack {
             }
         }
     }
-
-
 
 
 }
