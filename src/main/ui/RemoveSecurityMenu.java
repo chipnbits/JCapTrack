@@ -31,13 +31,13 @@ public class RemoveSecurityMenu extends MenuScreen {
             System.out.println(cmd + " has been removed from your portfolio");
             pressEnter();
         } else {
-            System.out.println("That security is not in your portfolio");
+            System.out.println("That security is not in your portfolio, invalid option");
             success = false;
         }
         return success;
     }
 
-    // EFFECTS:  Checks to see if there are still any holdings to remove
+    // EFFECTS:  Checks to see if there are still any holdings to remove, if there aren't returns false
     @Override
     public boolean checkIfContinue() {
         return (user.getNumHoldings() > 0);

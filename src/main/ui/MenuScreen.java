@@ -1,13 +1,11 @@
 package ui;
 
-import model.Portfolio;
-
 import java.util.Scanner;
 
 // This is a general construct to present a menu of options to the user with the option to close it
 // and return to the previous menu
 public abstract class MenuScreen {
-    protected final Scanner input = new Scanner(System.in);
+    protected Scanner input = new Scanner(System.in);
     protected String menuName;
 
     // EFFECTS: Prints a menu header
@@ -45,16 +43,19 @@ public abstract class MenuScreen {
                 if (selectOption(cmd)) {
                     keepGoing = checkIfContinue();
                     getInput = false;
+                    // If no valid command is selected print the options again
                 } else {
-                    System.out.println("Invalid option");
                     pressEnter();
+                    printMainMenu();
+                    System.out.println("\nEnter 'q' to quit");
+                    keepGoing = true;
                 }
             }
         }
         return keepGoing;
     }
 
-    // EFFECTS:  Checks if the menu should be closed after completing a task from some condition
+    // EFFECTS:  Checks if the menu should be closed after successfully completing a task
     // returns true if continue or false if the menu should close
     protected boolean checkIfContinue() {
         return true;

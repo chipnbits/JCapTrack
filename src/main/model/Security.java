@@ -8,11 +8,11 @@ import static ui.JCapTrack.DOLLAR_FORMAT;
 // Model of a security that is traded on a stock exchange
 public class Security {
 
-    private String ticker;     // Security ticker symbol
+    private final String ticker;     // Security ticker symbol
     private String name;       // Name of company
     private int shares;        // Current number of shares held
     private double acb;        // Current adjusted cost base for the shares
-    private List<Transaction> history = new ArrayList<>();  // A trading history for the security ordered by date
+    private final List<Transaction> history;  // A trading history for the security ordered by date
 
     protected Security(String ticker) {
         this.ticker = ticker;

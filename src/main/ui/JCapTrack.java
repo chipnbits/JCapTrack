@@ -10,10 +10,8 @@ import java.util.*;
 public class JCapTrack extends MenuScreen {
     // Number formatting for currency
     public static final NumberFormat DOLLAR_FORMAT = NumberFormat.getCurrencyInstance(Locale.CANADA);
-    private List<Portfolio> userProfiles = new ArrayList<>();
+    private final List<Portfolio> userProfiles = new ArrayList<>();
     private List<String> names;  // Account names
-
-    //From here I have borrowed some code from the TellerApp project for keyboard entry and console items
 
     // EFFECTS: runs JCapTrack by initializing a dummy portfolio and starting the Portfolio selection menu
     public JCapTrack() {
@@ -69,6 +67,7 @@ public class JCapTrack extends MenuScreen {
         } else if (names.contains(cmd)) {
             new PortfolioMenu(userProfiles.get(names.indexOf(cmd)));
         } else {
+            System.out.println("Invalid Option!");
             success = false;
         }
         return success;

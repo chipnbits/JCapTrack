@@ -7,7 +7,7 @@ public class AddSecurityMenu extends MenuScreen {
     private final Portfolio user;
 
     public AddSecurityMenu(Portfolio p) {
-        menuName = "Portfolio Menu";
+        menuName = "Add Security Menu";
         user = p;
         mainMenu();
     }
@@ -29,11 +29,16 @@ public class AddSecurityMenu extends MenuScreen {
             System.out.println(cmd + " has been added to your portfolio");
             pressEnter();
         } else {
-            System.out.println("That security is already in your portfolio.");
-            System.out.println("Please enter a new security ticker symbol to add");
+            System.out.println("That security is already in your portfolio. Invalid option.");
             success = false;
         }
         return success;
+    }
+
+    // EFFECTS:  Checks if the menu should be closed after successfully completing a task
+    // returns true if continue or false if the menu should close
+    protected boolean checkIfContinue() {
+        return false;
     }
 
 }

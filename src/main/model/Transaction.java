@@ -8,16 +8,16 @@ import static ui.JCapTrack.DOLLAR_FORMAT;
 // Represents a recorded transaction for a security including all of the relevant information at the time it occurs
 public class Transaction {
 
-    private String ticker;        // Name of Security
-    private Calendar date;        // Date of transaction
-    private boolean isSell;       //TODO make this an enumeration of BUY and SELL
+    private final String ticker;        // Name of Security
+    private final Calendar date;        // Date of transaction
+    private final boolean isSell;       // true for Sell
 
-    private double value;         // Trade value in CAD or USD
-    private boolean isUSD;        //TODO make this an enumeration of CAD or USD
+    private final double value;         // Trade value in CAD or USD
+    private final boolean isUSD;        // true for USD
 
-    private double fxRate;        // The USD to CAD exchange rate on the date of transaction
-    private int shares;           // The number of shares exchanged
-    private double commission;    // The commission charged by brokerage
+    private final double fxRate;        // The USD to CAD exchange rate on the date of transaction
+    private final int shares;           // The number of shares exchanged
+    private final double commission;    // The commission charged by brokerage
     private double gains;         // Any capital gains or losses incurred *Always in CAD*
     private int newTotalShares;   // The new total for shares of the security after this transaction
     private double newTotalACB;      // The new ACB for the security after this transaction *always in CAD*
@@ -53,7 +53,7 @@ public class Transaction {
         if (isSell) {
             gains = val - com - (prevACB / prevShares) * this.shares;  // CAD
             newTotalShares = prevShares - this.shares;
-            newTotalACB = prevACB * (prevShares - shares) / prevShares; // CAD
+            newTotalACB = (prevACB * (prevShares - shares)) / prevShares; // CAD
         } else {
             gains = 0; // This is essentially null, there are no gains for a buy trade
             newTotalShares = prevShares + this.shares;
@@ -126,6 +126,6 @@ public class Transaction {
                 + "Commission: " + DOLLAR_FORMAT.format(commission) + " " + currency
                 + "\nGains: " +  DOLLAR_FORMAT.format(gains)
                 + "\nTotalShares: " + newTotalShares
-                + "\nACB: " + DOLLAR_FORMAT.format(getNewTotalACB()), date);
+                + "\nACB: " + DOLLAR_FORMAT.format(getNewTotalACB()) + " CAD", date);
     }
 }

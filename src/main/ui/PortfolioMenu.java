@@ -34,6 +34,7 @@ public class PortfolioMenu extends MenuScreen {
 
         if (cmd.equals("1")) {
             displayHoldings(user);
+            pressEnter();
         } else if (cmd.equals("2")) {
             new AddSecurityMenu(user);
         } else if (cmd.equals("3")) {
@@ -59,6 +60,7 @@ public class PortfolioMenu extends MenuScreen {
         }
     }
 
+    //TODO make tax slips for all transactions from a year
     private void taxGenerator() {
     }
 

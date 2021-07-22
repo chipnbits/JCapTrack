@@ -107,6 +107,17 @@ class TransactionTest {
         assertTrue(str.contains("0.00"));
         assertTrue(str.contains("28"));
         assertTrue(str.contains("2,183.35"));
+
+        sellBRKusd.updateTransaction(500,10000);
+        assertTrue(str.contains("Date") && str.contains("2021-March-20"));
+        assertTrue(str.contains("Sell"));
+        assertTrue(str.contains("5"));
+        assertTrue(str.contains("BRK"));
+        assertTrue(str.contains("420.20"));
+        assertTrue(str.contains("USD"));
+        assertTrue(str.contains("454.55"));
+        assertTrue(str.contains("495"));
+        assertTrue(str.contains("9,900.00"));
     }
 
 

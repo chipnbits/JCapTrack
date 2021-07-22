@@ -37,6 +37,8 @@ class PortfolioTest {
     void testPortfolioConstruct() {
         assertEquals("Simon", testPort.getName());
         assertEquals(0, testPort.getNumHoldings());
+        testPort.setName("Josh");
+        assertEquals("Josh", testPort.getName());
     }
 
     @Test
