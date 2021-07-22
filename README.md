@@ -20,13 +20,7 @@ Individual investment brokerages often track this information, but they do not s
   - USD/CAD
   - Number of shares
   - Commission
-     
-    
-- Account information
-  - Brokerage
-  - Registered/Unregistered
-  - Account holdings
-    
+   
 
 - Personal portfolio
   - Consolidated holdings across all accounts
