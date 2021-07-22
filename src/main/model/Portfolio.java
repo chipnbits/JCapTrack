@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// A stock portfolio holding information and transactions for various securities
 public class Portfolio {
 
     private String name;
