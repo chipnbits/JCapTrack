@@ -23,7 +23,7 @@ public class JCapTrack extends MenuScreen {
     // MODIFIES: this
     // EFFECTS: initializes a sample portfolio
     private void init() {
-        Portfolio sample = new Portfolio("mm");
+        Portfolio sample = new Portfolio("Simon");
         String bns = "BNS";
         String brk = "BRK";
         Calendar date1 = Calendar.getInstance();

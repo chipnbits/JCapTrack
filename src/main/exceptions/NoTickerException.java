@@ -12,8 +12,4 @@ public class NoTickerException extends Exception {
     public String getBadArgument() {
         return badArgument;
     }
-
-
-
-
 }
