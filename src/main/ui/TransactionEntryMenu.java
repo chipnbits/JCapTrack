@@ -5,7 +5,6 @@ import model.Portfolio;
 import model.Transaction;
 
 import java.util.Calendar;
-import java.util.Scanner;
 
 
 // TODO Sort out the issues with scanner input

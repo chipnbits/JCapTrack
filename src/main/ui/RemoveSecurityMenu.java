@@ -6,7 +6,7 @@ import model.Portfolio;
 public class RemoveSecurityMenu extends MenuScreen {
     private final Portfolio user;
 
-    // EFFECTS: initilize and open the main menu
+    // EFFECTS: initialize and open the main menu
     public RemoveSecurityMenu(Portfolio p) {
         menuName = "Remove Securities Menu";
         user = p;
@@ -24,17 +24,16 @@ public class RemoveSecurityMenu extends MenuScreen {
     // MODIFIES: this
     // EFFECTS:  If a valid security is entered for removal it will take it out of the portfolio
     //          If there are no more securities then exit the menu.
+    //          returns true if a security was found and removed, false otherwise
     public boolean selectOption(String cmd) {
-        boolean success = true;
-
         if (user.removeSecurity(cmd)) {
             System.out.println(cmd + " has been removed from your portfolio");
             pressEnter();
+            return true;
         } else {
             System.out.println("That security is not in your portfolio, invalid option");
-            success = false;
+            return false;
         }
-        return success;
     }
 
     // EFFECTS:  Checks to see if there are still any holdings to remove, if there aren't returns false

@@ -1,9 +1,11 @@
 package model;
 
+import exceptions.NoTickerException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,20 +90,125 @@ class PortfolioTest {
     }
 
     @Test
-    void testGetTickers(){
+    void testGetTickers() {
         testPort.addNewSecurity("BRK");
         testPort.addNewSecurity("BNS");
+        testPort.addNewSecurity("AAA");
         assertTrue(testPort.getTickers().contains("BNS"));
         assertTrue(testPort.getTickers().contains("BRK"));
-        assertEquals(2,testPort.getTickers().size());
+        assertTrue(testPort.getTickers().contains("AAA"));
+        assertEquals(3, testPort.getTickers().size());
+        assertEquals("AAA", testPort.getTickers().get(0));
     }
 
     @Test
-    void hasTicker(){
+    void testHasTicker() {
         testPort.addNewSecurity("BRK");
         testPort.addNewSecurity("BNS");
         assertTrue(testPort.hasTicker("BNS"));
         assertTrue(testPort.hasTicker("BRK"));
         assertFalse(testPort.hasTicker("AAA"));
     }
+
+    @Test
+    void testGetSummaryOrdering() {
+        String tickerA = "Aa";
+        String tickerB = "Ba";
+        String tickerC = "C1";
+        String tickerD = "Dz";
+        testPort.addNewSecurity(tickerC);
+        testPort.addNewSecurity(tickerD);
+        testPort.addNewSecurity(tickerA);
+        testPort.addNewSecurity(tickerB);
+
+        List<String> output = testPort.getSummary();
+
+        //Check that they are not in original order
+        assertFalse(output.get(0).contains(tickerC));
+        assertFalse(output.get(1).contains(tickerD));
+        assertFalse(output.get(2).contains(tickerA));
+        assertFalse(output.get(3).contains(tickerB));
+
+        // Check that they are in order
+        assertTrue(output.get(0).contains(tickerA));
+        assertTrue(output.get(1).contains(tickerB));
+        assertTrue(output.get(2).contains(tickerC));
+        assertTrue(output.get(3).contains(tickerD));
+    }
+
+    @Test
+    void testSearchTransactionsValidTickerNoTransactions() {
+        String tickerA = "Aa";
+
+        testPort.addNewSecurity(tickerA);
+        assertTrue(testPort.hasTicker(tickerA));
+
+        try {
+            assertTrue(testPort.searchTransactions(tickerA).isEmpty());
+        } catch (NoTickerException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testSearchTransactionsNoValidTickerNoTransactions() {
+        String tickerA = "Aa";
+
+        assertEquals(0, testPort.getNumHoldings());
+
+        try {
+            testPort.searchTransactions(tickerA);
+            fail();
+        } catch (NoTickerException e) {
+            // Pass condition
+        }
+    }
+
+    @Test
+    void testSearchTransactionsValidTickerWithTransactions() {
+        List<String> record;
+
+        setTransactions();
+        testPort.addNewSecurity("BNS");
+        testPort.addNewSecurity("BRK");
+        testPort.addTransaction(buyBNS);
+        testPort.addTransaction(buyBRKusd);
+
+        assertTrue(testPort.hasTicker("BNS"));
+        assertTrue(testPort.hasTicker("BRK"));
+
+        try {
+            record = testPort.searchTransactions("BNS");
+            assertEquals(1, record.size());
+            assertTrue(record.contains(buyBNS.toString()));
+
+        } catch (NoTickerException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testSearchTransactionsInvalidValidTickerWithTransactions() {
+
+        setTransactions();
+        testPort.addNewSecurity("BNS");
+        testPort.addNewSecurity("BRK");
+        testPort.addTransaction(buyBNS);
+        testPort.addTransaction(buyBRKusd);
+
+        assertTrue(testPort.hasTicker("BNS"));
+        assertTrue(testPort.hasTicker("BRK"));
+
+        try {
+            testPort.searchTransactions("BAS");
+            fail();
+        } catch (NoTickerException e) {
+            //Pass
+        }
+    }
+
+
+
+
+
 }

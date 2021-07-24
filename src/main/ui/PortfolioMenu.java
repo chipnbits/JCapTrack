@@ -1,9 +1,6 @@
 package ui;
 
 import model.Portfolio;
-import model.Security;
-
-import static ui.JCapTrack.DOLLAR_FORMAT;
 
 public class PortfolioMenu extends MenuScreen {
     private final Portfolio user;
@@ -23,7 +20,10 @@ public class PortfolioMenu extends MenuScreen {
                 + "\n2 - Add a security"
                 + "\n3 - Remove a security"
                 + "\n4 - Add a transaction"
-                + "\n5 - Generate tax slips");
+                + "\n5 - Search Transactions"
+
+                //TODO add the mechanism to make end of year tax slips
+                + "\n6 - Generate tax slips");
     }
 
     @Override
@@ -42,6 +42,8 @@ public class PortfolioMenu extends MenuScreen {
         } else if (cmd.equals("4")) {
             new TransactionEntryMenu(user);
         } else if (cmd.equals("5")) {
+            new TransactionSearchMenu(user);
+        } else if (cmd.equals("6")) {
             taxGenerator();
         } else {
             success = false;
@@ -69,9 +71,8 @@ public class PortfolioMenu extends MenuScreen {
     protected static void displayHoldings(Portfolio user) {
         System.out.println("You are currently holding the following securities:");
         System.out.println("Name: || Shares: ||     ACB:    ||Transactions: ");
-        for (Security s : user.getHoldings()) {
-            System.out.format("%5s || %5d   || %10s  ||%2d\n", s.getTicker(), s.getShares(),
-                    DOLLAR_FORMAT.format(s.getAcb()), s.getNumTransactions());
+        for (String s : user.getSummary()) {
+            System.out.format(s);
         }
     }
 

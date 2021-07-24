@@ -6,7 +6,7 @@ import java.util.List;
 import static ui.JCapTrack.DOLLAR_FORMAT;
 
 // Model of a security that is traded on a stock exchange
-public class Security {
+class Security {
 
     private final String ticker;     // Security ticker symbol
     private String name;       // Name of company
@@ -64,6 +64,17 @@ public class Security {
             index++;
         }
     }
+
+    // EFFECTS: Returns a record of all the transactions for a security in String form organised by Date
+    protected List<String> getTransactionRecord() {
+        List<String> output = new ArrayList<>();
+
+        for (Transaction t : history) {
+            output.add(t.toString());
+        }
+        return output;
+    }
+
 
 
     public String getTicker() {

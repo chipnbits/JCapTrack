@@ -22,17 +22,17 @@ public class AddSecurityMenu extends MenuScreen {
 
     // MODIFIES: this
     // EFFECTS: Adds a new security to user portfolio if entered or else notifies the user that it is a duplicate
+    //          Returns true if successful at adding a security, false otherwise
     public boolean selectOption(String cmd) {
-        boolean success = true;
 
         if (user.addNewSecurity(cmd)) {
             System.out.println(cmd + " has been added to your portfolio");
             pressEnter();
+            return true;
         } else {
             System.out.println("That security is already in your portfolio. Invalid option.");
-            success = false;
+            return false;
         }
-        return success;
     }
 
     // EFFECTS:  Checks if the menu should be closed after successfully completing a task

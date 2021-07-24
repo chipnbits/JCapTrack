@@ -61,6 +61,28 @@ public class Transaction {
         }
     }
 
+    //TODO Add a superficial loss/gain rule if possible
+    //A superficial loss can occur when you dispose of capital property for a loss and both of the following conditions
+    // are met: ... You, or a person affiliated with you, still owns, or has a right to buy,
+    // the substituted property 30 calendar days after the sale
+
+    // The Income Tax Act defines a superficial loss to be a loss from the sale of a particular property
+    // where the same or identical property is acquired by the individual, or an affiliated person, during
+    // the period beginning 30 calendar days before the sale and ending 30 calendar days after the sale.
+    // At the end of that period, the individual or the affiliated person must continue to own the same property.
+    // The amount of any capital loss that is deemed to be a superficial loss is added
+    // to the adjusted cost base (ACB) of the substituted property.
+    //
+    //Here’s an example. Kyle bought 1000 XYZ mutual fund trust units with a NAV of $10.00 / unit on November 3, 2019.
+    // On November 17, 2019, Kyle sold all 1000 trust units of XYZ mutual funds at $7.00 / unit.
+    // On November 21, 2019, Kyle reacquired 1000 trust units of XYZ mutual funds at $6.00 / unit.
+    // On December 17, 2019, Kyle still owned all 1000 units of XYZ mutual fund.
+    //
+    //Since Kyle acquired the identical property within 30 days of the sale of his 1000 units of XYZ mutual fund
+    // and he still owned the investments 30 days after the sale,
+    // Kyle has a superficial loss of $3,000 ($7,000 – $10,000).
+    // The $3,000 capital loss is then added to the ACB of the newly acquired units.
+
     public Calendar getDate() {
         return date;
     }

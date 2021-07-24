@@ -108,8 +108,11 @@ class TransactionTest {
         assertTrue(str.contains("28"));
         assertTrue(str.contains("2,183.35"));
 
+
         sellBRKusd.updateTransaction(500,10000);
-        assertTrue(str.contains("Date") && str.contains("2021-March-20"));
+        str = sellBRKusd.toString();
+        assertTrue(str.contains("Date"));
+        assertTrue(str.contains("2021-March-20"));
         assertTrue(str.contains("Sell"));
         assertTrue(str.contains("5"));
         assertTrue(str.contains("BRK"));

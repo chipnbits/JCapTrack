@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,8 +37,8 @@ class SecurityTest {
     @Test
     void testSecurityConstruct() {
         Security brk = new Security("BRK");
-        assertTrue("BNS".equals(bns.getTicker()));
-        assertTrue("BRK".equals(brk.getTicker()));
+        assertEquals("BNS", (bns.getTicker()));
+        assertEquals("BRK", (brk.getTicker()));
         assertEquals(0, bns.getNumTransactions());
         assertEquals(0, brk.getNumTransactions());
     }
@@ -137,5 +138,35 @@ class SecurityTest {
         assertTrue(str.contains("$50.00"));
         assertTrue(str.contains("2"));
         System.out.println(bns);
+    }
+
+    @Test
+    void testGetTransactionRecordEmpty(){
+        List<String> emptyRecord = bns.getTransactionRecord();
+        assertEquals(0, emptyRecord.size());
+    }
+
+    @Test
+    void testGetTransactionRecordMultiple(){
+        List<String> record;
+
+        makeTransactionsBNS();
+        bns.addTransaction(buyBNS1);
+        bns.addTransaction(sellBNS);
+        bns.addTransaction(buyBNS2);
+
+        record = bns.getTransactionRecord();
+        assertEquals(3, record.size());
+        // check share quantities recorded
+        assertTrue(record.get(0).contains("10"));
+        assertTrue(record.get(1).contains("5"));
+        assertTrue(record.get(2).contains("20"));
+    }
+
+    @Test
+    void testSetandGetName(){
+        String name = "Bank of Nova Scotia";
+        bns.setName(name);
+        assertEquals(name, bns.getName());
     }
 }
