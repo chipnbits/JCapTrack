@@ -3,6 +3,7 @@ package model;
 import exceptions.NoTickerException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,9 +45,7 @@ public class Portfolio {
     private int findInsertionIndex(String ticker) {
         int index = 0;
 
-        if (holdings.size() == 0) {
-            index = 0;
-        } else {
+        if (!holdings.isEmpty()) {
             // Search for the proper index
             ticker = ticker.toLowerCase(Locale.ROOT);
             for (Security orderedSecurity : holdings) {
@@ -106,6 +105,9 @@ public class Portfolio {
     // EFFECTS: returns a list of the names of all of the tickers held in this portfolio in alphabetical order
     public List<String> getTickers() {
         List<String> tickers = new ArrayList<>();
+
+        // Make sure things are in order
+        assert (checkInvariant());
 
         for (Security s : holdings) {
             tickers.add(s.getTicker());
@@ -186,21 +188,36 @@ public class Portfolio {
 
     // MODIFIES: this
     // EFFECTS: A brute force system to reorganize holdings in alphabetical order sorted by ticker name
-    private void sortHoldingsTickers() {
-        ArrayList<Security> ordered = new ArrayList<>();
+//    private void sortHoldingsTickers() {
+//        ArrayList<Security> ordered = new ArrayList<>();
+//
+//        for (Security s : holdings) {
+//            // Get the name of the security
+//            String ticker1 = s.getTicker().toLowerCase(Locale.ROOT);
+//
+//            // Add to empty list case
+//            if (ordered.size() == 0) {
+//                ordered.add(s);
+//            } else {
+//                ordered.add(findInsertionIndex(ticker1), s);
+//            }
+//        }
+//        holdings = ordered;
+//    }
+
+
+    // EFFECTS: Generates a list of all of the tax information for a given year
+    public List<String> getTaxTransactions(int year) {
+        ArrayList<String> transactions = new ArrayList<>();
 
         for (Security s : holdings) {
-            // Get the name of the security
-            String ticker1 = s.getTicker().toLowerCase(Locale.ROOT);
-
-            // Add to empty list case
-            if (ordered.size() == 0) {
-                ordered.add(s);
-            } else {
-                ordered.add(findInsertionIndex(ticker1), s);
+            for (Transaction t : s.getHistory()) {
+                if (t.getDate().get(Calendar.YEAR) == year && t.getBuyOrSell()) {
+                    transactions.add(t.toString());
+                }
             }
         }
-        holdings = ordered;
-    }
 
+        return transactions;
+    }
 }

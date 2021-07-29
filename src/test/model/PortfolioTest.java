@@ -214,5 +214,21 @@ class PortfolioTest {
         }
     }
 
+    @Test
+    void testGetTaxTransactions() {
+        testPort.addNewSecurity("BNS");
+        Transaction tax = new Transaction("BNS", date2, true, 500,
+                false, 0, 5, 4.99);
+        setTransactions();
+
+        date2.set(2021, Calendar.JUNE, 5);
+        testPort.addTransaction(tax);
+        assertTrue(testPort.getTaxTransactions(2020).isEmpty());
+        assertTrue(testPort.getTaxTransactions(2022).isEmpty());
+        assertEquals(1, testPort.getTaxTransactions(2021).size());
+        assertTrue(testPort.getTaxTransactions(2021).contains(tax.toString()));
+
+    }
+
 
 }

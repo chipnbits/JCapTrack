@@ -2,6 +2,8 @@ package ui;
 
 import model.Portfolio;
 
+import java.util.List;
+
 public class PortfolioMenu extends MenuScreen {
     private final Portfolio user;
 
@@ -42,7 +44,7 @@ public class PortfolioMenu extends MenuScreen {
         } else if (cmd.equals("5")) {
             new TransactionSearchMenu(user);
         } else if (cmd.equals("6")) {
-            taxGenerator();
+            taxGenerator(TransactionEntryMenu.getYear());
         } else {
             success = false;
         }
@@ -60,8 +62,16 @@ public class PortfolioMenu extends MenuScreen {
         }
     }
 
-    //TODO make tax slips for all transactions from a year
-    private void taxGenerator() {
+    // Generates a list of all relevant tax slips for the year
+    private void taxGenerator(int year) {
+        List<String> transactions = user.getTaxTransactions(year);
+
+        System.out.println("There are " + transactions.size() + " tax slips in that year");
+        pressEnter();
+        for (String s : user.getTaxTransactions(year)) {
+            System.out.println(s);
+        }
+        pressEnter();
     }
 
 

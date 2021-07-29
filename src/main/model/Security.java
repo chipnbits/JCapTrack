@@ -75,7 +75,9 @@ class Security {
         return output;
     }
 
-
+    protected List<Transaction> getHistory() {
+        return history;
+    }
 
     public String getTicker() {
         return ticker;

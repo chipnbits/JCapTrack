@@ -5,6 +5,7 @@ import model.Portfolio;
 import model.Transaction;
 
 import java.util.Calendar;
+import java.util.Scanner;
 
 // A menu that handles the entry of various fields to create a new transaction
 public class TransactionEntryMenu extends MenuScreen {
@@ -105,13 +106,15 @@ public class TransactionEntryMenu extends MenuScreen {
 
     // EFFECTS: collect a valid year from the user, don't stop until they get it
     //          returns a valid year
-    private int getYear() {
+    protected static int getYear() {
+        Scanner input = new Scanner(System.in);
+
         String year;
 
         System.out.println("Enter a four digit year");
 
         do {
-            input.nextLine();
+            //input.nextLine();
             year = input.findInLine("19\\d{2}|20\\d{2}");
             if (year == null) {
                 System.out.println("Invalid year, enter a year 1900-2099");
