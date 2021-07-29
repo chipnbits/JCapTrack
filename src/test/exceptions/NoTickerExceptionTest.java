@@ -11,6 +11,6 @@ class NoTickerExceptionTest {
     @Test
     void testGetBadArgument() {
         nt = new NoTickerException("test");
-        assertEquals("test", nt.getBadArgument());
+        assertEquals("test", nt.getMessage());
     }
 }

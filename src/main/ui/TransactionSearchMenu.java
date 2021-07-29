@@ -35,7 +35,7 @@ public class TransactionSearchMenu extends MenuScreen {
             try {
                 displayHistory(cmd);
             } catch (NoTickerException e) {
-                System.out.println(e.getBadArgument());
+                System.out.println(e.getMessage());
             }
             pressEnter();
             return true;

@@ -79,14 +79,21 @@ class PortfolioTest {
     void testAddTransactionExisting() {
         setTransactions();
         testPort.addNewSecurity("BNS");
-        assertTrue(testPort.addTransaction(buyBNS));
+        testPort.addTransaction(buyBNS);
+        assertEquals(1,testPort.searchTransactions("BNS").size());
     }
 
     @Test
     void testAddTransactionNonExisting() {
         setTransactions();
         testPort.addNewSecurity("BNS");
-        assertFalse(testPort.addTransaction(buyBRKusd));
+        try {
+            testPort.addTransaction(buyBRKusd);
+            fail();
+        } catch (NoTickerException e){
+            //Pass
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -206,9 +213,6 @@ class PortfolioTest {
             //Pass
         }
     }
-
-
-
 
 
 }

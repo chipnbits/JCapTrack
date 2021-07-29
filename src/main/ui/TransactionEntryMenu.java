@@ -6,8 +6,6 @@ import model.Transaction;
 
 import java.util.Calendar;
 
-
-// TODO Sort out the issues with scanner input
 // A menu that handles the entry of various fields to create a new transaction
 public class TransactionEntryMenu extends MenuScreen {
     private final Portfolio user;

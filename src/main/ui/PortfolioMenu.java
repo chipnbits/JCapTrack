@@ -21,8 +21,6 @@ public class PortfolioMenu extends MenuScreen {
                 + "\n3 - Remove a security"
                 + "\n4 - Add a transaction"
                 + "\n5 - Search Transactions"
-
-                //TODO add the mechanism to make end of year tax slips
                 + "\n6 - Generate tax slips");
     }
 
