@@ -1,12 +1,17 @@
 package model;
 
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.Calendar;
 
 import static ui.JCapTrack.DOLLAR_FORMAT;
 
 // Represents a recorded transaction for a security including all of the relevant information at the time it occurs
-public class Transaction {
+public class Transaction implements Writable {
+
+
 
     private final String ticker;        // Name of Security
     private final Calendar date;        // Date of transaction
@@ -30,9 +35,9 @@ public class Transaction {
     // EFFECTS: Makes a new transaction
     public Transaction(String ticker, Calendar date, boolean type, double val,
                        boolean fx, double rate, int shares, double commission) {
+        this.ticker = ticker;
         this.date = date;
         isSell = type;
-        this.ticker = ticker;
         value = val;
         isUSD = fx;
         fxRate = rate;
@@ -127,6 +132,7 @@ public class Transaction {
         return newTotalACB;
     }
 
+
     @Override
     // EFFECTS: Produces a string output of all of the transaction information
     //          -Date
@@ -150,4 +156,29 @@ public class Transaction {
                 + "\nTotalShares: " + newTotalShares
                 + "\nACB: " + DOLLAR_FORMAT.format(getNewTotalACB()) + " CAD", date);
     }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("ticker", ticker);
+        toJsonDate(json);
+        json.put("isSell", isSell);
+        json.put("value", value);
+        json.put("isUSD", isUSD);
+        json.put("fxRate", fxRate);
+        json.put("shares", shares);
+        json.put("commission", commission);
+
+        return json;
+    }
+
+    private void toJsonDate(JSONObject json) {
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH);
+        int day = date.get(Calendar.DAY_OF_MONTH);
+
+        json.put("year", year);
+        json.put("month", month);
+        json.put("day", day);
+    }
+
 }

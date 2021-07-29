@@ -1,6 +1,9 @@
 package model;
 
 import exceptions.NoTickerException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,7 +13,7 @@ import java.util.Locale;
 import static ui.JCapTrack.DOLLAR_FORMAT;
 
 // A stock portfolio holding information and transactions for various securities
-public class Portfolio {
+public class Portfolio implements Writable {
 
     private String name;
     private List<Security> holdings;  // A list of all the securities held, with no duplicates, in alphabetical order
@@ -84,7 +87,7 @@ public class Portfolio {
         String ticker = transAdd.getSecurity();
 
         for (Security s : holdings) {
-            if (ticker.equals(s.getTicker())) {
+            if (!match && ticker.equals(s.getTicker())) {
                 s.addTransaction(transAdd);
                 match = true;
             }
@@ -92,7 +95,7 @@ public class Portfolio {
         if (!match) {
             throw new NoTickerException("Can't find " + ticker);
         }
-        //assert (checkOrdered());
+        assert (checkInvariant());
     }
 
 //    // Functionality removed to fully encapsulate the class
@@ -206,7 +209,7 @@ public class Portfolio {
 //    }
 
 
-    // EFFECTS: Generates a list of all of the tax information for a given year
+    // EFFECTS: Generates a list of all of the tax information for a given year, transactions that had a capital gain
     public List<String> getTaxTransactions(int year) {
         ArrayList<String> transactions = new ArrayList<>();
 
@@ -219,5 +222,36 @@ public class Portfolio {
         }
 
         return transactions;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("holdings", holdingsToJson());
+        json.put("transactions", transactionsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray holdingsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Security s : holdings) {
+            jsonArray.put(s.toJson());
+        }
+        return jsonArray;
+    }
+
+    // EFFECTS: Gathers all transactions in portfolio and returns them as a JSON array
+    private JSONArray transactionsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Security s : holdings) {
+            for (Transaction t : s.getHistory()) {
+                jsonArray.put(t.toJson());
+            }
+        }
+        return jsonArray;
     }
 }

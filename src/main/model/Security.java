@@ -1,12 +1,16 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static ui.JCapTrack.DOLLAR_FORMAT;
 
 // Model of a security that is traded on a stock exchange
-class Security {
+public class Security implements Writable {
 
     private final String ticker;     // Security ticker symbol
     private String name;       // Name of company
@@ -34,14 +38,10 @@ class Security {
             index++;
         }
         history.add(index, transAdd);
-        // If it is the first transaction in the history then parameters are zero
-        if (index == 0) {
-            transAdd.updateTransaction(0, 0);
-            index++;
-        }
         // Update the security information
         updateSecurity(index);
     }
+
 
     // REQUIRES: A valid index that is within the history list size 0 <= index <= history size
     // MODIFIES: this
@@ -58,6 +58,10 @@ class Security {
     // MODIFIES: this
     // EFFECTS: Updates history details starting at the given index
     private void updateSecurityHistory(int index) {
+        if (index == 0) {
+            history.get(index).updateTransaction(0, 0);
+            index++;
+        }
         while (index < history.size()) {
             Transaction prev = history.get(index - 1);
             history.get(index).updateTransaction(prev.getNewTotalShares(), prev.getNewTotalACB());
@@ -109,5 +113,15 @@ class Security {
         return ("Name: " + ticker + " Shares: " + shares + " ACB: "
                 + DOLLAR_FORMAT.format(acb) + " Transactions: " + history.size());
     }
+
+    //TODO make sure that security updates itself when loaded
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("ticker", ticker);
+        json.put("name", name);
+        return json;
+    }
+
 }
 
