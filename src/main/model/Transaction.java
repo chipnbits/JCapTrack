@@ -132,7 +132,6 @@ public class Transaction implements Writable {
         return newTotalACB;
     }
 
-
     @Override
     // EFFECTS: Produces a string output of all of the transaction information
     //          -Date

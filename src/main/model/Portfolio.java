@@ -23,7 +23,6 @@ public class Portfolio implements Writable {
         holdings = new ArrayList<>();
     }
 
-
     // MODIFIES: this
     // EFFECTS:  Tries to add a new security to this with the name matching input, returns true if successful
     //           returns false if the security ticker is already listed
@@ -59,11 +58,8 @@ public class Portfolio implements Writable {
                 break;
             }
         }
-
-
         return index;
     }
-
 
     // MODIFIES: this
     // EFFECTS: returns true if security is found in portfolio and removes it
