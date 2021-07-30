@@ -1,0 +1,45 @@
+{
+    "name": "Simon",
+    "holdings": [
+        {"ticker": "BNS"},
+        {"ticker": "BRK"}
+    ],
+    "transactions": [
+        {
+            "shares": 10,
+            "isUSD": false,
+            "ticker": "BNS",
+            "fxRate": 0,
+            "month": 10,
+            "isSell": false,
+            "year": 2019,
+            "commission": 4.99,
+            "day": 20,
+            "value": 1089.18
+        },
+        {
+            "shares": 5,
+            "isUSD": false,
+            "ticker": "BNS",
+            "fxRate": 0,
+            "month": 5,
+            "isSell": true,
+            "year": 2020,
+            "commission": 4.99,
+            "day": 5,
+            "value": 500
+        },
+        {
+            "shares": 90,
+            "isUSD": true,
+            "ticker": "BRK",
+            "fxRate": 1.3356,
+            "month": 2,
+            "isSell": false,
+            "year": 2021,
+            "commission": 5.99,
+            "day": 20,
+            "value": 6543.21
+        }
+    ]
+}
