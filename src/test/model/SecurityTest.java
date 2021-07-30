@@ -163,10 +163,4 @@ class SecurityTest {
         assertTrue(record.get(2).contains("20"));
     }
 
-    @Test
-    void testSetandGetName(){
-        String name = "Bank of Nova Scotia";
-        bns.setName(name);
-        assertEquals(name, bns.getName());
-    }
 }

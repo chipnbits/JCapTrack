@@ -13,7 +13,6 @@ import static ui.JCapTrack.DOLLAR_FORMAT;
 public class Security implements Writable {
 
     private final String ticker;     // Security ticker symbol
-    private String name;       // Name of company
     private int shares;        // Current number of shares held
     private double acb;        // Current adjusted cost base for the shares
     private final List<Transaction> history;  // A trading history for the security ordered by date
@@ -99,14 +98,6 @@ public class Security implements Writable {
         return history.size();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     // EFFECTS: returns a string with the basic details of this, name, shares, acb, and number of transactions
     @Override
     public String toString() {
@@ -114,12 +105,10 @@ public class Security implements Writable {
                 + DOLLAR_FORMAT.format(acb) + " Transactions: " + history.size());
     }
 
-    //TODO make sure that security updates itself when loaded
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("ticker", ticker);
-        json.put("name", name);
         return json;
     }
 

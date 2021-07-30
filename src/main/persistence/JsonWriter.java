@@ -1,9 +1,17 @@
 package persistence;
 
 import model.Portfolio;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import ui.JCapTrack;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/*
+This JSON implementation has  borrowed some code structure and concepts from JsonSerializationDemo UBC CPSC 210
+ */
 
 // Represents a writer that writes JSON representation of workroom to file
 public class JsonWriter {
@@ -20,7 +28,7 @@ public class JsonWriter {
     // EFFECTS: opens writer; throws FileNotFoundException if destination file cannot
     // be opened for writing
     public void open() throws FileNotFoundException {
-        writer = new PrintWriter(new File(destination));
+        writer = new PrintWriter(destination);
     }
 
     // MODIFIES: this
@@ -29,6 +37,27 @@ public class JsonWriter {
         JSONObject json = p.toJson();
         saveToFile(json.toString(TAB));
     }
+
+    // MODIFIES: this
+    // EFFECTS: writes JSON representation of portfolio to file
+    public void write(List<String> list) {
+        JSONObject json = listOfStringToJson(list);
+        saveToFile(json.toString(TAB));
+    }
+
+    private JSONObject listOfStringToJson(List<String> list) {
+        JSONObject json = new JSONObject();
+
+        //Make an array from the names list
+        JSONArray accountNames = new JSONArray();
+        for (String s : list) {
+            accountNames.put(s);
+        }
+        json.put("names", accountNames);
+
+        return json;
+    }
+
 
     // MODIFIES: this
     // EFFECTS: closes writer

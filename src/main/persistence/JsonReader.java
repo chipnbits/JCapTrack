@@ -6,10 +6,15 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.stream.Stream;
 
 import org.json.*;
+
+/*
+This JSON implementation has  borrowed some code structure and concepts from JsonSerializationDemo UBC CPSC 210
+ */
 
 // Represents a reader that reads Portfolio from JSON data stored in file
 public class JsonReader {
@@ -20,13 +25,6 @@ public class JsonReader {
         this.source = source;
     }
 
-    // EFFECTS: reads portfolio from file and returns it;
-    // throws IOException if an error occurs reading data from file
-    public Portfolio read() throws IOException {
-        String jsonData = readFile(source);
-        JSONObject jsonObject = new JSONObject(jsonData);
-        return parsePortfolio(jsonObject);
-    }
 
     // EFFECTS: reads source file as string and returns it
     private String readFile(String source) throws IOException {
@@ -39,13 +37,21 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
+    // EFFECTS: reads portfolio from file and returns it;
+    // throws IOException if an error occurs reading data from file
+    public Portfolio readPortfolio() throws IOException {
+        String jsonData = readFile(source);
+        JSONObject jsonObject = new JSONObject(jsonData);
+        return parsePortfolio(jsonObject);
+    }
+
     // EFFECTS: parses Portfolio from JSON object and returns it
     private Portfolio parsePortfolio(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         Portfolio p = new Portfolio(name);
 
         addSecurities(p, jsonObject);
-        addTransactions(p, jsonObject);
+        parseTransactions(p, jsonObject);
         return p;
     }
 
@@ -56,32 +62,28 @@ public class JsonReader {
         JSONArray jsonArray = jsonObject.getJSONArray("holdings");
         for (Object json : jsonArray) {
             JSONObject nextSecurity = (JSONObject) json;
-            addSecurity(p, nextSecurity);
+            parseSecurity(p, nextSecurity);
         }
     }
 
     // MODIFIES: p
     // EFFECTS: parses security from JSON object and adds it to Portfolio
-    private void addSecurity(Portfolio p, JSONObject jsonObject) {
+    private void parseSecurity(Portfolio p, JSONObject jsonObject) {
         String ticker = jsonObject.getString("ticker");
-        //TODO sort out name being null
-        //String name = jsonObject.getString("name");
-
         p.addNewSecurity(ticker);
-       // p.setName(name);
     }
 
     // MODIFIES: P
     // EFFECTS: parses all of the stored transactions from JSON object and adds them to Portfolio
-    private void addTransactions(Portfolio p, JSONObject jsonObject) {
+    private void parseTransactions(Portfolio p, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("transactions");
         for (Object json : jsonArray) {
             JSONObject nextTransaction = (JSONObject) json;
-            addTransaction(p, nextTransaction);
+            parseTransaction(p, nextTransaction);
         }
     }
 
-    private void addTransaction(Portfolio p, JSONObject jsonObject) {
+    private void parseTransaction(Portfolio p, JSONObject jsonObject) {
         String ticker = jsonObject.getString("ticker");
         Calendar date = Calendar.getInstance();
         date.set(jsonObject.getInt("year"), jsonObject.getInt("month"), jsonObject.getInt("day"));
@@ -97,6 +99,27 @@ public class JsonReader {
         p.addTransaction(add);
     }
 
+    // EFFECTS: reads account names from file and returns it;
+    // throws IOException if an error occurs reading data from file
+    public ArrayList<String> readList() throws IOException {
+        String jsonData = readFile(source);
+        JSONObject jsonObject = new JSONObject(jsonData);
+        return parseSavedNames(jsonObject);
+    }
+
+    // EFFECTS: reads saved account names from file and returns it;
+    // throws IOException if an error occurs reading data from file
+    public ArrayList<String> parseSavedNames(JSONObject jsonObject) {
+        ArrayList<String> names = new ArrayList<>();
+        JSONArray savedNames = jsonObject.getJSONArray("names");
+
+        for (Object json : savedNames) {
+            String nextName = (String) json;
+            names.add(nextName);
+        }
+
+        return names;
+    }
 }
 
 

@@ -5,15 +5,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class JsonWriterTest extends JsonTest {
-    //NOTE TO CPSC 210 STUDENTS: the strategy in designing tests for the JsonWriter is to
-    //write data to a file and then use the reader to read it back in and check that we
-    //read in a copy of what was written out.
+/*
+This Test suite has borrowed some code structure and concepts from JsonSerializationDemo UBC CPSC 210
+ */
+
+class JsonWriterTest {
     Portfolio testPort;
     Calendar date1;
     Calendar date2;
@@ -64,7 +66,7 @@ class JsonWriterTest extends JsonTest {
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterEmptyPortfolio.json");
-            p = reader.read();
+            p = reader.readPortfolio();
             assertEquals("Test", p.getName());
             assertEquals(0, p.getNumHoldings());
         } catch (IOException e) {
@@ -118,6 +120,54 @@ class JsonWriterTest extends JsonTest {
 
     }
 
+    @Test
+    void testWriterEmptyNamesList() {
+        try {
+            List<String> names = new ArrayList<>();
+            JsonWriter writer = new JsonWriter("./data/testWriterEmptyNames.json");
+            writer.open();
+            writer.write(names);
+            writer.close();
+
+            JsonReader reader = new JsonReader("./data/testWriterEmptyNames.json");
+            names = reader.readList();
+            assertTrue(names.isEmpty());
+        } catch (IOException e) {
+            fail("Exception should not have been thrown");
+        }
+    }
+
+    @Test
+    void testWriterGeneralNames() {
+        List<String> names = setupNamesList();
+
+        assertEquals(4, names.size());
+        assertEquals("a", names.get(0));
+        assertEquals("b", names.get(1));
+        assertEquals("c", names.get(2));
+        assertEquals("d", names.get(3));
+
+        try {
+            JsonWriter writer = new JsonWriter("./data/testWriterGeneralNames.json");
+            writer.open();
+            writer.write(names);
+            writer.close();
+
+            JsonReader reader = new JsonReader("./data/testWriterGeneralNames.json");
+            names = reader.readList();
+        } catch (IOException e) {
+            fail("Exception should not have been thrown");
+        }
+
+        assertEquals(4, names.size());
+        assertEquals("a", names.get(0));
+        assertEquals("b", names.get(1));
+        assertEquals("c", names.get(2));
+        assertEquals("d", names.get(3));
+    }
+
+
+
     private void setupPortfolio() {
         try {
             setTransactions();
@@ -132,9 +182,20 @@ class JsonWriterTest extends JsonTest {
             writer.close();
 
             JsonReader reader = new JsonReader("./data/testWriterGeneralPortfolio.json");
-            testPort = reader.read();
+            testPort = reader.readPortfolio();
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
+    }
+
+    private List<String> setupNamesList(){
+        List<String> names = new ArrayList<>();
+
+        names.add("a");
+        names.add("b");
+        names.add("c");
+        names.add("d");
+
+        return names;
     }
 }

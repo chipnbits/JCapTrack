@@ -71,7 +71,6 @@ public class PortfolioMenu extends MenuScreen {
         for (String s : user.getTaxTransactions(year)) {
             System.out.println(s);
         }
-        pressEnter();
     }
 
 
