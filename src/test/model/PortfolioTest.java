@@ -61,18 +61,23 @@ class PortfolioTest {
     @Test
     void testRemoveSecurityExisting() {
         testPort.addNewSecurity("BRK");
+        testPort.addNewSecurity("AAA");
         testPort.addNewSecurity("BNS");
+        testPort.addNewSecurity("BBB");
+
         assertTrue(testPort.removeSecurity("BNS"));
-        assertEquals(1, testPort.getNumHoldings());
+        assertEquals(3, testPort.getNumHoldings());
         assertTrue(testPort.hasTicker("BRK"));
         assertFalse(testPort.hasTicker("BNS"));
     }
 
     @Test
     void testRemoveSecurityNonExisting() {
-        assertEquals(0, testPort.getNumHoldings());
+        testPort.addNewSecurity("BRK");
+        testPort.addNewSecurity("AAA");
+        assertEquals(2, testPort.getNumHoldings());
         assertFalse(testPort.removeSecurity("BNS"));
-        assertEquals(0, testPort.getNumHoldings());
+        assertEquals(2, testPort.getNumHoldings());
     }
 
     @Test
@@ -80,7 +85,7 @@ class PortfolioTest {
         setTransactions();
         testPort.addNewSecurity("BNS");
         testPort.addTransaction(buyBNS);
-        assertEquals(1,testPort.searchTransactions("BNS").size());
+        assertEquals(1, testPort.searchTransactions("BNS").size());
     }
 
     @Test
@@ -90,7 +95,7 @@ class PortfolioTest {
         try {
             testPort.addTransaction(buyBRKusd);
             fail();
-        } catch (NoTickerException e){
+        } catch (NoTickerException e) {
             //Pass
             System.out.println(e.getMessage());
         }
@@ -217,10 +222,11 @@ class PortfolioTest {
     @Test
     void testGetTaxTransactions() {
         testPort.addNewSecurity("BNS");
+        testPort.addTransaction(new Transaction("BNS", date3, false, 500,
+                false, 0, 5, 4.99));
         Transaction tax = new Transaction("BNS", date2, true, 500,
                 false, 0, 5, 4.99);
         setTransactions();
-
         date2.set(2021, Calendar.JUNE, 5);
         testPort.addTransaction(tax);
         assertTrue(testPort.getTaxTransactions(2020).isEmpty());

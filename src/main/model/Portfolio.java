@@ -38,7 +38,7 @@ public class Portfolio implements Writable {
             } else {
                 holdings.add(findInsertionIndex(ticker), s);
             }
-            assert (checkInvariant());  // Check that securities are ordered
+//            assert (checkInvariant());  // Check that securities are ordered
             return true;
         }
     }
@@ -48,19 +48,18 @@ public class Portfolio implements Writable {
     private int findInsertionIndex(String ticker) {
         int index = 0;
 
-        if (!holdings.isEmpty()) {
-            // Search for the proper index
-            ticker = ticker.toLowerCase(Locale.ROOT);
-            for (Security orderedSecurity : holdings) {
-                String ticker2 = orderedSecurity.getTicker().toLowerCase(Locale.ROOT);
+        // Search for the proper index
+        ticker = ticker.toLowerCase(Locale.ROOT);
+        for (Security orderedSecurity : holdings) {
+            String ticker2 = orderedSecurity.getTicker().toLowerCase(Locale.ROOT);
 
-                if (ticker.compareTo(ticker2) >= 0) {
-                    index++;
-                } else {
-                    break;
-                }
+            if (ticker.compareTo(ticker2) >= 0) {
+                index++;
+            } else {
+                break;
             }
         }
+
 
         return index;
     }
@@ -95,7 +94,7 @@ public class Portfolio implements Writable {
         if (!match) {
             throw new NoTickerException("Can't find " + ticker);
         }
-        assert (checkInvariant());
+//        assert (checkInvariant());
     }
 
 //    // Functionality removed to fully encapsulate the class
@@ -110,7 +109,7 @@ public class Portfolio implements Writable {
         List<String> tickers = new ArrayList<>();
 
         // Make sure things are in order
-        assert (checkInvariant());
+//        assert (checkInvariant());
 
         for (Security s : holdings) {
             tickers.add(s.getTicker());
@@ -176,17 +175,17 @@ public class Portfolio implements Writable {
 
     // EFFECTS: Checks if the list of securities is in alphabetical order
     //          returns true if they are in order, false otherwise
-    private boolean checkInvariant() {
-        boolean ordered = true;
-
-        for (int i = 0; i < holdings.size() - 1; i++) {
-            if (holdings.get(i).getTicker().compareTo(holdings.get(i + 1).getTicker()) > 0) {
-                ordered = false;
-                break;
-            }
-        }
-        return ordered;
-    }
+//    public boolean checkInvariant() {
+//        boolean ordered = true;
+//
+//        for (int i = 0; i < holdings.size() - 1; i++) {
+//            if (holdings.get(i).getTicker().compareTo(holdings.get(i + 1).getTicker()) > 0) {
+//                ordered = false;
+//                break;
+//            }
+//        }
+//        return ordered;
+//    }
 
 
     // MODIFIES: this
