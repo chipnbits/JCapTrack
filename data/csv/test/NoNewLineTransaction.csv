@@ -1,0 +1,10 @@
+"Adjusted Cost Base and Capital Gains Report"
+"Compiled by AdjustedCostBase.ca"
+"https://www.AdjustedCostBase.ca/"
+"Portfolio: My Default Portfolio"
+
+"Name","Ticker","Shares","ACB","ACB/Share"
+"CHP.UN",,"300","4290.99","14.30"
+
+"Security","Date","Transaction","Amount","Shares","Amount/Share","Commission","Capital Gain (Loss)","Share Balance","Change in ACB","New ACB","New ACB/Share","Memo","Foreign Currency Transaction","Exchange Rate","Amount in Foreign Currency","Commission in Foreign Corrency","T-Slip Capital Gain"
+"GOOG","2019-Dec-26","Buy","3353.82","2","1676.91","12.97","","2","3366.79","3366.79","1683.40","","Yes","0.77","2582.44","9.99",

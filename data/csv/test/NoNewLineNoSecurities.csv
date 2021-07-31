@@ -1,0 +1,12 @@
+"Adjusted Cost Base and Capital Gains Report"
+"Compiled by AdjustedCostBase.ca"
+"https://www.AdjustedCostBase.ca/"
+"Portfolio: My Default Portfolio"
+
+"Security","Date","Transaction","Amount","Shares","Amount/Share","Commission","Capital Gain (Loss)","Share Balance","Change in ACB","New ACB","New ACB/Share","Memo","Foreign Currency Transaction","Exchange Rate","Amount in Foreign Currency","Commission in Foreign Corrency","T-Slip Capital Gain"
+"GOOG","2019-Jan-26","Buy","3353.82","2","1676.91","12.97","","2","3366.79","3366.79","1683.40","","Yes","0.77","2582.44","9.99",
+"TFII","2019-Feb-26","Buy","5115.99","200","25.58","9.99","","200","5125.98","5125.98","25.63","",,,,,,
+"ZLB","2019-Mar-26","Buy","16324.99","500","32.65","","","500","16324.99","16324.99","32.65","",,,,,,
+"ZLB","2019-Apr-26","Buy","1607.50","50","32.15","","","550","1607.50","17932.49","32.60","",,,,,,
+
+

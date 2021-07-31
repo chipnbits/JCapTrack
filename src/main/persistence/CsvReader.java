@@ -49,7 +49,6 @@ public class CsvReader {
         Scanner fileReader = new Scanner(importFile);
 
         return fileReader;
-
     }
 
     // EFFECTS: returns a package of data which is a list of security names and a list of transactions
@@ -74,7 +73,7 @@ public class CsvReader {
                     // Checks that a line begins with " indicating it is still in the securities section
                     while (fileReader.hasNextLine()) {
                         line = fileReader.nextLine();
-                        if (line.length() > 0 && !line.equals("\n")) {
+                        if (line.length() > 0) {
                             // adds the substring between the two " marks to tickers
                             tickers.add(line.substring(1, line.indexOf('\"', 1)));
                         } else {
@@ -105,7 +104,7 @@ public class CsvReader {
                 if (fileReader.nextLine().contains(START_OF_TRANSACTIONS_INDICATOR)) {
                     while (fileReader.hasNextLine()) {
                         line = fileReader.nextLine();
-                        if (line.length() > 1) {
+                        if (line.length() > 0) {
                             transactions.add(parseTransaction(line));
                         } else {
                             break;
