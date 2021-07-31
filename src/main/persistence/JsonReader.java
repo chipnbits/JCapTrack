@@ -50,7 +50,7 @@ public class JsonReader {
         String name = jsonObject.getString("name");
         Portfolio p = new Portfolio(name);
 
-        addSecurities(p, jsonObject);
+        parseSecurities(p, jsonObject);
         parseTransactions(p, jsonObject);
         return p;
     }
@@ -58,7 +58,7 @@ public class JsonReader {
 
     // MODIFIES: p
     // EFFECTS: parses holdings from JSON object and adds them to Portfolio
-    private void addSecurities(Portfolio p, JSONObject jsonObject) {
+    private void parseSecurities(Portfolio p, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("holdings");
         for (Object json : jsonArray) {
             JSONObject nextSecurity = (JSONObject) json;

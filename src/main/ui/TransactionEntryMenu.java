@@ -140,7 +140,8 @@ public class TransactionEntryMenu extends MenuScreen {
             }
         } while (month == null);
 
-        return Integer.parseInt(month);
+        //Adjust for 0 based index
+        return Integer.parseInt(month) - 1;
     }
 
     // EFFECTS: collect a valid day from the user, don't stop until they get it!
