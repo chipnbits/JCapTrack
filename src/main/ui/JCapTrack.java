@@ -8,6 +8,7 @@ import persistence.JsonWriter;
 import persistence.Writable;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,10 @@ public class JCapTrack extends MenuScreen implements Writable {
                 System.out.println("Unable to save your data!");
                 e.printStackTrace();
             }
+        } catch (NoSuchFileException e) {
+            System.out.println("Save file is missing for this portfolio");
+            createNewPortfolio(cmd);
+            pressEnter();
         } catch (IOException e) {
             System.out.println("Unable to load that portfolio");
             e.printStackTrace();
@@ -105,6 +110,8 @@ public class JCapTrack extends MenuScreen implements Writable {
                 // Alpha numeric account names
             } else if (cmd.matches("^[a-zA-Z0-9_]+$")) {
                 createNewPortfolio(cmd);
+                names.add(cmd);
+                saveAccountNames();
 
                 noMatch = false;
             } else {
@@ -119,9 +126,7 @@ public class JCapTrack extends MenuScreen implements Writable {
     private void createNewPortfolio(String name) {
         System.out.println("Creating new portfolio");
         Portfolio added = new Portfolio(name);
-        names.add(name);
         writePortfolioSaveFile(added);
-        saveAccountNames();
     }
 
     // EFFECTS:  Saves all of the account names to a JSON file for retrieval

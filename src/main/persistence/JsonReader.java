@@ -83,6 +83,8 @@ public class JsonReader {
         }
     }
 
+    // MODIFIES: p
+    // EFFECTS: parses a transaction from a JSONObject and adds it to portfolio p
     private void parseTransaction(Portfolio p, JSONObject jsonObject) {
         String ticker = jsonObject.getString("ticker");
         Calendar date = Calendar.getInstance();
@@ -106,6 +108,7 @@ public class JsonReader {
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseSavedNames(jsonObject);
     }
+
 
     // EFFECTS: reads saved account names from file and returns it;
     // throws IOException if an error occurs reading data from file

@@ -34,7 +34,19 @@ class ImportDataTest {
     }
 
     @Test
-    void testImportData(){
+    void testImportDataNormal(){
+        data.addToPortfolio(p);
+        assertEquals(2, p.getNumHoldings());
+        assertEquals(2, p.searchTransactions("BNS").size());
+        assertEquals(2, p.searchTransactions("BRK").size());
+        assertEquals("Test", p.getName());
+    }
+
+    @Test
+    void testImportDataMissingSecurities(){
+        List<String> sec= new ArrayList<>();
+        sec.add("BNS");
+        data = new ImportData(sec , tb.makeListOfTransactions());
         data.addToPortfolio(p);
         assertEquals(2, p.getNumHoldings());
         assertEquals(2, p.searchTransactions("BNS").size());

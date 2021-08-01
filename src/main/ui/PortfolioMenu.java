@@ -5,7 +5,6 @@ import model.Portfolio;
 import java.util.List;
 
 public class PortfolioMenu extends MenuScreen {
-    private final Portfolio user;
 
     public PortfolioMenu(Portfolio p) {
         menuName = "Portfolio Menu";
@@ -23,7 +22,8 @@ public class PortfolioMenu extends MenuScreen {
                 + "\n3 - Remove a security"
                 + "\n4 - Add a transaction"
                 + "\n5 - Search Transactions"
-                + "\n6 - Generate tax slips");
+                + "\n6 - Generate tax slips"
+                + "\n7 - Import from CSV");
     }
 
     @Override
@@ -45,6 +45,8 @@ public class PortfolioMenu extends MenuScreen {
             new TransactionSearchMenu(user);
         } else if (cmd.equals("6")) {
             taxGenerator(TransactionEntryMenu.getYear());
+        } else if (cmd.equals("7")) {
+            new ImportDataMenu(user);
         } else {
             success = false;
         }
@@ -67,10 +69,13 @@ public class PortfolioMenu extends MenuScreen {
         List<String> transactions = user.getTaxTransactions(year);
 
         System.out.println("There are " + transactions.size() + " tax slips in that year");
-        pressEnter();
-        for (String s : user.getTaxTransactions(year)) {
-            System.out.println(s);
+        if (transactions.size() > 0) {
+            for (String s : user.getTaxTransactions(year)) {
+                System.out.println(s + "\n");
+            }
         }
+        pressEnter();
+
     }
 
 

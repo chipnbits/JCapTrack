@@ -140,7 +140,7 @@ public class CsvReader {
         return buildTransaction(values);
     }
 
-    // Parses the primitive values from the strings and compiles them into a structured transaction
+    //EFFECTS: Parses the primitive values from a string and compiles them into a structured transaction
     private Transaction buildTransaction(List<String> values) throws FileCorruptException {
         String ticker = values.get(0);
         Calendar date = makeDate(values.get(1));

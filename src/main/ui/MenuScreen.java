@@ -1,5 +1,7 @@
 package ui;
 
+import model.Portfolio;
+
 import java.util.Scanner;
 
 // This is a general construct to present a menu of options to the user with the option to close it
@@ -7,6 +9,7 @@ import java.util.Scanner;
 public abstract class MenuScreen {
     protected Scanner input = new Scanner(System.in);
     protected String menuName;
+    protected Portfolio user;
 
     // EFFECTS: Prints a menu header
     protected void printMainMenu() {
@@ -67,8 +70,8 @@ public abstract class MenuScreen {
 
     // EFFECTS: Prompts the user to press enter to continue
     protected void pressEnter() {
-        System.out.println("Press ENTER to continue...");
         input.nextLine();
+        System.out.println("Press ENTER to continue...");
         input.nextLine();
     }
 

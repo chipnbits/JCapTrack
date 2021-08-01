@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 // A menu that handles the entry of various fields to create a new transaction
 public class TransactionEntryMenu extends MenuScreen {
-    private final Portfolio user;
     private String ticker;
     private Calendar date;
     private boolean type;

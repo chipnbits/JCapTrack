@@ -45,6 +45,7 @@ public class JsonWriter {
         saveToFile(json.toString(TAB));
     }
 
+    // EFFECTS: Coverts a list of strings into a single JSONObject and returns it
     private JSONObject listOfStringToJson(List<String> list) {
         JSONObject json = new JSONObject();
 

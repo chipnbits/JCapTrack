@@ -89,6 +89,7 @@ class JsonReaderTest {
                         "ACB: $8,747.11 CAD"));
     }
 
+
     @Test
     void testReaderEmptyNamesList() {
         List<String> names;

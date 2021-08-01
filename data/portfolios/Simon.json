@@ -1,5 +1,8 @@
 {
     "name": "Simon",
-    "holdings": [{"ticker": "BNS"}],
+    "holdings": [
+        {"ticker": "BNS"},
+        {"ticker": "BRK"}
+    ],
     "transactions": []
 }

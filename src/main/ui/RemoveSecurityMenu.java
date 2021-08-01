@@ -4,7 +4,6 @@ import model.Portfolio;
 
 // This is the menu for removing securities from the portfolio
 public class RemoveSecurityMenu extends MenuScreen {
-    private final Portfolio user;
 
     // EFFECTS: initialize and open the main menu
     public RemoveSecurityMenu(Portfolio p) {

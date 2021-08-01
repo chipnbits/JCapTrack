@@ -4,7 +4,6 @@ import model.Portfolio;
 
 // Creates a menu for navigating adding a new security
 public class AddSecurityMenu extends MenuScreen {
-    private final Portfolio user;
 
     public AddSecurityMenu(Portfolio p) {
         menuName = "Add Security Menu";

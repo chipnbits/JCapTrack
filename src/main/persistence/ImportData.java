@@ -25,17 +25,6 @@ public class ImportData {
         return transactions;
     }
 
-    // MODIFIES: this
-    // EFFECTS:  scans the transactions to make sure that they have a matching security name in security names list.
-    //           if they don't then create a new ticker name to match the transaction
-    private void normalize() {
-        for (Transaction t : transactions) {
-            if (!securityNames.contains(t.getSecurity())) {
-                securityNames.add(t.getSecurity());
-            }
-        }
-    }
-
     // MODIFIES: this, portfolio
     // EFFECTS: prepares and merges the data from this into the portfolio and updates the portfolio
     public void addToPortfolio(Portfolio portfolio) {
@@ -49,5 +38,18 @@ public class ImportData {
             portfolio.addTransaction(t);
         }
     }
+
+    // MODIFIES: this
+    // EFFECTS:  scans the transactions to make sure that they have a matching security name in security names list.
+    //           if they don't then create a new ticker name to match the transaction
+    private void normalize() {
+        for (Transaction t : transactions) {
+            if (!securityNames.contains(t.getSecurity())) {
+                securityNames.add(t.getSecurity());
+            }
+        }
+    }
+
+
 
 }

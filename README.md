@@ -46,7 +46,7 @@ This project is of interest to me because every year when I file my taxes I have
 - As a user, I want to be able to save my portfolio to file
 - As a user, I want to be able to be able to load my portfolio from file
 - As a user, when I select the quit option from the main portfolio menu, I want all my transactions to automatically save
-- As a user, when I start the application, I want to be given the option to load an external portfolio from file.
+- As a user, I would like to be able to import and consolidate data from AdjustedCostBase.ca export files into an existing portfolio
 
 
 
