@@ -12,7 +12,6 @@ import static ui.JCapTrack.DOLLAR_FORMAT;
 public class Transaction implements Writable {
 
 
-
     private final String ticker;        // Name of Security
     private final Calendar date;        // Date of transaction
     private final boolean isSell;       // true for Sell
@@ -151,7 +150,7 @@ public class Transaction implements Writable {
                 + type + " " + shares + " shares of " + ticker + "\n"
                 + "Value: " + DOLLAR_FORMAT.format(value) + " " + currency + "\n"
                 + "Commission: " + DOLLAR_FORMAT.format(commission) + " " + currency
-                + "\nGains: " +  DOLLAR_FORMAT.format(gains)
+                + "\nGains: " + DOLLAR_FORMAT.format(gains)
                 + "\nTotalShares: " + newTotalShares
                 + "\nACB: " + DOLLAR_FORMAT.format(getNewTotalACB()) + " CAD", date);
     }

@@ -93,13 +93,6 @@ public class Portfolio implements Writable {
 //        assert (checkInvariant());
     }
 
-//    // Functionality removed to fully encapsulate the class
-//    // EFFECTS: Returns a list of the ticker symbol of all of the securities held in this
-//    public List<Security> getHoldings() {
-//        return holdings;
-//    }
-
-
     // EFFECTS: returns a list of the names of all of the tickers held in this portfolio in alphabetical order
     public List<String> getTickers() {
         List<String> tickers = new ArrayList<>();
@@ -136,7 +129,7 @@ public class Portfolio implements Writable {
 
         // Make the summary lines
         for (Security s : holdings) {
-            summary.add(String.format("%5s || %5d   || %10s  ||%2d\n", s.getTicker(), s.getShares(),
+            summary.add(String.format("%6s || %5d   || %10s  ||%2d\n", s.getTicker(), s.getShares(),
                     DOLLAR_FORMAT.format(s.getAcb()), s.getNumTransactions()));
         }
         return summary;

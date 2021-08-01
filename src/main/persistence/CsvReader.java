@@ -46,18 +46,17 @@ public class CsvReader {
     private Scanner makeFileScanner(String source) throws FileNotFoundException {
 
         File importFile = new File(source);
-        Scanner fileReader = new Scanner(importFile);
 
-        return fileReader;
+        return new Scanner(importFile);
     }
 
     // EFFECTS: returns a package of data which is a list of security names and a list of transactions
-    public CsvExportData parseData() throws FileNotFoundException, FileCorruptException {
+    public ImportData parseData() throws FileNotFoundException, FileCorruptException {
         Scanner fileReader = makeFileScanner(source);
         List<String> tickers = parseSecurityNames(fileReader);
         List<Transaction> transactions = parseTransactions(fileReader);
 
-        return new CsvExportData(tickers, transactions);
+        return new ImportData(tickers, transactions);
     }
 
     // MODIFIES: fileReader
