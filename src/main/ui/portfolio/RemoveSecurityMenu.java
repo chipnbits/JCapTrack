@@ -1,6 +1,7 @@
-package ui;
+package ui.portfolio;
 
 import model.Portfolio;
+import ui.MenuScreen;
 
 // This is the menu for removing securities from the portfolio
 public class RemoveSecurityMenu extends MenuScreen {

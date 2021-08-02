@@ -1,6 +1,7 @@
-package ui;
+package ui.portfolio;
 
 import model.Portfolio;
+import ui.MenuScreen;
 
 // Creates a menu for navigating adding a new security
 public class AddSecurityMenu extends MenuScreen {

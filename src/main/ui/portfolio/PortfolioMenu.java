@@ -1,6 +1,7 @@
-package ui;
+package ui.portfolio;
 
 import model.Portfolio;
+import ui.MenuScreen;
 
 import java.util.List;
 

@@ -1,11 +1,9 @@
 package ui;
 
 import model.Portfolio;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import persistence.Writable;
+import ui.portfolio.PortfolioMenu;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
@@ -15,7 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 // An application to track capital gains and acb values for stock trades
-public class JCapTrack extends MenuScreen implements Writable {
+public class JCapTrack extends MenuScreen {
     // Number formatting for currency
     public static final NumberFormat DOLLAR_FORMAT = NumberFormat.getCurrencyInstance(Locale.CANADA);
     private static final String ACCOUNT_NAME_SAVE_LOCATION = "./data/accountIndex.json";
@@ -187,19 +185,6 @@ public class JCapTrack extends MenuScreen implements Writable {
         return reader.readPortfolio();
     }
 
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-
-        //Make an array from the names list
-        JSONArray accountNames = new JSONArray();
-        for (String s : names) {
-            accountNames.put(s);
-        }
-        json.put("names", accountNames);
-
-        return json;
-    }
 }
 
 

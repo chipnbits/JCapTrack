@@ -1,7 +1,8 @@
-package ui;
+package ui.portfolio;
 
 import exceptions.NoTickerException;
 import model.Portfolio;
+import ui.MenuScreen;
 
 import java.util.List;
 

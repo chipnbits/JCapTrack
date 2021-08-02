@@ -39,13 +39,13 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of portfolio to file
+    // EFFECTS: writes JSON representation of a list of account names
     public void write(List<String> list) {
         JSONObject json = listOfStringToJson(list);
         saveToFile(json.toString(TAB));
     }
 
-    // EFFECTS: Coverts a list of strings into a single JSONObject and returns it
+    // EFFECTS: Coverts a list of account names into a single JSONObject and returns it
     private JSONObject listOfStringToJson(List<String> list) {
         JSONObject json = new JSONObject();
 

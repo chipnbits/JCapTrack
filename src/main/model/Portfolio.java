@@ -177,25 +177,6 @@ public class Portfolio implements Writable {
 //    }
 
 
-    // MODIFIES: this
-    // EFFECTS: A brute force system to reorganize holdings in alphabetical order sorted by ticker name
-//    private void sortHoldingsTickers() {
-//        ArrayList<Security> ordered = new ArrayList<>();
-//
-//        for (Security s : holdings) {
-//            // Get the name of the security
-//            String ticker1 = s.getTicker().toLowerCase(Locale.ROOT);
-//
-//            // Add to empty list case
-//            if (ordered.size() == 0) {
-//                ordered.add(s);
-//            } else {
-//                ordered.add(findInsertionIndex(ticker1), s);
-//            }
-//        }
-//        holdings = ordered;
-//    }
-
 
     // EFFECTS: Generates a list of all of the tax information for a given year, transactions that had a capital gain
     public List<String> getTaxTransactions(int year) {
