@@ -6,9 +6,9 @@ import ui.MenuScreen;
 // Creates a menu for navigating adding a new security
 public class AddSecurityMenu extends MenuScreen {
 
-    public AddSecurityMenu(Portfolio p) {
+    public AddSecurityMenu(Portfolio user) {
+        super(user);
         menuName = "Add Security Menu";
-        user = p;
         mainMenu();
     }
 

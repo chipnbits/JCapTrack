@@ -15,11 +15,10 @@ import java.util.List;
 public class ImportDataMenu extends MenuScreen {
     private static final String DATA_FILE_EXTENSION = ".csv";
     private static final String IMPORT_DIRECTORY = "./data/csv";
-    private final Portfolio user;
     private final List<String> names;
 
     public ImportDataMenu(Portfolio user) {
-        this.user = user;
+        super(user);
         menuName = "Import CSV Menu";
         names = getNames();
         if (names.isEmpty()) {

@@ -19,9 +19,9 @@ public class TransactionEntryMenu extends MenuScreen {
     private int shares;
     private double commission;
 
-    public TransactionEntryMenu(Portfolio p) {
+    public TransactionEntryMenu(Portfolio user) {
+        super(user);
         menuName = "Transaction Entry Menu";
-        user = p;
         mainMenu();
     }
 

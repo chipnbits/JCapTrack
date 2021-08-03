@@ -7,9 +7,9 @@ import java.util.List;
 
 public class PortfolioMenu extends MenuScreen {
 
-    public PortfolioMenu(Portfolio p) {
+    public PortfolioMenu(Portfolio user) {
+        super(user);
         menuName = "Portfolio Menu";
-        user = p;
         mainMenu();
     }
 

@@ -7,9 +7,9 @@ import ui.MenuScreen;
 public class RemoveSecurityMenu extends MenuScreen {
 
     // EFFECTS: initialize and open the main menu
-    public RemoveSecurityMenu(Portfolio p) {
+    public RemoveSecurityMenu(Portfolio user) {
+        super(user);
         menuName = "Remove Securities Menu";
-        user = p;
         mainMenu();
     }
 

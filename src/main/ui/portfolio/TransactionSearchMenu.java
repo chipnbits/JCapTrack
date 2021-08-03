@@ -9,9 +9,9 @@ import java.util.List;
 // Creates a menu for navigating adding a new security
 public class TransactionSearchMenu extends MenuScreen {
 
-    public TransactionSearchMenu(Portfolio p) {
+    public TransactionSearchMenu(Portfolio user) {
+        super(user);
         menuName = "Transaction Search Menu";
-        user = p;
         mainMenu();
     }
 

@@ -2,14 +2,20 @@ package ui;
 
 import model.Portfolio;
 
-import java.util.Scanner;
-
 // This is a general construct to present a menu of options to the user with the option to close it
 // and return to the previous menu
-public abstract class MenuScreen {
-    protected Scanner input = new Scanner(System.in);
+public abstract class MenuScreen extends User {
     protected String menuName;
-    protected Portfolio user;
+
+    // EFFECTS: Makes a new menu withuser input:
+    public MenuScreen() {
+    }
+
+    // EFFECTS: Makes a new menu with user input and portfolio access
+    public MenuScreen(Portfolio user) {
+        this.user = user;
+    }
+
 
     // EFFECTS: Prints a menu header
     protected void printMainMenu() {
@@ -68,12 +74,7 @@ public abstract class MenuScreen {
     // EFFECTS: returns true if a valid menu option is selected, false if not
     protected abstract boolean selectOption(String cmd);
 
-    // EFFECTS: Prompts the user to press enter to continue
-    protected void pressEnter() {
-        input.nextLine();
-        System.out.println("Press ENTER to continue...");
-        input.nextLine();
-    }
+
 
 
 }
