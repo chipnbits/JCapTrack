@@ -3,14 +3,13 @@ package ui;
 import model.Portfolio;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import ui.portfolio.PortfolioMenu;
 
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
 import java.util.List;
 
 
-// Assists JCapTrack with managing opening, closing, saving, and loading of portfolios
+// Assists JCapTrackMenu with managing opening, closing, saving, and loading of portfolios
 public class PortfolioManager extends User {
 
     public static final String ACCOUNT_NAME_SAVE_LOCATION = "./data/accountIndex.json";
@@ -21,14 +20,16 @@ public class PortfolioManager extends User {
 
     private List<String> names;  // Account names
 
+    // EFFECTS: makes a new portfolio manager
+    public PortfolioManager() {
+        names = new ArrayList<>();
+    }
+
     // MODIFIES: this
-    // EFFECTS: Adds a new portfolio to the program JCapTrack
+    // EFFECTS: Adds a new portfolio to the program JCapTrackMenu
     protected void addNewPortfolio() {
         String cmd;
         boolean noMatch = true;
-
-        // Scratch the previous input line
-        input.nextLine();
 
         while (noMatch) {
             System.out.println("Enter the name for the new portfolio");
@@ -38,7 +39,9 @@ public class PortfolioManager extends User {
                 System.out.println("That name is already taken, choose a different one");
                 // Alpha numeric account names
             } else if (cmd.matches("^[a-zA-Z0-9_]+$")) {
+                System.out.println("Creating new portfolio");
                 createNewPortfolio(cmd);
+
                 noMatch = false;
             } else {
                 System.out.println("That is not a valid name");
@@ -46,16 +49,24 @@ public class PortfolioManager extends User {
         }
     }
 
-    // REQUIRES: A portfolio name that is not already taken
+
     // MODIFIES: this
     // EFFECTS: creates a new portfolio, adds it to profiles and account names list, and makes a new file location to
     // store data.
     protected void createNewPortfolio(String name) {
-        System.out.println("Creating new portfolio");
+
         Portfolio added = new Portfolio(name);
         writePortfolioSaveFile(added);
-        names.add(name);
-        saveAccountNames();
+        addAccountName(added.getName());
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds a new account name and saves it to the persistence file
+    protected void addAccountName(String name) {
+        if (!names.contains(name)) {
+            names.add(name);
+            saveAccountNames();
+        }
     }
 
 

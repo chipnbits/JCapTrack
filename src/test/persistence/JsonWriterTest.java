@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static persistence.JsonReaderTest.*;
 
 /*
 This Test suite has borrowed some code structure and concepts from JsonSerializationDemo UBC CPSC 210
@@ -60,12 +61,12 @@ class JsonWriterTest {
     void testWriterEmptyPortfolio() {
         try {
             Portfolio p = new Portfolio("Test");
-            JsonWriter writer = new JsonWriter("./data/testWriterEmptyPortfolio.json");
+            JsonWriter writer = new JsonWriter(TEST_FILES + "testWriterEmptyPortfolio.json");
             writer.open();
             writer.write(p);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterEmptyPortfolio.json");
+            JsonReader reader = new JsonReader(TEST_FILES + "testWriterEmptyPortfolio.json");
             p = reader.readPortfolio();
             assertEquals("Test", p.getName());
             assertEquals(0, p.getNumHoldings());
@@ -124,12 +125,12 @@ class JsonWriterTest {
     void testWriterEmptyNamesList() {
         try {
             List<String> names = new ArrayList<>();
-            JsonWriter writer = new JsonWriter("./data/testWriterEmptyNames.json");
+            JsonWriter writer = new JsonWriter(TEST_FILES + "testWriterEmptyNames.json");
             writer.open();
             writer.write(names);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterEmptyNames.json");
+            JsonReader reader = new JsonReader(TEST_FILES + "testWriterEmptyNames.json");
             names = reader.readList();
             assertTrue(names.isEmpty());
         } catch (IOException e) {
@@ -148,12 +149,12 @@ class JsonWriterTest {
         assertEquals("d", names.get(3));
 
         try {
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralNames.json");
+            JsonWriter writer = new JsonWriter(TEST_FILES + "testWriterGeneralNames.json");
             writer.open();
             writer.write(names);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralNames.json");
+            JsonReader reader = new JsonReader(TEST_FILES + "testWriterGeneralNames.json");
             names = reader.readList();
         } catch (IOException e) {
             fail("Exception should not have been thrown");
@@ -176,12 +177,12 @@ class JsonWriterTest {
             testPort.addTransaction(buyBNS);
             testPort.addTransaction(buyBRKusd);
             testPort.addTransaction(sellBNS);
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralPortfolio.json");
+            JsonWriter writer = new JsonWriter(TEST_FILES + "testWriterGeneralPortfolio.json");
             writer.open();
             writer.write(testPort);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralPortfolio.json");
+            JsonReader reader = new JsonReader(TEST_FILES + "testWriterGeneralPortfolio.json");
             testPort = reader.readPortfolio();
         } catch (IOException e) {
             fail("Exception should not have been thrown");

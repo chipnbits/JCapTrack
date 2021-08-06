@@ -236,5 +236,31 @@ class PortfolioTest {
 
     }
 
+    @Test
+    void testGetHoldings() {
+        setTransactions();
+        testPort.addNewSecurity("BNS");
+        testPort.addNewSecurity("BRK");
+        testPort.addTransaction(buyBNS);
+        testPort.addTransaction(buyBRKusd);
+
+        List<Security> testListSecurity = testPort.getHoldings();
+
+        try {
+            testListSecurity.add(new Security("oh oh"));
+            fail();
+        } catch (UnsupportedOperationException e) {
+            //pass
+        }
+
+        try {
+            testListSecurity.remove(new Security("BNS"));
+            fail();
+        } catch (UnsupportedOperationException e) {
+            //pass
+        }
+
+    }
+
 
 }

@@ -47,7 +47,7 @@ public class Transaction implements Writable {
     // REQUIRES: acb values are always in CAD
     // MODIFIES: this
     // EFFECTS:  Updates the capital gains and total shares/acb fields based on past transaction history
-    public void updateTransaction(int prevShares, double prevACB) {
+    protected void updateTransaction(int prevShares, double prevACB) {
         double val = value;
         double com = commission;
         if (isUSD) {

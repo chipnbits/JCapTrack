@@ -1,10 +1,10 @@
 package model;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static ui.JCapTrack.DOLLAR_FORMAT;
@@ -76,6 +76,10 @@ public class Security implements Writable {
             output.add(t.toString());
         }
         return output;
+    }
+
+    public List<Transaction> getTransactionList() {
+        return Collections.unmodifiableList(history);
     }
 
     protected List<Transaction> getHistory() {

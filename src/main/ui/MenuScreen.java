@@ -2,6 +2,9 @@ package ui;
 
 import model.Portfolio;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 // This is a general construct to present a menu of options to the user with the option to close it
 // and return to the previous menu
 public abstract class MenuScreen extends User {
@@ -15,7 +18,6 @@ public abstract class MenuScreen extends User {
     public MenuScreen(Portfolio user) {
         this.user = user;
     }
-
 
     // EFFECTS: Prints a menu header
     protected void printMainMenu() {

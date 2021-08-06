@@ -5,10 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import static ui.JCapTrack.DOLLAR_FORMAT;
 
@@ -16,6 +13,12 @@ import static ui.JCapTrack.DOLLAR_FORMAT;
 public class Portfolio implements Writable {
 
     private String name;
+
+    // EFFECTS: Returns an unmodifiable list of all of the security holdings
+    public List<Security> getHoldings() {
+        return Collections.unmodifiableList(holdings);
+    }
+
     private List<Security> holdings;  // A list of all the securities held, with no duplicates, in alphabetical order
 
     public Portfolio(String name) {
@@ -37,29 +40,10 @@ public class Portfolio implements Writable {
             } else {
                 holdings.add(findInsertionIndex(ticker), s);
             }
-//            assert (checkInvariant());  // Check that securities are ordered
             return true;
         }
     }
 
-    // REQUIRES: A ticker already contained in the holdings
-    // EFFECTS: Finds the correct insertion point to maintain alphabetical order of tickers
-    private int findInsertionIndex(String ticker) {
-        int index = 0;
-
-        // Search for the proper index
-        ticker = ticker.toLowerCase(Locale.ROOT);
-        for (Security orderedSecurity : holdings) {
-            String ticker2 = orderedSecurity.getTicker().toLowerCase(Locale.ROOT);
-
-            if (ticker.compareTo(ticker2) >= 0) {
-                index++;
-            } else {
-                break;
-            }
-        }
-        return index;
-    }
 
     // MODIFIES: this
     // EFFECTS: returns true if security is found in portfolio and removes it
@@ -78,27 +62,14 @@ public class Portfolio implements Writable {
     // EFFECTS: if able to add transaction to an existing ticker, adds it to that holding
     //          throws runtime exception if unable to find an existing ticker matching transaction
     public void addTransaction(Transaction transAdd) throws NoTickerException {
-        boolean match = false;
-        String ticker = transAdd.getSecurity();
 
-        for (Security s : holdings) {
-            if (!match && ticker.equals(s.getTicker())) {
-                s.addTransaction(transAdd);
-                match = true;
-            }
-        }
-        if (!match) {
-            throw new NoTickerException("Can't find " + ticker);
-        }
-//        assert (checkInvariant());
+        Security transSecurity = matchString(transAdd.getSecurity());
+        transSecurity.addTransaction(transAdd);
     }
 
     // EFFECTS: returns a list of the names of all of the tickers held in this portfolio in alphabetical order
     public List<String> getTickers() {
         List<String> tickers = new ArrayList<>();
-
-        // Make sure things are in order
-//        assert (checkInvariant());
 
         for (Security s : holdings) {
             tickers.add(s.getTicker());
@@ -135,7 +106,6 @@ public class Portfolio implements Writable {
         return summary;
     }
 
-
     // EFFECTS: Searches for all transactions for the security matching the parameter ticker, then returns them
     //          as a list of strings.
     public List<String> searchTransactions(String ticker) throws NoTickerException {
@@ -162,22 +132,6 @@ public class Portfolio implements Writable {
         this.name = name;
     }
 
-    // EFFECTS: Checks if the list of securities is in alphabetical order
-    //          returns true if they are in order, false otherwise
-//    public boolean checkInvariant() {
-//        boolean ordered = true;
-//
-//        for (int i = 0; i < holdings.size() - 1; i++) {
-//            if (holdings.get(i).getTicker().compareTo(holdings.get(i + 1).getTicker()) > 0) {
-//                ordered = false;
-//                break;
-//            }
-//        }
-//        return ordered;
-//    }
-
-
-
     // EFFECTS: Generates a list of all of the tax information for a given year, transactions that had a capital gain
     public List<String> getTaxTransactions(int year) {
         ArrayList<String> transactions = new ArrayList<>();
@@ -191,6 +145,25 @@ public class Portfolio implements Writable {
         }
 
         return transactions;
+    }
+
+    // REQUIRES: A ticker already contained in the holdings
+    // EFFECTS: Finds the correct insertion point to maintain alphabetical order of tickers
+    private int findInsertionIndex(String ticker) {
+        int index = 0;
+
+        // Search for the proper index
+        ticker = ticker.toLowerCase(Locale.ROOT);
+        for (Security orderedSecurity : holdings) {
+            String ticker2 = orderedSecurity.getTicker().toLowerCase(Locale.ROOT);
+
+            if (ticker.compareTo(ticker2) >= 0) {
+                index++;
+            } else {
+                break;
+            }
+        }
+        return index;
     }
 
     @Override

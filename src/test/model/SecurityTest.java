@@ -163,4 +163,28 @@ class SecurityTest {
         assertTrue(record.get(2).contains("20"));
     }
 
+    @Test
+    void testGetTransactionList(){
+        makeTransactionsBNS();
+        bns.addTransaction(buyBNS1);
+        bns.addTransaction(sellBNS);
+        bns.addTransaction(buyBNS2);
+
+        List<Transaction> testList = bns.getTransactionList();
+
+        try {
+            testList.add(buyBNS1);
+            fail();
+        } catch (UnsupportedOperationException e) {
+            //pass
+        }
+
+        try {
+            testList.remove(buyBNS1);
+            fail();
+        } catch (UnsupportedOperationException e) {
+            //pass
+        }
+    }
+
 }

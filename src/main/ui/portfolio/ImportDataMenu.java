@@ -45,6 +45,25 @@ public class ImportDataMenu extends MenuScreen {
         }
     }
 
+    @Override
+    // MODIFIES: this
+    // EFFECTS: Adds csv import data to user portfolio from a file or else notifies the user that the file location is
+    //          not available.
+    //          Returns true if successful at importing the data, false otherwise
+    protected boolean selectOption(String cmd) {
+        if (names.contains(cmd)) {
+            importUserSelection(cmd);
+            pressEnter();
+            return true;
+        } else {
+            System.out.println("That file does not exist. Invalid option.");
+            return false;
+        }
+    }
+
+
+
+
     // EFFECTS: Gets a list of csv files from the data import directory
     private List<String> getNames() {
 
@@ -64,21 +83,6 @@ public class ImportDataMenu extends MenuScreen {
 
     }
 
-    @Override
-    // MODIFIES: this
-    // EFFECTS: Adds csv import data to user portfolio from a file or else notifies the user that the file location is
-    //          not available.
-    //          Returns true if successful at importing the data, false otherwise
-    protected boolean selectOption(String cmd) {
-        if (names.contains(cmd)) {
-            importUserSelection(cmd);
-            pressEnter();
-            return true;
-        } else {
-            System.out.println("That file does not exist. Invalid option.");
-            return false;
-        }
-    }
 
     // MODIFIES: this
     // EFFECTS: Imports the data from the selected file in cmd to this portfolio

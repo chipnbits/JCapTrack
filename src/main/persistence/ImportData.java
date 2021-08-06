@@ -6,7 +6,7 @@ import model.Transaction;
 
 import java.util.List;
 
-// Represents a package of security names and transactions to be imported into JCapTrack
+// Represents a package of security names and transactions to be imported into JCapTrackMenu
 public class ImportData {
 
     private final List<String> securityNames;

@@ -9,7 +9,7 @@ With the rise of fully online digital brokerages, access to trading in the equit
 
 Individual investment brokerages often track this information, but they do not share it between banks.  As a result, someone who is trading at multiple brokerages, or who has switched brokerages, will not have a clear consolidated financial picture.  Even worse, the details of information across brokerages such as the *adjusted cost base* (ACB) of a traded equity may not be correctly indicated in brokerage statements.  This could result in improper tax filing information leading to auditing and penalties from the tax authority.
 
-**JTradeTracker** aims to allow a retail investor to enter and consolidate their trades across all accounts.  Features that should be included at a minimum:
+**JCapTrack** aims to allow a retail investor to enter and consolidate their trades across all accounts.  Features that should be included at a minimum:
 
 - Recording of transactions
   - Date of transaction

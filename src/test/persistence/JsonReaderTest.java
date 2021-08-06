@@ -15,11 +15,12 @@ This Test suite has borrowed some code structure and concepts from JsonSerializa
  */
 
 class JsonReaderTest {
+    protected static final String TEST_FILES = "./data/portfolios/test/";
     Portfolio testPort;
 
     @Test
     void testReaderNonExistentFile() {
-        JsonReader reader = new JsonReader("./data/noSuchFile.json");
+        JsonReader reader = new JsonReader(TEST_FILES + "noSuchFile.json");
         try {
             testPort = reader.readPortfolio();
             fail("IOException expected");
@@ -31,7 +32,7 @@ class JsonReaderTest {
     @Test
     void testReaderEmptyPortfolio() {
         try {
-            JsonReader reader = new JsonReader("./data/testWriterEmptyPortfolio.json");
+            JsonReader reader = new JsonReader(TEST_FILES + "testWriterEmptyPortfolio.json");
             testPort = reader.readPortfolio();
             assertEquals("Test", testPort.getName());
             assertEquals(0, testPort.getNumHoldings());
@@ -43,7 +44,7 @@ class JsonReaderTest {
     @Test
     void testReaderGeneralPortfolio() {
         try {
-            JsonReader reader = new JsonReader("./data/testWriterGeneralPortfolio.json");
+            JsonReader reader = new JsonReader(TEST_FILES + "testWriterGeneralPortfolio.json");
             testPort = reader.readPortfolio();
         } catch (IOException e) {
             fail("Exception should not have been thrown");
@@ -95,7 +96,7 @@ class JsonReaderTest {
         List<String> names;
 
         try {
-            JsonReader reader = new JsonReader("./data/testWriterEmptyNames.json");
+            JsonReader reader = new JsonReader(TEST_FILES + "testWriterEmptyNames.json");
             names = reader.readList();
             assertTrue(names.isEmpty());
         } catch (IOException e) {
@@ -108,7 +109,7 @@ class JsonReaderTest {
         List<String> names = new ArrayList<>();
 
         try {
-            JsonReader reader = new JsonReader("./data/testWriterGeneralNames.json");
+            JsonReader reader = new JsonReader(TEST_FILES + "testWriterGeneralNames.json");
             names = reader.readList();
         } catch (IOException e) {
             fail("Exception should not have been thrown");

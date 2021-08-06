@@ -14,7 +14,7 @@ public class JCapTrack extends MenuScreen {
     public static final NumberFormat DOLLAR_FORMAT = NumberFormat.getCurrencyInstance(Locale.CANADA);
     private PortfolioManager pm = new PortfolioManager();
 
-    // EFFECTS: runs JCapTrack by retrieving any saved accounts and opening portfolio selection (main) menu
+    // EFFECTS: runs JCapTrackMenu by retrieving any saved accounts and opening portfolio selection (main) menu
     public JCapTrack() {
         init();
         mainMenu();
@@ -23,7 +23,7 @@ public class JCapTrack extends MenuScreen {
     // MODIFIES: this
     // EFFECTS: initializes a sample portfolio
     private void init() {
-        menuName = "JCapTrack Portfolio Selection Screen";
+        menuName = "JCapTrackMenu Portfolio Selection Screen";
         pm.loadAccountNames();
     }
 
