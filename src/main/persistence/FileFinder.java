@@ -2,8 +2,10 @@ package persistence;
 
 
 import exceptions.DirectoryNotFoundException;
+import model.Portfolio;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,4 +45,25 @@ public class FileFinder {
         return removedExtension;
     }
 
+    // MODIFIES: data
+    // EFFECTS: trys to delete a given file, returns true if successful
+    public static boolean deleteFile(String name) {
+        File toDelete = new File(name);
+
+        return toDelete.delete();
+    }
+
+    // MODIFIES: data
+    // EFFECTS: allocates a new portfolio save location based on the portfolio name
+    public static void addPortfolio(Portfolio p, String filepath) {
+
+        try {
+            JsonWriter writer = new JsonWriter(filepath);
+            writer.open();
+            writer.write(p);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Unable to create a new file location for that portfolio");
+        }
+    }
 }

@@ -4,34 +4,58 @@ import model.Portfolio;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.util.List;
 
-public class PortfolioNavigatorMenu extends MenuFrame {
+public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
+    private static final String IMPORT_DIRECTORY = "./data/csv";
+    private static final String DATA_FILE_EXTENSION = ".csv";
 
-    private static final int HEIGHT = 640;
-    private static final int WIDTH = 640;
     private final Portfolio user;
 
     // EFFECTS: makes a new frame in the default style of JCapTrackMenu
     public PortfolioNavigatorMenu(Portfolio p) {
         super(p.getName());
         user = p;
-        this.setTitle(p.getName());
-        setup();
-        setBackgroundColor(DEFAULT_BACKGROUND_COLOR);
+
     }
 
-    private void setup() {
-        ImageIcon icon = new ImageIcon(ICON_LOCATION);
-        this.setIconImage(icon.getImage());
 
-        this.setSize(WIDTH, HEIGHT);  // Set the dimensions
-        this.setResizable(false);
-        this.setVisible(true);
-        setLocationRelativeTo(null);
+    // MODIFIES: this
+    // EFFECTS:  Changes the background of the frame to color
+
+    private void setBackgroundColor(Color color) {
+        this.getContentPane().setBackground(color);
     }
 
+    @Override
+    protected void scrollPaneLayout() {
+
+    }
+
+    @Override
+    protected void buttonPaneLayout() {
+
+    }
+
+    @Override
+    protected void addButtonBehavior() {
+
+    }
+
+    @Override
+    protected void selectButtonBehavior() {
+
+    }
+
+    @Override
+    protected void removeButtonBehavior() {
+
+    }
+
+    @Override
+    protected List<String> getNamesString() {
+        return null;
+    }
 
     @Override
     protected void closePrompt() {
@@ -44,25 +68,13 @@ public class PortfolioNavigatorMenu extends MenuFrame {
             case 0: // Save portfolio and exit
                 System.out.println("yes");
                 break;
-            case 1 : // exit without save
-                System.out.println("no");
-                break;
-            case 2: //exit popup
-                System.out.println("cancel");
+            case 1: // exit without save
+                this.dispose();
                 break;
 
             default:
-                throw new IllegalStateException("Unexpected value: " + answer);
+                // Close the window
         }
-
     }
-
-    // MODIFIES: this
-    // EFFECTS:  Changes the background of the frame to color
-    private void setBackgroundColor(Color color) {
-        this.getContentPane().setBackground(color);
-    }
-
-
 }
 
