@@ -1,7 +1,13 @@
 package ui.portfolio;
 
 import model.Portfolio;
+import model.Security;
 import ui.MenuScreen;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static ui.JCapTrack.DOLLAR_FORMAT;
 
 // Creates a menu for navigating adding a new security
 public class AddSecurityMenu extends MenuScreen {

@@ -21,7 +21,6 @@ public abstract class MenuFrame extends JFrame {
         ImageIcon icon = new ImageIcon(ICON_LOCATION);
         this.setIconImage(icon.getImage());
         this.getContentPane().setBackground(Color.WHITE);
-        this.setVisible(true);
         this.setSize(WIDTH, HEIGHT);  // Set the dimensions
         this.setResizable(false);
         setLocationRelativeTo(null);

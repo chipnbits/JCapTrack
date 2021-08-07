@@ -17,7 +17,7 @@ public class Security implements Writable {
     private double acb;        // Current adjusted cost base for the shares
     private final List<Transaction> history;  // A trading history for the security ordered by date
 
-    protected Security(String ticker) {
+    public Security(String ticker) {
         this.ticker = ticker;
         this.shares = 0;
         this.acb = 0;
@@ -101,6 +101,8 @@ public class Security implements Writable {
     public int getNumTransactions() {
         return history.size();
     }
+
+
 
     // EFFECTS: returns a string with the basic details of this, name, shares, acb, and number of transactions
     @Override

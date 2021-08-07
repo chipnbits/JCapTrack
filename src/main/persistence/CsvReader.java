@@ -35,24 +35,21 @@ public class CsvReader {
         Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
     }
 
-    private String source;
+    private File importFile;
 
     // EFFECTS: constructs reader to read from source csv file
     public CsvReader(String source) {
-        this.source = source;
+        importFile = new File(source);
     }
 
-    // EFFECTS: creates a new scanner to read the source file and parse data from it
-    private Scanner makeFileScanner(String source) throws FileNotFoundException {
-
-        File importFile = new File(source);
-
-        return new Scanner(importFile);
+    // EFFECTS: constructs reader to read from source csv file
+    public CsvReader(File filename) {
+        this.importFile = filename;
     }
 
     // EFFECTS: returns a package of data which is a list of security names and a list of transactions
     public ImportData parseData() throws FileNotFoundException, FileCorruptException {
-        Scanner fileReader = makeFileScanner(source);
+        Scanner fileReader = new Scanner(importFile);
         List<String> tickers = parseSecurityNames(fileReader);
         List<Transaction> transactions = parseTransactions(fileReader);
 

@@ -4,8 +4,6 @@ import exceptions.DirectoryNotFoundException;
 import model.Portfolio;
 import persistence.FileFinder;
 import persistence.JsonReader;
-import persistence.JsonWriter;
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,15 +13,16 @@ import java.util.List;
 
 // Implementation of a string selection panel to choose a portfolio to open
 public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
-    private static final String IMPORT_DIRECTORY = "./data/portfolios";
-    private static final String DATA_FILE_EXTENSION = ".json";
     private static final String WELCOME_IMAGE_LOCATION = "./data/images/tickers.jpg";
 
 
     // EFFECTS: Makes a portfolio selection menu with instructions and graphics
     public PortfolioSelectionPanel() {
         super("Portfolio Selection");
+        setup();
         setupInformationPanel();
+        setVisible(true);
+
     }
 
     // MODIFIES: this
@@ -50,13 +49,23 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
                 + "  You can also add and remove a portfolio by clicking the buttons";
     }
 
+
+    @Override
+    protected void makeHeader() {
+        JLabel header = new JLabel("Portfolios:");
+        header.setFont(new Font("Arial Black", Font.BOLD, 20));
+        header.setBounds(0, 0, SCROLL_PANE_WIDTH, HEADER_HEIGHT);
+        header.setHorizontalAlignment(SwingConstants.CENTER);
+        add(header);
+    }
+
     // MODIFIES: this
     // EFFECTS: retrieves the list of strings destined for display
     @Override
     protected List<String> getNamesString() {
         List<String> names;
         try {
-            names = FileFinder.getNamesFromSystem(IMPORT_DIRECTORY, DATA_FILE_EXTENSION);
+            names = FileFinder.getNamesFromSystem(FileFinder.PORTFOLIO_DIRECTORY, FileFinder.JSON_FILE_EXTENSION);
         } catch (DirectoryNotFoundException e) {
             errorMessagePopup("Unable to locate saved portfolio directory");
             names = new ArrayList<>();
@@ -107,42 +116,15 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
     @Override
     protected void removeButtonBehavior() {
 
-        if (confirmDelete()) {
+        if (confirmDelete("portfolio")) {
             String name = namesList.getSelectedValue();
-            int index = namesList.getSelectedIndex();
-
-            namesModel.remove(index);
-
-            // Check to see if button is disabled if empty
-            int size = namesModel.getSize();
-
-            if (size == 0) { //Nobody's left, disable firing.
-                removeButton.setEnabled(false);
-
-            } else { //Select an index.
-                if (index == namesModel.getSize()) {
-                    //removed item in last position
-                    index--;
-                }
-                namesList.setSelectedIndex(index);
-                namesList.ensureIndexIsVisible(index);
-            }
+            removeFromList();
             if (!FileFinder.deleteFile(getFileLocation(name))) {
                 errorMessagePopup("Unable to find or delete stored data location!");
             }
         }
     }
 
-    // EFFECTS: Creates a warning popup to check if user wants to delete a portfolio
-    private boolean confirmDelete() {
-        Toolkit.getDefaultToolkit().beep();
-
-        int choice = JOptionPane.showConfirmDialog(
-                this, "Are you sure you want to delete this portfolio?", "Delete All Data",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-        return (choice == JOptionPane.YES_OPTION);
-    }
 
     // MODIFIES: this
     // EFFECTS:  Returns true if a valid name was entered, otherwise false
@@ -150,6 +132,7 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
     private boolean checkName(String name) {
 
         if (name.equals("") || alreadyInList(name)) {
+
             textBox.requestFocusInWindow();
             textBox.selectAll();
 
@@ -181,27 +164,13 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
     // EFFECTS: allocates a new portfolio save location based on the portfolio name
     private void addPortfolio(Portfolio p) {
         String filepath = getFileLocation(p.getName());
-        FileFinder.addPortfolio(p, filepath);
+        FileFinder.writePortfolioSaveFile(p, filepath);
     }
 
     protected String getFileLocation(String name) {
-        return IMPORT_DIRECTORY + "/" + name + DATA_FILE_EXTENSION;
+        return FileFinder.PORTFOLIO_DIRECTORY + "/" + name + FileFinder.JSON_FILE_EXTENSION;
     }
 
-    // MODIFIES: this
-    // EFFECTS: Choose where to layout the button pane
-    protected void buttonPaneLayout() {
-        buttonPane.setBounds(0, SCROLL_PANE_HEIGHT, SCROLL_PANE_WIDTH, 50);
-        add(buttonPane);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: Choose where to layout the scroll pane
-    protected void scrollPaneLayout() {
-        JScrollPane jsp = new JScrollPane(namesList);
-        jsp.setBounds(0, 0, SCROLL_PANE_WIDTH, SCROLL_PANE_HEIGHT);
-        add(jsp);
-    }
 
     // MODIFIES: this
     // EFFECTS: Handles the close behavior.  Asks user to confirm the decision to exit program and acts accordingly

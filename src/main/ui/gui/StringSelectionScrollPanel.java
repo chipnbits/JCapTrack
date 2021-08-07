@@ -15,7 +15,8 @@ import java.util.List;
 // found https://docs.oracle.com/javase/tutorial/uiswing/components/list.html
 
 public abstract class StringSelectionScrollPanel extends MenuFrame implements ListSelectionListener {
-    protected static final int SCROLL_PANE_HEIGHT = 550;
+    protected static final int HEADER_HEIGHT = 100;
+    protected static final int SCROLL_PANE_HEIGHT = 550 - HEADER_HEIGHT;
     protected static final int SCROLL_PANE_WIDTH = 340;
 
     protected JList<String> namesList;
@@ -36,14 +37,20 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
 
     public StringSelectionScrollPanel(String name) {
         super(name);
+    }
 
+    protected void setup() {
         getNamesString();
         getNamesModel();
+        makeHeader();
         makeScrollPane();
         buttonSetup();
         textFieldSetup();
         makeButtonPane();
+
     }
+
+    protected abstract void makeHeader();
 
     // MODIFIES: this
     // EFFECTS:  Parses the names contained in the json import directory, if there is a directory read error,
@@ -52,6 +59,11 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
         selectButtonSetup();
         addButtonSetup();
         removeButtonSetup();
+        if (namesModel.size() <= 0) {
+            //No items in list disable buttons
+            selectButton.setEnabled(false);
+            removeButton.setEnabled(false);
+        }
     }
 
     private void selectButtonSetup() {
@@ -74,8 +86,9 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
 
     // MODIFIES: this
     // EFFECTS: Builds a new scroll pane to view and select a list of strings
-    private void makeScrollPane() {
+    protected void makeScrollPane() {
         namesList = new JList<>(namesModel);
+        namesList.setFont(new Font("Consolas", Font.PLAIN, 12));
         namesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         namesList.setSelectedIndex(0);
         namesList.addListSelectionListener(this);
@@ -85,7 +98,11 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
 
     // MODIFIES: this
     // EFFECTS: Choose where to layout the scroll pane
-    protected abstract void scrollPaneLayout();
+    protected void scrollPaneLayout() {
+        JScrollPane jsp = new JScrollPane(namesList);
+        jsp.setBounds(0, HEADER_HEIGHT, SCROLL_PANE_WIDTH, SCROLL_PANE_HEIGHT);
+        this.add(jsp);
+    }
 
 
     // MODIFIES: this
@@ -114,17 +131,22 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
 
     // MODIFIES: this
     // EFFECTS: Choose where to layout the button pane
-    protected abstract void buttonPaneLayout();
+    protected void buttonPaneLayout() {
+        buttonPane.setBounds(0, SCROLL_PANE_HEIGHT + HEADER_HEIGHT, SCROLL_PANE_WIDTH, 50);
+        add(buttonPane);
+    }
 
 
     // MODIFIES: this
     // EFFECTS:  fills the names model with the list of portfolio names found in the save directory
-    private void getNamesModel() {
+    protected void getNamesModel() {
         namesModel = new DefaultListModel<>();
 
         for (String name : getNamesString()) {
             namesModel.addElement(name);
         }
+
+
     }
 
     // EFFECTS: controls the actions performed by clicking the add button
@@ -136,11 +158,45 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
     // EFFECTS: controls the actions performed by clicking the remove button
     protected abstract void removeButtonBehavior();
 
+    // EFFECTS: Creates a warning popup to check if user wants to delete a type
+    protected boolean confirmDelete(String type) {
+
+        int choice = JOptionPane.showConfirmDialog(
+                this, "Are you sure you want to delete this "
+                        + type + "?", "Delete All Data",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+        return (choice == JOptionPane.YES_OPTION);
+    }
+
+    // MODIFIES: this
+    // EFFECTS:  removes the selected item from the list and updates the selection
+    protected void removeFromList() {
+        int index = namesList.getSelectedIndex();
+
+        namesModel.remove(index);
+
+        // Check to see if button is disabled if empty
+        int size = namesModel.getSize();
+
+        if (size == 0) { //Nobody's left, disable firing.
+            removeButton.setEnabled(false);
+
+        } else { //Select an index.
+            if (index == namesModel.getSize()) {
+                //removed item in last position
+                index--;
+            }
+            namesList.setSelectedIndex(index);
+            namesList.ensureIndexIsVisible(index);
+        }
+    }
+
 
     // EFFECTS: get a list of strings to populate a scroll list with
     protected abstract List<String> getNamesString();
 
-    // Handles mouse clicks on the select button
+    // Handles mouse clicks on the add button
     class AddButtonListener implements ActionListener, DocumentListener {
         private boolean alreadyEnabled = false;
         private final JButton button;
@@ -149,7 +205,6 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
             this.button = button;
         }
 
-        // REQUIRES: a valid selection is enabled on the list
         // MODIFIES: this
         // EFFECTS:  Loads and opens a saved portfolio from its json file and launches a navigation menu
         public void actionPerformed(ActionEvent e) {
@@ -232,11 +287,13 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
+            addButton.setEnabled(true);
 
-            if (namesList.getSelectedIndex() == -1) {
+            if (namesList.getSelectedIndex() == -1 || namesModel.size() <= 0) {
                 //No selection, disable remove and select button
                 selectButton.setEnabled(false);
                 removeButton.setEnabled(false);
+
 
             } else {
                 //Selection, enable remove and select buttons

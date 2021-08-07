@@ -13,6 +13,10 @@ import java.util.List;
 // Reads and parses names for a filetype from a directory
 public class FileFinder {
 
+    public static final String PORTFOLIO_DIRECTORY = "./data/portfolios";
+    public static final String JSON_FILE_EXTENSION = ".json";
+    public static final String CSV_FILE_EXTENSION = ".csv";
+
     // MODIFIES: this
     // EFFECTS: Gets a list of .json files that have been saved into portfolios data folder
     //          Makes an error message if there is an issue with the file path
@@ -55,7 +59,7 @@ public class FileFinder {
 
     // MODIFIES: data
     // EFFECTS: allocates a new portfolio save location based on the portfolio name
-    public static void addPortfolio(Portfolio p, String filepath) {
+    public static void writePortfolioSaveFile(Portfolio p, String filepath) {
 
         try {
             JsonWriter writer = new JsonWriter(filepath);
@@ -66,4 +70,6 @@ public class FileFinder {
             System.out.println("Unable to create a new file location for that portfolio");
         }
     }
+
+
 }
