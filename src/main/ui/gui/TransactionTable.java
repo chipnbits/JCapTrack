@@ -4,6 +4,8 @@ import model.Security;
 import model.Transaction;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -25,10 +27,6 @@ public class TransactionTable extends JPanel {
     };
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     Security security;
-
-    public JTable getTable() {
-        return table;
-    }
 
     JTable table;
     DefaultTableModel model;
@@ -112,6 +110,25 @@ public class TransactionTable extends JPanel {
         } else {
             return "CAD";
         }
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Removes the currently selected row.
+    public void removeTableRow() {
+        int index = table.getSelectedRow();
+        model.removeRow(index);
+    }
+
+    public void updateModel() {
+        model.fireTableDataChanged();
     }
 
 

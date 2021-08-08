@@ -44,7 +44,7 @@ public class Security implements Writable {
     // REQUIRES: the index of the transaction to remove
     // MODIFIES: this
     // EFFECTS: Removes a transaction and updates the trading history and security information
-    protected void removeTransaction(int index) {
+    public void removeTransaction(int index) {
         history.remove(index);
         // Update the security information
         updateSecurity(index);
