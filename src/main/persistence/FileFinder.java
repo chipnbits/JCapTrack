@@ -39,6 +39,8 @@ public class FileFinder {
         return names;
     }
 
+    // EFFECTS: Takes a list of strings and removes the final .* characters from it,
+    //          returns a new modified list with the extensions removed.
     private static List<String> removeFileExtension(List<String> names) {
         List<String> removedExtension = new ArrayList<>();
 

@@ -4,7 +4,6 @@ import exceptions.FileCorruptException;
 import model.Portfolio;
 import persistence.CsvReader;
 import persistence.ImportData;
-import ui.gui.portfolio.PortfolioNavigatorMenu;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -55,7 +54,12 @@ public class CsvImportListener implements ActionListener {
         String success = "Import was successful with " + importData.getSecurityNames().size()
                 + " securities added and " + importData.getTransactions().size() + " transactions added.";
 
+        // Make sure that the buttons are enabled if items added to list
+        if (importData.getSecurityNames().size() > 0) {
+            parent.enableButtons();
+        }
         parent.refreshList();
+
         JOptionPane.showMessageDialog(parent, success);
     }
 }

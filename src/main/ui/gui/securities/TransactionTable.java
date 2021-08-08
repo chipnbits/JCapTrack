@@ -76,6 +76,8 @@ public class TransactionTable extends JPanel {
         }
     }
 
+    // EFFECTS: Converts a transaction data package into a formatted array type suitable for ui
+    //          returns the converted array
     private Object[] convertToArray(Transaction t) {
         Object[] data;
         data = new Object[12];
@@ -86,7 +88,7 @@ public class TransactionTable extends JPanel {
         data[3] = getCurrencyType(t.getCurrency());
         data[4] = t.getFxRate();
         data[5] = t.getShares();
-        data[6] = t.getCommission();
+        data[6] = DOLLAR_FORMAT.format(t.getCommission());
         data[7] = DOLLAR_FORMAT.format(t.getGains());
         data[8] = t.getNewTotalShares();
         data[9] = DOLLAR_FORMAT.format(t.getNewTotalACB());
@@ -94,6 +96,7 @@ public class TransactionTable extends JPanel {
         return data;
     }
 
+    // EFFECTS: Parses the transaction type from a boolean value.  Returns the matching string
     private String getTransType(boolean type) {
         if (type) {
             return "Sell";
@@ -102,6 +105,7 @@ public class TransactionTable extends JPanel {
         }
     }
 
+    // EFFECTS: Parses the currency type from a boolean value.
     private String getCurrencyType(boolean type) {
         if (type) {
             return "USD";

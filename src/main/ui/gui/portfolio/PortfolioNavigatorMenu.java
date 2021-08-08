@@ -254,5 +254,9 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
     }
 
 
+    public void enableButtons() {
+        this.selectButton.setEnabled(true);
+        this.removeButton.setEnabled(true);
+    }
 }
 

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class SecurityMenu extends MenuFrame {
     public static final NumberFormat DOLLAR_FORMAT = NumberFormat.getCurrencyInstance(Locale.CANADA);
-    private static final int WIDTH = 900;
+    protected static final int WIDTH = 900;
     private static final int HEIGHT = 480;
 
     protected PortfolioNavigatorMenu parent;
@@ -25,7 +25,6 @@ public class SecurityMenu extends MenuFrame {
 
     TransactionTable listings;
     JButton addButton;
-
     JButton removeButton;
 
     AddButtonListener addButtonListener;
@@ -141,6 +140,7 @@ public class SecurityMenu extends MenuFrame {
                 security.removeTransaction(index);
             }
             updateTransactions(index);
+            parent.refreshList();
         }
     }
     // MODIFIES: this

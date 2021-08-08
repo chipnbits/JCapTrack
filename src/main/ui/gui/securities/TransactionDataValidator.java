@@ -48,16 +48,16 @@ public class TransactionDataValidator {
         return valid;
     }
 
+    // MODIFIES: security, transaction
+    // EFFECTS: adds the transaction to the corresponding security.
     protected void addTransaction(Security security) {
         Transaction transAdd = new Transaction(ticker, this.date, this.isSell, value,
                 this.isUSD, fxRate, shares, commission);
         security.addTransaction(transAdd);
     }
 
-
     // MODIFIES: this
     // EFFECTS: Validates the date information given and adds it to date field.  returns false if null value given
-
     private boolean validateDate(Calendar date) {
         if (date == null) {
             foundErrors.add("Date selection is invalid");
@@ -67,9 +67,9 @@ public class TransactionDataValidator {
             return true;
         }
     }
+
     // MODIFIES: this
     // EFFECTS: Validates the value information given and parses it if possible, returns false otherwise
-
     private boolean validateValue(String valDollar, String valCents) {
         try {
             value = parseDollars(valDollar, valCents);
@@ -79,9 +79,9 @@ public class TransactionDataValidator {
             return false;
         }
     }
+
     // MODIFIES: this
     // EFFECTS: Validates the shares information given and parses it if possible, returns false otherwise
-
     private boolean validateShares(String sharesStr) {
         if (sharesStr.equals("")) {
             foundErrors.add(("Shares was left blank"));
@@ -96,9 +96,9 @@ public class TransactionDataValidator {
             }
         }
     }
+
     // MODIFIES: this
     // EFFECTS: Validates the commission information given and parses it if possible, returns false otherwise
-
     private boolean validateCommission(String comDollar, String comCents) {
         try {
             commission = parseDollars(comDollar, comCents);
@@ -108,9 +108,9 @@ public class TransactionDataValidator {
             return false;
         }
     }
+
     // MODIFIES: this
     // EFFECTS: Validates the fx information given and parses it if possible, returns false otherwise
-
     private boolean validatefxRate(String fxEntry) {
         if (!isUSD) {
             fxRate = 0;
@@ -125,8 +125,8 @@ public class TransactionDataValidator {
             }
         }
     }
-    // EFFECTS: Validates and parses a dollar mount from two strings
 
+    // EFFECTS: Validates and parses a dollar amount from two strings
     private double parseDollars(String dollar, String cent) {
         int d;
         if (dollar.equals("")) {
