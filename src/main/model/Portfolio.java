@@ -114,7 +114,7 @@ public class Portfolio implements Writable {
     }
 
     // EFFECTS: Returns the security that matches the name of the string given.  Throws an exception if not found
-    private Security matchString(String ticker) throws NoTickerException {
+    public Security matchString(String ticker) throws NoTickerException {
 
         for (Security s : holdings) {
             if (s.getTicker().equals(ticker)) {

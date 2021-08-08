@@ -34,6 +34,8 @@ class SecurityTest {
                 false, 0, 20, 4.99);
     }
 
+
+
     @Test
     void testSecurityConstruct() {
         Security brk = new Security("BRK");
@@ -59,6 +61,19 @@ class SecurityTest {
     }
 
     @Test
+    void testRemoveSingleTransaction() {
+        testAddTransactionToEmptySecurity();
+        assertEquals(buyBNS1, bns.getTransactionList().get(0));
+        bns.removeTransaction(0);
+
+        // Security Updates
+        assertEquals(0, bns.getNumTransactions());
+        assertEquals(0, bns.getShares());
+        assertEquals(0, bns.getAcb());
+    }
+
+
+    @Test
         // Test transactions added in chronological order
     void testAddTransactionInOrder() {
         makeTransactionsBNS();
@@ -77,6 +92,7 @@ class SecurityTest {
         assertEquals(10, buyBNS1.getNewTotalShares());
         assertEquals(1094.17, buyBNS1.getNewTotalACB(), .005);
     }
+
 
     @Test
         // Test transactions added in reversed order
@@ -97,6 +113,7 @@ class SecurityTest {
         assertEquals(30, bns.getShares());
         assertEquals(2949.26, bns.getAcb(), .005);
     }
+
 
     @Test
         // Test that inserting a past transaction correctly updates future transactions without altering past ones
@@ -124,6 +141,42 @@ class SecurityTest {
     }
 
     @Test
+    void testRemoveTransactionFromMultipleEndOfList() {
+        testAddTransactionInMiddle();
+
+        bns.removeTransaction(2);
+        assertTrue(bns.getTransactionList().contains(buyBNS1));
+        assertTrue(bns.getTransactionList().contains(sellBNS));
+
+        assertEquals(2, bns.getNumTransactions());
+        assertEquals(5, bns.getShares());
+        assertEquals(547.09, bns.getAcb(), .005);
+    }
+
+    @Test
+    void testRemoveTransactionFromMultipleMiddleOfList() {
+        testAddTransactionInMiddle();
+
+        bns.removeTransaction(1);
+        assertTrue(bns.getTransactionList().contains(buyBNS1));
+        assertTrue(bns.getTransactionList().contains(buyBNS2));
+
+        // Previous transaction remains the same
+        assertEquals(0, buyBNS1.getGains(), .005);
+        assertEquals(10, buyBNS1.getNewTotalShares());
+        assertEquals(1094.17, buyBNS1.getNewTotalACB(), .005);
+        //Later dated transaction updates correctly
+        assertEquals(0, buyBNS2.getGains(), .005);
+        assertEquals(30, buyBNS2.getNewTotalShares());
+        assertEquals((1089.18+1850.10+4.99+4.99), buyBNS2.getNewTotalACB(), .0051);
+
+        // Security Updates
+        assertEquals(2, bns.getNumTransactions());
+        assertEquals(30, bns.getShares());
+        assertEquals((1089.18+1850.10+4.99+4.99), bns.getAcb(), .005);
+    }
+
+    @Test
     void testToString() {
         // Buy and partially dispose of BNS
         buyBNS1 = new Transaction("BNS", date1, false, 100,
@@ -141,13 +194,13 @@ class SecurityTest {
     }
 
     @Test
-    void testGetTransactionRecordEmpty(){
+    void testGetTransactionRecordEmpty() {
         List<String> emptyRecord = bns.getTransactionRecord();
         assertEquals(0, emptyRecord.size());
     }
 
     @Test
-    void testGetTransactionRecordMultiple(){
+    void testGetTransactionRecordMultiple() {
         List<String> record;
 
         makeTransactionsBNS();
@@ -164,7 +217,7 @@ class SecurityTest {
     }
 
     @Test
-    void testGetTransactionList(){
+    void testGetTransactionList() {
         makeTransactionsBNS();
         bns.addTransaction(buyBNS1);
         bns.addTransaction(sellBNS);

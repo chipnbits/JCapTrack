@@ -21,6 +21,7 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
         super("Portfolio Selection");
         setup();
         setupInformationPanel();
+        namesList.setFont(new Font("SansSerif", Font.BOLD, 20));
         setVisible(true);
 
     }

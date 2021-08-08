@@ -41,15 +41,29 @@ public class Security implements Writable {
         updateSecurity(index);
     }
 
+    // REQUIRES: the index of the transaction to remove
+    // MODIFIES: this
+    // EFFECTS: Removes a transaction and updates the trading history and security information
+    protected void removeTransaction(int index) {
+        history.remove(index);
+        // Update the security information
+        updateSecurity(index);
+    }
+
 
     // REQUIRES: A valid index that is within the history list size 0 <= index <= history size
     // MODIFIES: this
-    // EFFECTS: Updates history details and the new shares and acb balance for this
+    // EFFECTS: Updates history details and the new shares and acb balance for this starting at given index
     private void updateSecurity(int index) {
-        updateSecurityHistory(index);
-        Transaction last = history.get(history.size() - 1);
-        this.shares = last.getNewTotalShares();
-        this.acb = last.getNewTotalACB();
+        if (history.isEmpty()) {
+            this.shares = 0;
+            this.acb = 0;
+        } else {
+            updateSecurityHistory(index);
+            Transaction last = history.get(history.size() - 1);
+            this.shares = last.getNewTotalShares();
+            this.acb = last.getNewTotalACB();
+        }
 
     }
 
@@ -101,7 +115,6 @@ public class Security implements Writable {
     public int getNumTransactions() {
         return history.size();
     }
-
 
 
     // EFFECTS: returns a string with the basic details of this, name, shares, acb, and number of transactions

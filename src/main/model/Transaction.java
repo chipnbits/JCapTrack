@@ -179,4 +179,5 @@ public class Transaction implements Writable {
         json.put("day", day);
     }
 
+
 }

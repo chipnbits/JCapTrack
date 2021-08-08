@@ -1,5 +1,6 @@
 package ui.gui;
 
+import exceptions.NoTickerException;
 import model.Portfolio;
 import model.Security;
 import persistence.FileFinder;
@@ -7,7 +8,9 @@ import persistence.FileFinder;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static persistence.FileFinder.JSON_FILE_EXTENSION;
 import static persistence.FileFinder.PORTFOLIO_DIRECTORY;
@@ -19,6 +22,7 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
 
     private final Portfolio user;
     protected JPanel additionalButtons;
+    private Map<String, SecurityMenu> openMenus; // A list of all the open security menus by ticker name
 
 
     // EFFECTS: makes a portfolio navigation menu in the default style of JCapTrackMenu
@@ -28,10 +32,9 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
         setup();
         setupInformationPanel();
         makeExtraButtons();
+        openMenus = new HashMap<>();
         setVisible(true);
     }
-
-
 
 
     // MODIFIES: this
@@ -111,12 +114,27 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
     }
 
     // TODO Security menu implement
-    // EFFECTS: Opens a security viewer window for the selected security
+    // EFFECTS: Opens a security viewer window for the selected security and adds it to open menus list
+    //          If the security is already open then bring the open window to the front and in focus.
     @Override
     protected void selectButtonBehavior() {
         String name = listItemtoTicker(namesList.getSelectedValue());
+        if (openMenus.containsKey(name)) {
+            SecurityMenu existing = openMenus.get(name);
+            focusSecurityWindow(existing);
+        } else {
+            try {
+                Security s = user.matchString(name);
+                openMenus.put(name, new SecurityMenu(s, openMenus));
+            } catch (NoTickerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-        System.out.println(name);
+    private void focusSecurityWindow(SecurityMenu existing) {
+        existing.toFront();
+        existing.repaint();
     }
 
     private String listItemtoTicker(String item) {
@@ -194,27 +212,15 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
         JButton importButton = new JButton("Import CSV");
         importButton.addActionListener(new CsvImportListener(user, this));
         JButton taxButton = new JButton("Tax Slips");
-        taxButton.addActionListener(new CsvImportListener(user, this));
+        taxButton.addActionListener(new TaxSlipListener(user, this));
 
         additionalButtons = new JPanel();
-        additionalButtons.setLayout(new GridLayout(2,1));
+        additionalButtons.setLayout(new GridLayout(2, 1));
         additionalButtons.add(importButton);
         additionalButtons.add(taxButton);
 
         additionalButtons.setBounds(SCROLL_PANE_WIDTH, 300, WIDTH - SCROLL_PANE_WIDTH - 10, 150);
         add(additionalButtons);
-
-
-    }
-
-    private void addImportCsvButton() {
-        JButton importButton = new JButton("Import CSV");
-        importButton.addActionListener(new CsvImportListener(user, this));
-    }
-
-    private void addTaxSlipButton() {
-        JButton taxButton = new JButton("Tax Slips");
-        taxButton.addActionListener(new CsvImportListener(user, this));
     }
 
 

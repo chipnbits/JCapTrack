@@ -122,6 +122,19 @@ class TransactionTest {
         assertTrue(str.contains("495"));
         assertTrue(str.contains("9,900.00"));
     }
+//
+//    @Test
+//    void testTransType(){
+//        assertEquals("Buy", buyBNS.getTransType());
+//        assertEquals("Sell", sellBRKusd.getTransType());
+//    }
+//
+//    @Test
+//    void testCurrencyType(){
+//        assertEquals("CAD", buyBNS.getCurrencyType());
+//        assertEquals("USD", sellBRKusd.getCurrencyType());
+//    }
+//
 
 
 
