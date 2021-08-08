@@ -1,17 +1,16 @@
-package ui.gui;
+package ui.gui.portfolio;
 
 import exceptions.FileCorruptException;
 import model.Portfolio;
 import persistence.CsvReader;
 import persistence.ImportData;
+import ui.gui.portfolio.PortfolioNavigatorMenu;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 
 public class CsvImportListener implements ActionListener {

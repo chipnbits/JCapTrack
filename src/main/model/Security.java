@@ -29,7 +29,7 @@ public class Security implements Writable {
     // MODIFIES: this, transAdd
     // EFFECTS: Adds a new transaction to this and completes the transaction details for transAdd
     //          Updates the trading history and the the holding details of this
-    protected void addTransaction(Transaction transAdd) {
+    public void addTransaction(Transaction transAdd) {
         // Start at the beginning of the history
         int index = 0;
         // Find the correct index to insert based on chronological order

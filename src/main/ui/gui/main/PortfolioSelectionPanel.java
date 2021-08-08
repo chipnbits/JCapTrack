@@ -1,9 +1,11 @@
-package ui.gui;
+package ui.gui.main;
 
 import exceptions.DirectoryNotFoundException;
 import model.Portfolio;
 import persistence.FileFinder;
 import persistence.JsonReader;
+import ui.gui.StringSelectionScrollPanel;
+import ui.gui.portfolio.PortfolioNavigatorMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,11 +16,12 @@ import java.util.List;
 // Implementation of a string selection panel to choose a portfolio to open
 public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
     private static final String WELCOME_IMAGE_LOCATION = "./data/images/tickers.jpg";
-
+    protected List<PortfolioNavigatorMenu> openPortfolios;
 
     // EFFECTS: Makes a portfolio selection menu with instructions and graphics
     public PortfolioSelectionPanel() {
         super("Portfolio Selection");
+        openPortfolios = new ArrayList<>();
         setup();
         setupInformationPanel();
         namesList.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -105,7 +108,8 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
 
         JsonReader reader = new JsonReader(name);
         try {
-            new PortfolioNavigatorMenu(reader.readPortfolio());
+            PortfolioNavigatorMenu openPortfolio = new PortfolioNavigatorMenu(reader.readPortfolio(), openPortfolios);
+            openPortfolios.add(openPortfolio);
         } catch (IOException ioException) {
             errorMessagePopup("Unable to open that selected file due to IOException");
         }
@@ -177,14 +181,18 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
     // EFFECTS: Handles the close behavior.  Asks user to confirm the decision to exit program and acts accordingly
     @Override
     protected void closePrompt() {
-        Toolkit.getDefaultToolkit().beep();
+        if (openPortfolios.isEmpty()) {
 
-        int choice = JOptionPane.showConfirmDialog(
-                this, "Would you like to exit?", "Quit Program",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            Toolkit.getDefaultToolkit().beep();
+            int choice = JOptionPane.showConfirmDialog(
+                    this, "Would you like to exit?", "Quit Program",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-        if (choice == JOptionPane.YES_OPTION) {
-            this.dispose();
+            if (choice == JOptionPane.YES_OPTION) {
+                this.dispose();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "You must close all portfolios before exiting");
         }
     }
 }

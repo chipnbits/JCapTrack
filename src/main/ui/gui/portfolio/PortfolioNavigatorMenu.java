@@ -1,9 +1,11 @@
-package ui.gui;
+package ui.gui.portfolio;
 
 import exceptions.NoTickerException;
 import model.Portfolio;
 import model.Security;
 import persistence.FileFinder;
+import ui.gui.securities.SecurityMenu;
+import ui.gui.StringSelectionScrollPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,12 +25,14 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
     private final Portfolio user;
     protected JPanel additionalButtons;
     private Map<String, SecurityMenu> openMenus; // A list of all the open security menus by ticker name
+    private List<PortfolioNavigatorMenu> openPortfolios;
 
 
     // EFFECTS: makes a portfolio navigation menu in the default style of JCapTrackMenu
-    public PortfolioNavigatorMenu(Portfolio p) {
+    public PortfolioNavigatorMenu(Portfolio p, List<PortfolioNavigatorMenu> openPortfolios) {
         super(p.getName());
         user = p;
+        this.openPortfolios = openPortfolios;
         setup();
         setupInformationPanel();
         makeExtraButtons();
@@ -56,7 +60,8 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
                 + "Add a year to the generate tax slips to get the gains for that year";
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: Creates a new header for the scroll table
     @Override
     protected void makeHeader() {
         JLabel header = new JLabel(user.getName() + "'s Holdings");
@@ -113,9 +118,9 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
         return true;
     }
 
-    // TODO Security menu implement
-    // EFFECTS: Opens a security viewer window for the selected security and adds it to open menus list
-    //          If the security is already open then bring the open window to the front and in focus.
+    // MODIFIES: this
+    // EFFECTS: Makes the select button open a new security navigation window
+    // and adds the window the list of open menus
     @Override
     protected void selectButtonBehavior() {
         String name = listItemtoTicker(namesList.getSelectedValue());
@@ -125,18 +130,20 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
         } else {
             try {
                 Security s = user.matchString(name);
-                openMenus.put(name, new SecurityMenu(s, openMenus));
+                openMenus.put(name, new SecurityMenu(this, s, openMenus));
             } catch (NoTickerException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    // EFFECTS: focuses existing window to the front of the screen
     private void focusSecurityWindow(SecurityMenu existing) {
         existing.toFront();
         existing.repaint();
     }
 
+    // EFFECTS: isolates the ticker name from a list line and returns it
     private String listItemtoTicker(String item) {
         String name = item.trim();
         return name.substring(0, name.indexOf(' '));
@@ -154,7 +161,6 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
         }
     }
 
-
     // EFFECTS: Gets a list formatted to display security info
     @Override
     protected List<String> getNamesString() {
@@ -171,37 +177,6 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
     private String makeListItemString(Security s) {
         return String.format(LIST_FORMAT, s.getTicker(), s.getShares(),
                 DOLLAR_FORMAT.format(s.getAcb()), s.getNumTransactions());
-    }
-
-    @Override
-    protected void closePrompt() {
-        Toolkit.getDefaultToolkit().beep();
-        int answer = JOptionPane.showConfirmDialog(null,
-                "Would you like to save changes to your portfolio?", "Save On Exit Prompt",
-                JOptionPane.YES_NO_CANCEL_OPTION);
-
-        switch (answer) {
-            case 0: // Save portfolio and exit
-                savePortfolio();
-                this.dispose();
-                break;
-            case 1: // exit without save
-                this.dispose();
-                break;
-
-            default:
-                // Close the window
-        }
-    }
-
-    private void savePortfolio() {
-        try {
-            System.out.println("Writing your portfolio to disk...");
-            FileFinder.writePortfolioSaveFile(user, getFilepath());
-        } catch (Exception e) {
-            System.out.println("Unable to save your data!");
-            e.printStackTrace();
-        }
     }
 
     private String getFilepath() {
@@ -225,8 +200,59 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
 
 
     public void refreshList() {
-        new PortfolioNavigatorMenu(user);
+        this.remove(jsp);
+        setup();
+        invalidate();
+        validate();
+        repaint();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Prompts the user to save changes to their portfolio before exiting and acts accordingly
+    @Override
+    public void closePrompt() {
+        Toolkit.getDefaultToolkit().beep();
+        int answer = JOptionPane.showConfirmDialog(null,
+                "Would you like to save changes to your portfolio?", "Save On Exit Prompt",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+
+        switch (answer) {
+            case 0: // Save portfolio and exit
+                savePortfolio();
+                cleanUpExit();
+                break;
+            case 1: // exit without save
+                cleanUpExit();
+                break;
+
+            default:
+                // Close the window
+        }
+    }
+
+    // MODIFIES: data
+    // EFFECTS: Saves this portfolio to disk
+    private void savePortfolio() {
+        try {
+            System.out.println("Writing your portfolio to disk...");
+            FileFinder.writePortfolioSaveFile(user, getFilepath());
+        } catch (Exception e) {
+            System.out.println("Unable to save your data!");
+            e.printStackTrace();
+        }
+    }
+
+    // MODIFIES: data
+    // EFFECTS: Makes sure that all of the open security windows close properly and then closes this, removes this
+    //          from the list of open portfolios
+    private void cleanUpExit() {
+        for (SecurityMenu securityMenu : openMenus.values()) {
+            securityMenu.dispose();
+        }
+        openPortfolios.remove(this);
         this.dispose();
     }
+
+
 }
 

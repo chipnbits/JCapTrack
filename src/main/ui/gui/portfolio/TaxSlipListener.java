@@ -1,6 +1,7 @@
-package ui.gui;
+package ui.gui.portfolio;
 
 import model.Portfolio;
+import ui.gui.portfolio.PortfolioNavigatorMenu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

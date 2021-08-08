@@ -1,16 +1,14 @@
-package ui.gui;
+package ui.gui.securities;
 
 import model.Security;
 import model.Transaction;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 
-import static ui.gui.SecurityMenu.DOLLAR_FORMAT;
+import static ui.gui.securities.SecurityMenu.DOLLAR_FORMAT;
 
 public class TransactionTable extends JPanel {
 
@@ -119,17 +117,5 @@ public class TransactionTable extends JPanel {
     public DefaultTableModel getModel() {
         return model;
     }
-
-    // MODIFIES: this
-    // EFFECTS: Removes the currently selected row.
-    public void removeTableRow() {
-        int index = table.getSelectedRow();
-        model.removeRow(index);
-    }
-
-    public void updateModel() {
-        model.fireTableDataChanged();
-    }
-
 
 }

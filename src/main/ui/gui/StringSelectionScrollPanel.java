@@ -21,6 +21,7 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
 
     protected JList<String> namesList;
     protected DefaultListModel<String> namesModel;
+    protected JScrollPane jsp;
 
     protected JButton selectButton;
     protected JButton addButton;
@@ -99,7 +100,7 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
     // MODIFIES: this
     // EFFECTS: Choose where to layout the scroll pane
     protected void scrollPaneLayout() {
-        JScrollPane jsp = new JScrollPane(namesList);
+        jsp = new JScrollPane(namesList);
         jsp.setBounds(0, HEADER_HEIGHT, SCROLL_PANE_WIDTH, SCROLL_PANE_HEIGHT);
         this.add(jsp);
     }
@@ -274,7 +275,7 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
     }
 
     // EFFECTS: makes an error message popup
-    protected void errorMessagePopup(String message) {
+    public void errorMessagePopup(String message) {
         Toolkit.getDefaultToolkit().beep();
         JOptionPane.showMessageDialog(this, message);
     }
@@ -293,7 +294,6 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
                 //No selection, disable remove and select button
                 selectButton.setEnabled(false);
                 removeButton.setEnabled(false);
-
 
             } else {
                 //Selection, enable remove and select buttons
