@@ -1,7 +1,7 @@
-package ui;
+package ui.console;
 
 import model.Portfolio;
-import ui.portfolio.PortfolioMenu;
+import ui.console.portfolio.PortfolioMenu;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;

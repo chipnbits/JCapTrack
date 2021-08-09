@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static ui.JCapTrack.DOLLAR_FORMAT;
+import static ui.console.JCapTrack.DOLLAR_FORMAT;
 
 // Model of a security that is traded on a stock exchange
 public class Security implements Writable {

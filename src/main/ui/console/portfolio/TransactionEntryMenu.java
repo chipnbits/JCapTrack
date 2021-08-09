@@ -1,9 +1,9 @@
-package ui.portfolio;
+package ui.console.portfolio;
 
 
 import model.Portfolio;
 import model.Transaction;
-import ui.MenuScreen;
+import ui.console.MenuScreen;
 
 import java.util.Calendar;
 import java.util.Scanner;

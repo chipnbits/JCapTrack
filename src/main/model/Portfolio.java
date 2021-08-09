@@ -7,7 +7,7 @@ import persistence.Writable;
 
 import java.util.*;
 
-import static ui.JCapTrack.DOLLAR_FORMAT;
+import static ui.console.JCapTrack.DOLLAR_FORMAT;
 
 // A stock portfolio holding information and transactions for various securities
 public class Portfolio implements Writable {

@@ -6,8 +6,9 @@ import ui.gui.portfolio.PortfolioNavigatorMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TaxSlipListener implements ActionListener {
 
+//TODO Implement this class for getting tax information
+public class TaxSlipListener implements ActionListener {
 
     private final Portfolio user;
     private final PortfolioNavigatorMenu parent;

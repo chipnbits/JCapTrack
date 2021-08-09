@@ -11,17 +11,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // Implementation of a string selection panel to choose a portfolio to open
 public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
+
     private static final String WELCOME_IMAGE_LOCATION = "./data/images/tickers.jpg";
-    protected List<PortfolioNavigatorMenu> openPortfolios;
+
+    protected Map<String, PortfolioNavigatorMenu> openPortfolios; // A hashmap of the open portfolios
 
     // EFFECTS: Makes a portfolio selection menu with instructions and graphics
     public PortfolioSelectionPanel() {
         super("Portfolio Selection");
-        openPortfolios = new ArrayList<>();
+        openPortfolios = new HashMap<>();
         setup();
         setupInformationPanel();
         namesList.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -100,18 +104,25 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
 
     // MODIFIES: this
     // EFFECTS: when the select button is pushed it will attempt to open the file location for that portfolio
-    //          and allow navigation of the contents in a new PortfolioNavigator
+    //          and allow navigation of the contents in a new PortfolioNavigator.  If the portfolio is already opened
+    //         then focus that window and bring it to user attention instead of making a duplicate
     @Override
     protected void selectButtonBehavior() {
         String name = namesList.getSelectedValue();
-        name = getFileLocation(name);
+        String fileLocation = getFileLocation(name);
 
-        JsonReader reader = new JsonReader(name);
-        try {
-            PortfolioNavigatorMenu openPortfolio = new PortfolioNavigatorMenu(reader.readPortfolio(), openPortfolios);
-            openPortfolios.add(openPortfolio);
-        } catch (IOException ioException) {
-            errorMessagePopup("Unable to open that selected file due to IOException");
+        if (openPortfolios.containsKey(name)) {
+            PortfolioNavigatorMenu existing = openPortfolios.get(name);
+            existing.toFront();
+            existing.repaint();
+        } else {
+            JsonReader reader = new JsonReader(fileLocation);
+            try {
+                PortfolioNavigatorMenu openPortfolio = new PortfolioNavigatorMenu(reader.readPortfolio(), openPortfolios);
+                openPortfolios.put(name, openPortfolio);
+            } catch (IOException ioException) {
+                errorMessagePopup("Unable to open that selected file due to IOException");
+            }
         }
     }
 
@@ -153,9 +164,7 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
         return true;
     }
 
-    //This method tests for string equality. You could certainly
-    //get more sophisticated about the algorithm.  For example,
-    //you might want to ignore white space and capitalization.
+    // EFFECTS: Checks case insensitive if the name is already in part of the list, returns true if it is
     protected boolean alreadyInList(String name) {
         for (int i = 0; i < namesModel.size(); i++) {
             if (namesModel.elementAt(i).equalsIgnoreCase(name)) {

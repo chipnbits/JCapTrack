@@ -6,7 +6,7 @@ import persistence.Writable;
 
 import java.util.Calendar;
 
-import static ui.JCapTrack.DOLLAR_FORMAT;
+import static ui.console.JCapTrack.DOLLAR_FORMAT;
 
 // Represents a recorded transaction for a security including all of the relevant information at the time it occurs
 public class Transaction implements Writable {

@@ -3,10 +3,8 @@ package persistence;
 import model.Portfolio;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ui.JCapTrack;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /*

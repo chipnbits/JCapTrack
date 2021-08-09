@@ -48,7 +48,6 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
         buttonSetup();
         textFieldSetup();
         makeButtonPane();
-
     }
 
     protected abstract void makeHeader();
@@ -139,15 +138,13 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
 
 
     // MODIFIES: this
-    // EFFECTS:  fills the names model with the list of portfolio names found in the save directory
+    // EFFECTS:  fills the names model with the list of strings from get name strings
     protected void getNamesModel() {
         namesModel = new DefaultListModel<>();
 
         for (String name : getNamesString()) {
             namesModel.addElement(name);
         }
-
-
     }
 
     // EFFECTS: controls the actions performed by clicking the add button
@@ -180,7 +177,7 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
         // Check to see if button is disabled if empty
         int size = namesModel.getSize();
 
-        if (size == 0) { //Nobody's left, disable firing.
+        if (size == 0) { //Nothing to remove, disable button
             removeButton.setEnabled(false);
 
         } else { //Select an index.
@@ -280,11 +277,6 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
         JOptionPane.showMessageDialog(this, message);
     }
 
-    /**
-     * Called whenever the value of the selection changes.
-     *
-     * @param e the event that characterizes the change.
-     */
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {

@@ -1,9 +1,6 @@
-package ui;
+package ui.console;
 
 import model.Portfolio;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 // This is a general construct to present a menu of options to the user with the option to close it
 // and return to the previous menu
