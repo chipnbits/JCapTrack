@@ -61,15 +61,17 @@ public class FileFinder {
 
     // MODIFIES: data
     // EFFECTS: allocates a new portfolio save location based on the portfolio name
-    public static void writePortfolioSaveFile(Portfolio p, String filepath) {
+    public static boolean writePortfolioSaveFile(Portfolio p, String filepath) {
 
         try {
             JsonWriter writer = new JsonWriter(filepath);
             writer.open();
             writer.write(p);
             writer.close();
+            return true;
         } catch (IOException e) {
             System.out.println("Unable to create a new file location for that portfolio");
+            return false;
         }
     }
 
