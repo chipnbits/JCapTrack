@@ -20,6 +20,11 @@ class FileFinderTest {
     String testWriteDelete = "./data/portfolios/testReadWrite.txt";
 
     @Test
+    void testInstantiate(){
+
+    }
+
+    @Test
     void testGetNamesFromSystem() {
         try {
             List<String> names = FileFinder.getNamesFromSystem(validDirectory, ".json");
@@ -63,7 +68,7 @@ class FileFinderTest {
     void testWritePortfolio(){
         Portfolio p = new Portfolio("testAddDelete");
 
-        FileFinder.writePortfolioSaveFile(p, "+^*@($*I@");
+        FileFinder.writePortfolioSaveFile(p, "./data/portfolios/test/****");
         FileFinder.writePortfolioSaveFile(p,testWriteDelete);
         assertTrue(FileFinder.deleteFile(testWriteDelete));
     }

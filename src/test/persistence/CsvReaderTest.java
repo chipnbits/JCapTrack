@@ -5,6 +5,7 @@ import model.Portfolio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,6 +17,23 @@ class CsvReaderTest {
     @BeforeEach
     void setup() {
         testReader = new CsvReader("./data/csv/test/SimonTest.csv");
+    }
+
+    @Test
+    void testDirectFileRead(){
+        CsvReader reader = new CsvReader(new File("./data/csv/test/NoNewLineSecurity.csv"));
+
+        try {
+            ImportData ced = reader.parseData();
+            assertTrue(ced.getSecurityNames().contains("CHP.UN"));
+            assertEquals(1, ced.getSecurityNames().size());
+            assertEquals(0, ced.getTransactions().size());
+        } catch (FileNotFoundException e) {
+            fail("File exists");
+        } catch (FileCorruptException e) {
+            fail("File is corrupt");
+        }
+
     }
 
     @Test
