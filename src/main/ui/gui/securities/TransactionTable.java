@@ -29,6 +29,7 @@ public class TransactionTable extends JPanel {
     JTable table;
     DefaultTableModel model;
 
+    // EFFECTS: Created a new table to display transaction history record
     public TransactionTable(Security security) {
         super(new GridLayout(1, 0));
         this.security = security;
@@ -36,11 +37,12 @@ public class TransactionTable extends JPanel {
         makeModel();
         makeTable();
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(900, 100));
         add(scrollPane);
     }
 
     // MODIFIES: this
-    // EFFECTS: Builds a table from a model and makes
+    // EFFECTS: Builds a table from a model of transaction history
     private void makeTable() {
         table = new JTable();
         table.setModel(model);

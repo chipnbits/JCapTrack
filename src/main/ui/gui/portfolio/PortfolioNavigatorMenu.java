@@ -198,7 +198,8 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
         add(additionalButtons);
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: refreshes all of the displayed data in the frame
     public void refreshList() {
         this.remove(jsp);
         setup();

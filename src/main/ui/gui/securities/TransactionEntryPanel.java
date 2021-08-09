@@ -18,30 +18,27 @@ import java.util.Properties;
 
 // A Class to handle the entry and validation of transaction data
 public class TransactionEntryPanel extends MenuFrame implements ActionListener {
-    private SecurityMenu parent;
+    private final SecurityMenu parent;
     private final int width = 720;
 
-    private Security security;
+    private final Security security;
 
-    private JPanel dataPanel = new JPanel();
-    private JPanel buttonPanel = new JPanel();
+    private final JPanel dataPanel = new JPanel();
+    private final JPanel buttonPanel = new JPanel();
 
     private JDatePickerImpl datePicker;
-    private JComboBox<String> buyOrSell = new JComboBox<>();
-    private JComboBox<String> currency = new JComboBox<>();
+    private final JComboBox<String> buyOrSell = new JComboBox<>();
+    private final JComboBox<String> currency = new JComboBox<>();
 
-    private JTextField valueDollar = new JTextField(10);
-    private JTextField valueCents = new JTextField(2);
-    private JTextField sharesText = new JTextField(10);
-    private JTextField comDollar = new JTextField(5);
-    private JTextField comCents = new JTextField(2);
-    private JTextField fxDollar = new JTextField(6);
+    private final JTextField valueDollar = new JTextField(10);
+    private final JTextField valueCents = new JTextField(2);
+    private final JTextField sharesText = new JTextField(10);
+    private final JTextField comDollar = new JTextField(5);
+    private final JTextField comCents = new JTextField(2);
+    private final JTextField fxDollar = new JTextField(6);
 
-
-    JButton addTrans;
-    JButton cancelButton;
-
-    TransactionDataValidator tdv = new TransactionDataValidator();
+    private JButton addTrans;
+    private JButton cancelButton;
 
     // EFFECTS: Builds a transaction entry UI Frame
     public TransactionEntryPanel(SecurityMenu parent, Security security) {
@@ -153,6 +150,7 @@ public class TransactionEntryPanel extends MenuFrame implements ActionListener {
         if (e.getSource() == addTrans) {
             System.out.println("add");
             validateData();
+
         }
 
         if (e.getSource() == cancelButton) {
@@ -167,9 +165,11 @@ public class TransactionEntryPanel extends MenuFrame implements ActionListener {
     // EFFECTS: Validates the user input data and notifies them if it is not correct
     //          Returns true if a valid transaction was entered, false otherwise
     private void validateData() {
+        TransactionDataValidator tdv = new TransactionDataValidator();
+
         Calendar date = (Calendar) datePicker.getModel().getValue();
-        boolean isSell = buyOrSell.getSelectedItem().equals("Sell");
-        boolean isUSD = currency.getSelectedItem().equals("USD");
+        boolean isSell = (buyOrSell.getSelectedItem() == "Sell");
+        boolean isUSD = (currency.getSelectedItem() == "USD");
 
         boolean valid = tdv.validateEntries(security, date, isSell, isUSD, valueDollar.getText(), valueCents.getText(),
                 sharesText.getText(), comDollar.getText(), comCents.getText(), fxDollar.getText());
@@ -179,18 +179,18 @@ public class TransactionEntryPanel extends MenuFrame implements ActionListener {
             // Update the security and portfolio data
             parent.updateTransactions(0);
             parent.getParent().refreshList();
+            this.dispose();
         } else {
-            notifyUserErrors();
+            notifyUserErrors(tdv.getFoundErrors());
         }
     }
 
     // MODIFIES: this
     // EFFECTS:  Notifies a user of the errors found in data validation
-    private void notifyUserErrors() {
-        List<String> errors = tdv.getFoundErrors();
+    private void notifyUserErrors(List<String> foundErrors) {
         String message = "The following errors were encountered in the transaction:";
 
-        for (String s : errors) {
+        for (String s : foundErrors) {
             message = message.concat("\n - ").concat(s);
         }
         JOptionPane.showMessageDialog(this, message);

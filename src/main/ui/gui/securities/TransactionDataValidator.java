@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+// A helper object that determines if entered transaction data is valid and collects error messages if not
 public class TransactionDataValidator {
 
-    private List<String> foundErrors;
+    private final List<String> foundErrors;
 
     private String ticker;        // Name of Security
 
@@ -89,6 +90,9 @@ public class TransactionDataValidator {
         } else {
             try {
                 shares = Integer.parseInt(sharesStr);
+                if (shares < 0) {
+                    foundErrors.add("Share amount can't be negative");
+                }
                 return shares >= 0;
             } catch (NumberFormatException e) {
                 foundErrors.add("Shares doesn't have integer value");

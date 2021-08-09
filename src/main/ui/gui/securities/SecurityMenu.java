@@ -12,10 +12,13 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 
+import static ui.gui.securities.TransactionHistogram.MAX_VALUES;
+
+// A menu that displays various data about a held security to a portfolio user
 public class SecurityMenu extends MenuFrame {
     public static final NumberFormat DOLLAR_FORMAT = NumberFormat.getCurrencyInstance(Locale.CANADA);
     protected static final int WIDTH = 900;
-    private static final int HEIGHT = 480;
+    private static final int HEIGHT = 640;
 
     protected PortfolioNavigatorMenu parent;
 
@@ -24,12 +27,13 @@ public class SecurityMenu extends MenuFrame {
     Security security;
 
     TransactionTable listings;
+    TransactionHistogram barGraph;
+    JPanel lowerPanel;
+
     JButton addButton;
     JButton removeButton;
-
     AddButtonListener addButtonListener;
     RemoveButtonListener removeButtonListener;
-    JPanel buttonPanel;
     // EFFECTS:  Sets up a window to view or modify the transactions for a given security
 
     public SecurityMenu(PortfolioNavigatorMenu parent, Security security, Map<String, SecurityMenu> openMenus) {
@@ -38,50 +42,75 @@ public class SecurityMenu extends MenuFrame {
         this.security = security;
         this.menus = openMenus;
         this.setSize(WIDTH, HEIGHT);
-        this.setLayout(new BorderLayout());
+        this.setLayout(new GridLayout(2,1));
+        setup();
+        this.add(listings);
+        this.add(lowerPanel);
+        setVisible(true);
+    }
+
+    private void setup() {
         createListings();
         createButtons();
         makeLowerPanel();
         addButtons();
         addInstructions();
-
-        this.add(buttonPanel, BorderLayout.SOUTH);
-        setVisible(true);
+        addHistogram();
     }
+
+    // MODIFIES: this
+    // EFFECTS:  Creates a set of transactions to view or select for the user
+    private void createListings() {
+        listings = new TransactionTable(security);
+        listings.setOpaque(true);
+
+    }
+
     // MODIFIES: this
     // EFFECTS:  Adds a lower button and instruction panel to the window
-
     private void makeLowerPanel() {
-        buttonPanel = new JPanel(new BorderLayout());
-        buttonPanel.setBackground(Color.LIGHT_GRAY);
-        buttonPanel.setPreferredSize(new Dimension(200, 100));
+        lowerPanel = new JPanel(new BorderLayout());
+        lowerPanel.setBackground(Color.LIGHT_GRAY);
+        lowerPanel.setPreferredSize(new Dimension(200, 100));
     }
+
     // MODIFIES: this
     // EFFECTS:  Adds a instructions to the window
-
     private void addInstructions() {
         JTextArea textArea = new JTextArea(getInstructions());
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
 
-        buttonPanel.add(textArea, BorderLayout.SOUTH);
+        lowerPanel.add(textArea, BorderLayout.SOUTH);
     }
-    // EFFECTS: The text instructions for the user
 
+    // EFFECTS: The text instructions for the user
     private String getInstructions() {
         return "Add and remove transactions for this security. \n Information will update automatically. "
                 + "\n Close window to exit.";
     }
 
+
     // MODIFIES: this
     // EFFECTS:  Adds a button panel to the frame to manipulate transactions
-
     private void addButtons() {
         JPanel buttons = new JPanel();
         buttons.add(addButton);
         buttons.add(removeButton);
-        buttonPanel.add(buttons, BorderLayout.CENTER);
+        lowerPanel.add(buttons, BorderLayout.NORTH);
     }
+
+    // MODIFIES: this
+    // EFFECTS:  Adds a recent transactions bar graph to the bottom panel
+    private void addHistogram() {
+        JPanel panel = new JPanel(new FlowLayout());
+        panel.add(new JLabel("Most Recent " + MAX_VALUES + " Transactions"));
+        barGraph = new TransactionHistogram(security);
+        panel.add(barGraph);
+        lowerPanel.add(panel, BorderLayout.CENTER);
+    }
+
+
     // MODIFIES: this
     // EFFECTS:  Makes some add and remove buttons for transactions
 
@@ -93,16 +122,6 @@ public class SecurityMenu extends MenuFrame {
         removeButton = new JButton("Remove Transaction");
         removeButtonListener = new RemoveButtonListener();
         removeButton.addActionListener(removeButtonListener);
-
-    }
-    // MODIFIES: this
-    // EFFECTS:  Creates a set of transactions to view or select for the user
-
-    private void createListings() {
-        listings = new TransactionTable(security);
-        listings.setOpaque(true);
-        listings.setPreferredSize(new Dimension(WIDTH, HEIGHT / 2));
-        this.add(listings, BorderLayout.CENTER);
     }
 
     // Handles the add button actions
@@ -148,7 +167,10 @@ public class SecurityMenu extends MenuFrame {
 
     protected void updateTransactions(int index) {
         this.remove(listings);
-        createListings();
+        this.remove(lowerPanel);
+        setup();
+        this.add(listings);
+        this.add(lowerPanel);
         invalidate();
         validate();
         repaint();
