@@ -118,7 +118,8 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
         } else {
             JsonReader reader = new JsonReader(fileLocation);
             try {
-                PortfolioNavigatorMenu openPortfolio = new PortfolioNavigatorMenu(reader.readPortfolio(), openPortfolios);
+                PortfolioNavigatorMenu openPortfolio =
+                        new PortfolioNavigatorMenu(reader.readPortfolio(), openPortfolios);
                 openPortfolios.put(name, openPortfolio);
             } catch (IOException ioException) {
                 errorMessagePopup("Unable to open that selected file due to IOException");
