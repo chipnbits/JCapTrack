@@ -44,18 +44,14 @@ public class SecurityMenu extends MenuFrame {
         this.setSize(WIDTH, HEIGHT);
         this.setLayout(new GridLayout(2,1));
         setup();
-        this.add(listings);
-        this.add(lowerPanel);
         setVisible(true);
     }
 
     private void setup() {
         createListings();
-        createButtons();
         makeLowerPanel();
-        addButtons();
-        addInstructions();
-        addHistogram();
+        this.add(listings);
+        this.add(lowerPanel);
     }
 
     // MODIFIES: this
@@ -72,24 +68,11 @@ public class SecurityMenu extends MenuFrame {
         lowerPanel = new JPanel(new BorderLayout());
         lowerPanel.setBackground(Color.LIGHT_GRAY);
         lowerPanel.setPreferredSize(new Dimension(200, 100));
+        createButtons();
+        addButtons();
+        addInstructions();
+        addHistogram();
     }
-
-    // MODIFIES: this
-    // EFFECTS:  Adds a instructions to the window
-    private void addInstructions() {
-        JTextArea textArea = new JTextArea(getInstructions());
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-
-        lowerPanel.add(textArea, BorderLayout.SOUTH);
-    }
-
-    // EFFECTS: The text instructions for the user
-    private String getInstructions() {
-        return "Add and remove transactions for this security. \n Information will update automatically. "
-                + "\n Close window to exit.";
-    }
-
 
     // MODIFIES: this
     // EFFECTS:  Adds a button panel to the frame to manipulate transactions
@@ -98,6 +81,21 @@ public class SecurityMenu extends MenuFrame {
         buttons.add(addButton);
         buttons.add(removeButton);
         lowerPanel.add(buttons, BorderLayout.NORTH);
+    }
+
+    // MODIFIES: this
+    // EFFECTS:  Adds a instructions to the window
+    private void addInstructions() {
+        JTextArea textArea = new JTextArea(getInstructions());
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        lowerPanel.add(textArea, BorderLayout.SOUTH);
+    }
+
+    // EFFECTS: The text instructions for the user
+    private String getInstructions() {
+        return "Add and remove transactions for this security. \n Information will update automatically. "
+                + "\n Close window to exit.";
     }
 
     // MODIFIES: this

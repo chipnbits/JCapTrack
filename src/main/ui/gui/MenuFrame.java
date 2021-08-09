@@ -27,6 +27,7 @@ public abstract class MenuFrame extends JFrame {
         setClosingBehavior();
     }
 
+    // EFFECTS: Sets the closing behaviour to run a method or routine instead of terminating the program
     private void setClosingBehavior() {
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 

@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+
+// Handles the user request to import a Csv file to portfolio
 public class CsvImportListener implements ActionListener {
     private final Portfolio user;
     private final PortfolioNavigatorMenu parent;
@@ -21,6 +23,9 @@ public class CsvImportListener implements ActionListener {
         this.parent = parent;
     }
 
+    // MODIFIES: this, Portfolio user
+    // EFFECTS:  Opens a file chooser filtered for csv files and validates the choice.  If valid, imports the
+    //           contained data to user portfolio.
     @Override
     public void actionPerformed(ActionEvent e) {
         JFileChooser fc = new JFileChooser();
@@ -45,6 +50,8 @@ public class CsvImportListener implements ActionListener {
 
     }
 
+    // MODIFIES: this, Portfolio user
+    // EFFECTS:  imports the contained data from a selected csv to user portfolio.  Informs the user of import details.
     private void importFromCsv(File selected) throws FileNotFoundException, FileCorruptException {
         CsvReader reader = new CsvReader(selected);
         ImportData importData = reader.parseData();

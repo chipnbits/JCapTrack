@@ -277,6 +277,8 @@ public abstract class StringSelectionScrollPanel extends MenuFrame implements Li
         JOptionPane.showMessageDialog(this, message);
     }
 
+    // MODIFIES: this
+    // EFFECTS:  If the list selection value has changed, revalidate the button statuses
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {

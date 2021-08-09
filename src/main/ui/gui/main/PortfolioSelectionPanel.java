@@ -20,12 +20,11 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
 
     private static final String WELCOME_IMAGE_LOCATION = "./data/images/tickers.jpg";
 
-    protected Map<String, PortfolioNavigatorMenu> openPortfolios; // A hashmap of the open portfolios
+    protected Map<String, PortfolioNavigatorMenu> openPortfolios  = new HashMap<>(); // A hashmap of the open portfolios
 
     // EFFECTS: Makes a portfolio selection menu with instructions and graphics
     public PortfolioSelectionPanel() {
         super("Portfolio Selection");
-        openPortfolios = new HashMap<>();
         setup();
         setupInformationPanel();
         namesList.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -82,7 +81,7 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
     }
 
     // MODIFIES: this
-    // EFFECTS: Makes a new portfolio save file and
+    // EFFECTS: Validate the user input and if valid make a new portfolio save file and update the listings
     @Override
     protected void addButtonBehavior() {
         String name = textBox.getText();

@@ -18,6 +18,9 @@ public class TaxSlipListener implements ActionListener {
         this.parent = parent;
     }
 
+    // MODIFIES: this
+    // EFFECTS:  Prompts user to enter a year and then displays any transactions that involved a capital gain or loss
+    //           for that year.
     @Override
     public void actionPerformed(ActionEvent e) {
 

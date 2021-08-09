@@ -73,7 +73,7 @@ public class TransactionEntryPanel extends MenuFrame implements ActionListener {
 
 
     // MODIFIES: this
-    // EFFECTS: Adds all of the entry components in a grid layout.
+    // EFFECTS: Adds all of the entry components in a grid layout to enter in a security transaction.
     private void dataPanelLayout() {
         dataPanel.setLayout(new GridLayout(0, 3));
         addRowOne();
@@ -124,14 +124,14 @@ public class TransactionEntryPanel extends MenuFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: Creates the buttonPane
+    // EFFECTS: Creates the buttonPane with an add transaction and cancel button
     private void buttonPanelLayout() {
         buttonPanel.add(addTrans);
         buttonPanel.add(cancelButton);
     }
 
     // MODIFIES: this
-    // EFFECTS: initialize the non-text fields
+    // EFFECTS: initialize the non-text fields with dropdown boxes
     private void initFields() {
         datePicker = constructPicker();
 
@@ -206,6 +206,7 @@ public class TransactionEntryPanel extends MenuFrame implements ActionListener {
 
     // Some of this code was understood through
     // https://stackoverflow.com/questions/26794698/how-do-i-implement-jdatepicker
+    // I needed a good calendar date entry field and sometimes it is better to use an existing library
     // MODIFIES: this
     // EFFECTS: makes a popup calendar to select a date with
     private JDatePickerImpl constructPicker() {

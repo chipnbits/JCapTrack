@@ -1,5 +1,6 @@
 package ui;
 
+import ui.console.JCapTrack;
 import ui.gui.main.PortfolioSelectionPanel;
 
 public class Main {
