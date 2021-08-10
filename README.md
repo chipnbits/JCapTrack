@@ -48,6 +48,33 @@ This project is of interest to me because every year when I file my taxes I have
 - As a user, when I select the quit option from the main portfolio menu, I want all my transactions to automatically save
 - As a user, I would like to be able to import and consolidate data from AdjustedCostBase.ca export files into an existing portfolio
 
+### Phase 3
+
+A gui was implemented using Java Swing library.  Some additional ideas for functionality were implemented such as the ability to delete transactions from a security.  The structure of the gui is designed in such a way to maximize branched access to the data in a controlled manner, this means that:  
+
+- Multiple portfolios can be open at once, but not more than one instance of a single portfolio at a time.
+- Multiple securities can be open at once, but not more than one instance of a single security at a time.
+- Closing a portfolio will close all of the open securities.
+- JCapTrack will no close until all portfolios are closed, this is to ensure the proper selection of data persistence from the user.
+
+The transaction entry menu makes good use of more robust data verification and is able to notify the user of all the different errors found.  The tax slip generator was left as a TODO item due to the time constraints on the project.
+
+### Phase 4 : Task 2
+
+I would like to bring some attention to the console menu class hierarchy that was implemented earlier in Phase 1 of the project cycle.
+The superclass is of type MenuScreen and implements the functionality of a menu with a set list of options for the user to select from and a scanner to read and validate the user input.  This super class was incredibly useful because it has 7 different subclasses that extend it to form the entire console ui.  The use of a superclass for the menu also ensures that the menus have a consistent look and feel for the user.  You can find the classes as follows:
+
+- Supertype: ui.console.MenuScreen
+- Subtypes: ui.console.portfolio.* (6)
+            ui.console.JCapTrack
+  
+Most classes contain an override for the menu display information, and then implement the abstract methods for showing selection options or menu quit behavior. 
+
+### Phase 4 : Task 3
+  
+
+
+
 
 
 

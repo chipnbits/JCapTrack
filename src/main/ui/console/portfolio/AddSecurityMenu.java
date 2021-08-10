@@ -16,7 +16,7 @@ public class AddSecurityMenu extends MenuScreen {
     // EFFECTS: Displays current holdings and instructions
     public void printMainMenu() {
         super.printMainMenu();
-        PortfolioMenu.displayHoldings(user);
+        PortfolioMenu.displayHoldings(portfolio);
         System.out.println("Please enter a new security ticker symbol to add");
     }
 
@@ -25,7 +25,7 @@ public class AddSecurityMenu extends MenuScreen {
     //          Returns true if successful at adding a security, false otherwise
     public boolean selectOption(String cmd) {
 
-        if (user.addNewSecurity(cmd)) {
+        if (portfolio.addNewSecurity(cmd)) {
             System.out.println(cmd + " has been added to your portfolio");
             pressEnter();
             return true;

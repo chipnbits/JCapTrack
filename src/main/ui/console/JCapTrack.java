@@ -24,7 +24,6 @@ public class JCapTrack extends MenuScreen {
     // EFFECTS: initializes a sample portfolio
     private void init() {
         menuName = "JCapTrackMenu Portfolio Selection Screen";
-        pm.loadAccountNames();
     }
 
     @Override

@@ -55,10 +55,6 @@ public class TransactionEntryPanel extends MenuFrame implements ActionListener {
         this.add(dataPanel, BorderLayout.NORTH);
         this.add(buttonPanel, BorderLayout.SOUTH);
         this.pack();
-
-        System.out.println(buyOrSell.getSelectedItem());
-
-
         this.setVisible(true);
     }
 
@@ -148,14 +144,11 @@ public class TransactionEntryPanel extends MenuFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addTrans) {
-            System.out.println("add");
             validateData();
-
         }
 
         if (e.getSource() == cancelButton) {
             {
-                System.out.println("cancel");
                 closePrompt();
             }
         }

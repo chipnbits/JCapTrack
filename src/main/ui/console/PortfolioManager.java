@@ -1,20 +1,24 @@
 package ui.console;
 
+import exceptions.DirectoryNotFoundException;
 import model.Portfolio;
+import persistence.FileFinder;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 // Assists JCapTrackMenu with managing opening, closing, saving, and loading of portfolios
-public class PortfolioManager extends User {
+public class PortfolioManager {
 
     public static final String ACCOUNT_NAME_SAVE_LOCATION = "./data/accountIndex.json";
     public static final String PORTFOLIO_FILE_APPEND = "./data/portfolios/";
 
+    private final Scanner input = new Scanner(System.in);
     private final JsonReader namesReader = new JsonReader(ACCOUNT_NAME_SAVE_LOCATION);
     private final JsonWriter namesWriter = new JsonWriter(ACCOUNT_NAME_SAVE_LOCATION);
 
@@ -57,37 +61,36 @@ public class PortfolioManager extends User {
 
         Portfolio added = new Portfolio(name);
         writePortfolioSaveFile(added);
-        addAccountName(added.getName());
+ //       addAccountName(added.getName());
     }
 
-    // MODIFIES: this
-    // EFFECTS: adds a new account name and saves it to the persistence file
-    protected void addAccountName(String name) {
-        if (!names.contains(name)) {
-            names.add(name);
-            saveAccountNames();
-        }
-    }
+//    // MODIFIES: this
+//    // EFFECTS: adds a new account name and saves it to the persistence file
+//    protected void addAccountName(String name) {
+//        if (!names.contains(name)) {
+//            names.add(name);
+//            saveAccountNames();
+//        }
+//    }
 
-
-    // MODIFIES: this
-    // EFFECTS: Opens the default save location for the stored account names, if unable to read the account names
-    //          it creates a new empty save file
-    protected void loadAccountNames() {
-
-        try {
-            names = namesReader.readList();
-        } catch (IOException e) {
-            System.out.println("There is no account names location, creating a new one");
-            try {
-                saveAccountNames();
-                names = namesReader.readList();
-            } catch (IOException ioException) {
-                System.out.println("Unable to open account name file");
-                ioException.printStackTrace();
-            }
-        }
-    }
+//    // MODIFIES: this
+//    // EFFECTS: Opens the default save location for the stored account names, if unable to read the account names
+//    //          it creates a new empty save file
+//    protected void loadAccountNames() {
+//
+//        try {
+//            names = namesReader.readList();
+//        } catch (IOException e) {
+//            System.out.println("There is no account names location, creating a new one");
+//            try {
+//                saveAccountNames();
+//                names = namesReader.readList();
+//            } catch (IOException ioException) {
+//                System.out.println("Unable to open account name file");
+//                ioException.printStackTrace();
+//            }
+//        }
+//    }
 
     // EFFECTS: Saves a portfolio to disk, notifies user if there is an error
     protected void savePortfolio(Portfolio p) {
@@ -100,18 +103,18 @@ public class PortfolioManager extends User {
         }
     }
 
-    // EFFECTS:  Saves all of the account names to a JSON file for retrieval, notifies user if there is an error
-    protected void saveAccountNames() {
-
-        try {
-            namesWriter.open();
-            namesWriter.write(this.names);
-            namesWriter.close();
-        } catch (IOException e) {
-            System.out.println("Unable to save the list of portfolio names");
-            e.printStackTrace();
-        }
-    }
+//    // EFFECTS:  Saves all of the account names to a JSON file for retrieval, notifies user if there is an error
+//    protected void saveAccountNames() {
+//
+//        try {
+//            namesWriter.open();
+//            namesWriter.write(this.names);
+//            namesWriter.close();
+//        } catch (IOException e) {
+//            System.out.println("Unable to save the list of portfolio names");
+//            e.printStackTrace();
+//        }
+//    }
 
     // REQUIRES: A portfolio name that is not already taken
     // MODIFIES: this
@@ -143,8 +146,21 @@ public class PortfolioManager extends User {
         return reader.readPortfolio();
     }
 
+    // MODIFIES: this
+    // EFFECTS: retrieves the list of strings destined for display
     protected List<String> getNames() {
+        // MODIFIES: this
+        // EFFECTS: retrieves the list of strings destined for display
+
+        List<String> names;
+        try {
+            names = FileFinder.getNamesFromSystem(FileFinder.PORTFOLIO_DIRECTORY, FileFinder.JSON_FILE_EXTENSION);
+        } catch (DirectoryNotFoundException e) {
+            System.out.println("Unable to locate saved portfolio directory");
+            names = new ArrayList<>();
+        }
         return names;
     }
-
 }
+
+

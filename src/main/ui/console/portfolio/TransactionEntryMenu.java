@@ -30,7 +30,7 @@ public class TransactionEntryMenu extends MenuScreen {
     //          All of the details and packages them into a transaction that is added to the portfolio
     public void printMainMenu() {
         super.printMainMenu();
-        PortfolioMenu.displayHoldings(user);
+        PortfolioMenu.displayHoldings(portfolio);
         System.out.println("\nEnter in a valid ticker for the transaction");
     }
 
@@ -64,7 +64,7 @@ public class TransactionEntryMenu extends MenuScreen {
         System.out.println("How much was commission on the trade?");
         commission = getDollars();
         transAdd = new Transaction(ticker, date, type, val, fx, rate, shares, commission);
-        user.addTransaction(transAdd);
+        portfolio.addTransaction(transAdd);
         System.out.println("Transaction added!");
         System.out.println(transAdd);
         pressEnter();
@@ -81,7 +81,7 @@ public class TransactionEntryMenu extends MenuScreen {
     // return true if valid ticker matches input command
     private boolean userTickerMatch(String cmd) {
 
-        if (!user.hasTicker(cmd)) {
+        if (!portfolio.hasTicker(cmd)) {
             System.out.println("You do not have that security in your portfolio");
             return false;
         } else {

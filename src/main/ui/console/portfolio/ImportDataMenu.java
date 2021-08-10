@@ -89,7 +89,7 @@ public class ImportDataMenu extends MenuScreen {
     private void importUserSelection(String cmd) {
         try {
             ImportData data = new CsvReader(IMPORT_DIRECTORY + "/" + cmd).parseData();
-            data.addToPortfolio(user);
+            data.addToPortfolio(portfolio);
             System.out.println("Import was successful with " + data.getSecurityNames().size()
                     + " securities added and " + data.getTransactions().size() + " transactions added.");
         } catch (FileNotFoundException e) {

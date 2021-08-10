@@ -34,20 +34,20 @@ public class PortfolioMenu extends MenuScreen {
         boolean success = true;
 
         if (cmd.equals("1")) {
-            displayHoldings(user);
+            displayHoldings(portfolio);
             pressEnter();
         } else if (cmd.equals("2")) {
-            new AddSecurityMenu(user);
+            new AddSecurityMenu(portfolio);
         } else if (cmd.equals("3")) {
             checkRemoveSecurity();
         } else if (cmd.equals("4")) {
-            new TransactionEntryMenu(user);
+            new TransactionEntryMenu(portfolio);
         } else if (cmd.equals("5")) {
-            new TransactionSearchMenu(user);
+            new TransactionSearchMenu(portfolio);
         } else if (cmd.equals("6")) {
             taxGenerator(TransactionEntryMenu.getYear());
         } else if (cmd.equals("7")) {
-            new ImportDataMenu(user);
+            new ImportDataMenu(portfolio);
         } else {
             success = false;
         }
@@ -57,8 +57,8 @@ public class PortfolioMenu extends MenuScreen {
 
     // Checks if there is at least one security to remove, otherwise notifies user there aren't any left
     private void checkRemoveSecurity() {
-        if (user.getNumHoldings() > 0) {
-            new RemoveSecurityMenu(user);
+        if (portfolio.getNumHoldings() > 0) {
+            new RemoveSecurityMenu(portfolio);
         } else {
             System.out.println("Your portfolio is empty, there are no securities to remove");
             pressEnter();
@@ -67,11 +67,11 @@ public class PortfolioMenu extends MenuScreen {
 
     // Generates a list of all relevant tax slips for the year
     private void taxGenerator(int year) {
-        List<String> transactions = user.getTaxTransactions(year);
+        List<String> transactions = portfolio.getTaxTransactions(year);
 
         System.out.println("There are " + transactions.size() + " tax slips in that year");
         if (transactions.size() > 0) {
-            for (String s : user.getTaxTransactions(year)) {
+            for (String s : portfolio.getTaxTransactions(year)) {
                 System.out.println(s + "\n");
             }
         }

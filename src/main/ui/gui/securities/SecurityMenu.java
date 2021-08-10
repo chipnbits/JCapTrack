@@ -42,7 +42,7 @@ public class SecurityMenu extends MenuFrame {
         this.security = security;
         this.menus = openMenus;
         this.setSize(WIDTH, HEIGHT);
-        this.setLayout(new GridLayout(2,1));
+        this.setLayout(new GridLayout(2, 1));
         setup();
         setVisible(true);
     }

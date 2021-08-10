@@ -17,7 +17,7 @@ public class RemoveSecurityMenu extends MenuScreen {
     // EFFECTS: Displays all of the valid options from the main menu
     public void printMainMenu() {
         super.printMainMenu();
-        PortfolioMenu.displayHoldings(user);
+        PortfolioMenu.displayHoldings(portfolio);
         System.out.println("Please enter a security to remove");
     }
 
@@ -26,7 +26,7 @@ public class RemoveSecurityMenu extends MenuScreen {
     //          If there are no more securities then exit the menu.
     //          returns true if a security was found and removed, false otherwise
     public boolean selectOption(String cmd) {
-        if (user.removeSecurity(cmd)) {
+        if (portfolio.removeSecurity(cmd)) {
             System.out.println(cmd + " has been removed from your portfolio");
             pressEnter();
             return true;
@@ -39,7 +39,7 @@ public class RemoveSecurityMenu extends MenuScreen {
     // EFFECTS:  Checks to see if there are still any holdings to remove, if there aren't returns false
     @Override
     public boolean checkIfContinue() {
-        return (user.getNumHoldings() > 0);
+        return (portfolio.getNumHoldings() > 0);
     }
 
 

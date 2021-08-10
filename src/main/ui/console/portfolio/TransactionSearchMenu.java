@@ -20,7 +20,7 @@ public class TransactionSearchMenu extends MenuScreen {
     public void printMainMenu() {
         super.printMainMenu();
         System.out.println("You are currently holding the following securities");
-        for (String str : user.getTickers()) {
+        for (String str : portfolio.getTickers()) {
             System.out.println(str);
         }
         System.out.println("Please enter a security ticker to search for");
@@ -31,7 +31,7 @@ public class TransactionSearchMenu extends MenuScreen {
     //          returns true if a security was found, false otherwise
     public boolean selectOption(String cmd) {
 
-        if (user.hasTicker(cmd)) {
+        if (portfolio.hasTicker(cmd)) {
             try {
                 displayHistory(cmd);
             } catch (NoTickerException e) {
@@ -49,10 +49,10 @@ public class TransactionSearchMenu extends MenuScreen {
     private void displayHistory(String ticker) throws NoTickerException {
         List<String> record;
 
-        if (!user.hasTicker(ticker)) {
+        if (!portfolio.hasTicker(ticker)) {
             throw new NoTickerException(ticker);
         } else {
-            record = user.searchTransactions(ticker);
+            record = portfolio.searchTransactions(ticker);
             if (record.isEmpty()) {
                 System.out.println("No transactions found for security " + ticker);
             } else {

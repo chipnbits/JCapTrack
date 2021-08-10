@@ -108,14 +108,13 @@ public class PortfolioSelectionPanel extends StringSelectionScrollPanel {
     @Override
     protected void selectButtonBehavior() {
         String name = namesList.getSelectedValue();
-        String fileLocation = getFileLocation(name);
 
         if (openPortfolios.containsKey(name)) {
             PortfolioNavigatorMenu existing = openPortfolios.get(name);
             existing.toFront();
             existing.repaint();
         } else {
-            JsonReader reader = new JsonReader(fileLocation);
+            JsonReader reader = new JsonReader(getFileLocation(name));
             try {
                 PortfolioNavigatorMenu openPortfolio =
                         new PortfolioNavigatorMenu(reader.readPortfolio(), openPortfolios);
