@@ -18,10 +18,12 @@ import java.util.Properties;
 
 // A Class to handle the entry and validation of transaction data
 public class TransactionEntryPanel extends MenuFrame implements ActionListener {
+
     private final SecurityMenu parent;
     private final int width = 720;
 
     private final Security security;
+    TransactionDataValidator tdv = new TransactionDataValidator();
 
     private final JPanel dataPanel = new JPanel();
     private final JPanel buttonPanel = new JPanel();
@@ -158,7 +160,6 @@ public class TransactionEntryPanel extends MenuFrame implements ActionListener {
     // EFFECTS: Validates the user input data and notifies them if it is not correct
     //          Returns true if a valid transaction was entered, false otherwise
     private void validateData() {
-        TransactionDataValidator tdv = new TransactionDataValidator();
 
         Calendar date = (Calendar) datePicker.getModel().getValue();
         boolean isSell = (buyOrSell.getSelectedItem() == "Sell");

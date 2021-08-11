@@ -22,18 +22,18 @@ public class SecurityMenu extends MenuFrame {
 
     protected PortfolioNavigatorMenu parent;
 
-    Map<String, SecurityMenu> menus;
+    private Map<String, SecurityMenu> menus;
 
-    Security security;
+    private Security security;
 
-    TransactionTable listings;
-    TransactionHistogram barGraph;
-    JPanel lowerPanel;
+    private TransactionTable listings;
+    private TransactionHistogram barGraph;
+    private JPanel lowerPanel;
 
-    JButton addButton;
-    JButton removeButton;
-    AddButtonListener addButtonListener;
-    RemoveButtonListener removeButtonListener;
+    private JButton addButton;
+    private JButton removeButton;
+    private AddButtonListener addButtonListener;
+    private RemoveButtonListener removeButtonListener;
     // EFFECTS:  Sets up a window to view or modify the transactions for a given security
 
     public SecurityMenu(PortfolioNavigatorMenu parent, Security security, Map<String, SecurityMenu> openMenus) {

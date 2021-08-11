@@ -79,8 +79,6 @@ public class ImportDataMenu extends MenuScreen {
         }
 
         return names;
-
-
     }
 
 

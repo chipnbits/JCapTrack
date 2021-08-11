@@ -24,19 +24,20 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
 
     private final Portfolio user;
     protected JPanel additionalButtons;
-    private final Map<String, SecurityMenu> openMenus; // A list of all the open security menus by ticker name
-    private final Map<String, PortfolioNavigatorMenu> openPortfolios;
+    private final Map<String, SecurityMenu> openSecurityMenus; // A list of all the open security menus by ticker name
+    private final Map<String, PortfolioNavigatorMenu> openPortfolios; // A list of all the currently open portfolios
 
 
     // EFFECTS: makes a portfolio navigation menu in the default style of JCapTrackMenu
     public PortfolioNavigatorMenu(Portfolio p, Map<String, PortfolioNavigatorMenu> openPortfolios) {
         super(p.getName());
         user = p;
+        openSecurityMenus = new HashMap<>();
         this.openPortfolios = openPortfolios;
         setup();
         setupInformationPanel();
         makeExtraButtons();
-        openMenus = new HashMap<>();
+
         setVisible(true);
     }
 
@@ -106,13 +107,13 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
     protected void selectButtonBehavior() {
         String name = listItemtoTicker(namesList.getSelectedValue());
 
-        if (openMenus.containsKey(name)) {
-            SecurityMenu existing = openMenus.get(name);
+        if (openSecurityMenus.containsKey(name)) {
+            SecurityMenu existing = openSecurityMenus.get(name);
             focusSecurityWindow(existing);
         } else {
             try {
                 Security s = user.matchString(name);
-                openMenus.put(name, new SecurityMenu(this, s, openMenus));
+                openSecurityMenus.put(name, new SecurityMenu(this, s, openSecurityMenus));
             } catch (NoTickerException e) {
                 e.printStackTrace();
             }
@@ -251,7 +252,7 @@ public class PortfolioNavigatorMenu extends StringSelectionScrollPanel {
     // EFFECTS: Makes sure that all of the open security windows close properly and then closes this, removes this
     //          from the list of open portfolios
     private void cleanUpExit() {
-        for (SecurityMenu securityMenu : openMenus.values()) {
+        for (SecurityMenu securityMenu : openSecurityMenus.values()) {
             securityMenu.dispose();
         }
         openPortfolios.remove(user.getName());

@@ -23,13 +23,13 @@ public class TransactionTable extends JPanel {
             "Shares Total",
             "ACB Total"
     };
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    Security security;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private Security security;
 
-    JTable table;
-    DefaultTableModel model;
+    private JTable table;
+    private DefaultTableModel model;
 
-    // EFFECTS: Created a new table to display transaction history record
+    // EFFECTS: Created a new table to display transaction his-tory record
     public TransactionTable(Security security) {
         super(new GridLayout(1, 0));
         this.security = security;

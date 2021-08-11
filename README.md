@@ -71,7 +71,22 @@ The superclass is of type MenuScreen and implements the functionality of a menu 
 Most classes contain an override for the menu display information, and then implement the abstract methods for showing selection options or menu quit behavior. 
 
 ### Phase 4 : Task 3
+*  Please note there is an error on the UML diagram and that MenuFrame is an Abstract class.
+*  Green colored AddTransactionMenu should be called TransactionEntryMenu.
+
+With 30 different classes involved with the project, the UML Diagram required some color coding to keep order.  I am quite happy with the structure given by the green coded console ui package, the blue colored model package, and the purple colored persistence package.  The main proposals that I have for refactoring focus on the orange colored gui package.  They are as follows:
+
+
+- StringSelectionScrollPanel should be a concrete class that is a field in PortfolioSelectionPanel.  The selection panel is actually a component of the PortfolioSelectionPanel.  
+  - A JTable would have been more appropriate for the PortfolioNavigatorMenu.  A new concrete class called SecurityTable should be made and the PortfolioNavigatorMenu should have an association with one such table.
+  - PortfolioNavigatorMenu should be a subclass of MenuFrame instead of StringSelectionPanel once a proper SecurityTable is introduced.
   
+- The self referencing behavior of PortfolioNavigatorMenu and SecurityMenu should be removed.  They were the result of a parent frame keeping track of the map of open subframes in the program and passing that map to each subframe for their self removal.  A better implementation would be to keep the Map (for example openPortfolios) only in the parent frame (PortfolioSelectionPanel) and to pass the parent object to the subframe (PortfolioNavigatorMenu).  A new public method removeMenu() could be called by the child on the parent frame when the child closes itself, notifying the parent that it has been closed.  The same procedure applies to the relationship between PortfolioNavigatorMenu and SecurityMenu in order to remove the self referencing of SecurityMenu.
+  
+- CsvImportListener and TaxSlipListener can refer back to PortfolioNavigatorMenu instead of directly to portfolio since they are an element of PortfolioNavigatorMenu.
+  
+- Likewise, TransactionTable and TransactionEntryPanel should refer back to SecurityMenu to derive their security field instead of having the direct association with Security. TransactionDataValidator can also refer back to TransactionEntryPanel instead of Security.  All of these changes will greatly reduce the coupling with the model package so that it is more carefully controlled through single points of entry.
+
 
 
 

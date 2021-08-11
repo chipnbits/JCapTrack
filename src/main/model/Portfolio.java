@@ -13,17 +13,16 @@ import static ui.console.JCapTrack.DOLLAR_FORMAT;
 public class Portfolio implements Writable {
 
     private String name;
-
-    // EFFECTS: Returns an unmodifiable list of all of the security holdings
-    public List<Security> getHoldings() {
-        return Collections.unmodifiableList(holdings);
-    }
-
     private List<Security> holdings;  // A list of all the securities held, with no duplicates, in alphabetical order
 
     public Portfolio(String name) {
         this.name = name;
         holdings = new ArrayList<>();
+    }
+
+    // EFFECTS: Returns an unmodifiable list of all of the security holdings
+    public List<Security> getHoldings() {
+        return Collections.unmodifiableList(holdings);
     }
 
     // MODIFIES: this

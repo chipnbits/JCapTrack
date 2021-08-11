@@ -18,15 +18,14 @@ public class PortfolioManager {
     public static final String ACCOUNT_NAME_SAVE_LOCATION = "./data/accountIndex.json";
     public static final String PORTFOLIO_FILE_APPEND = "./data/portfolios/";
 
-    private final Scanner input = new Scanner(System.in);
-    private final JsonReader namesReader = new JsonReader(ACCOUNT_NAME_SAVE_LOCATION);
-    private final JsonWriter namesWriter = new JsonWriter(ACCOUNT_NAME_SAVE_LOCATION);
+    private final Scanner input;
 
     private List<String> names;  // Account names
 
     // EFFECTS: makes a new portfolio manager
-    public PortfolioManager() {
+    public PortfolioManager(Scanner input) {
         names = new ArrayList<>();
+        this.input = input;
     }
 
     // MODIFIES: this
@@ -61,7 +60,7 @@ public class PortfolioManager {
 
         Portfolio added = new Portfolio(name);
         writePortfolioSaveFile(added);
- //       addAccountName(added.getName());
+        //       addAccountName(added.getName());
     }
 
 //    // MODIFIES: this

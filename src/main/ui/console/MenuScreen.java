@@ -11,7 +11,7 @@ public abstract class MenuScreen {
     protected Scanner input = new Scanner(System.in);
     protected Portfolio portfolio;
 
-    // EFFECTS: Makes a new menu withuser input:
+    // EFFECTS: Makes a new menu with user input:
     public MenuScreen() {
 
     }

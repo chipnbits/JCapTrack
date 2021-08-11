@@ -12,10 +12,11 @@ import java.util.Locale;
 public class JCapTrack extends MenuScreen {
     // Number formatting for currency
     public static final NumberFormat DOLLAR_FORMAT = NumberFormat.getCurrencyInstance(Locale.CANADA);
-    private PortfolioManager pm = new PortfolioManager();
+    private final PortfolioManager pm;
 
     // EFFECTS: runs JCapTrackMenu by retrieving any saved accounts and opening portfolio selection (main) menu
     public JCapTrack() {
+        pm = new PortfolioManager(input);
         init();
         mainMenu();
     }
